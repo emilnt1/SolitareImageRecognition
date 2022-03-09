@@ -1,0 +1,47 @@
+import PySimpleGUI as sg
+import cv2
+import numpy as np
+
+def main():
+    sg.theme("LightGreen")
+
+    # Define the window layout
+    layout = [
+        [sg.Image(filename="", key="-IMAGE-")],
+        [sg.Text("Instructuons go here", justification="center", font="Roboto 15 bold",pad=((0,0),(10,0)))],
+        [sg.Text("This is a dummy text", justification="center", font="Roboto 15",key="_INSTRUCTION_", pad=((0,0),(10,20)))],
+        [sg.Button('NEXT STEP', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold", auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()), border_width=0)]
+        
+    ]
+
+    # Create the window and show it without the plot
+    window = sg.Window("7-kabale assistant", layout,element_justification="center", location=(400, 100))
+
+    cap = cv2.VideoCapture(1)
+
+    width=cap.get(3)
+    height=cap.get(4)
+
+    print('width, height: ', width, height) # this is to test the camara output hight and width. Will be removed later
+   
+    def rescale_frame(frame, percent=75):
+        width = int(frame.shape[1] * percent/ 100)
+        height = int(frame.shape[0] * percent/ 100)
+        dim = (width, height)
+        return cv2.resize(frame, dim, interpolation =cv2.INTER_AREA)
+
+    while True:
+        event, values = window.read(timeout=20)
+        if event == "Exit" or event == sg.WIN_CLOSED:
+            break
+        elif event == "NEXT STEP":
+            print("you clicked the button")
+        ret, frame = cap.read()
+        frame75 = rescale_frame(frame, percent=75)
+
+        imgbytes = cv2.imencode(".png", frame75)[1].tobytes()
+        window["-IMAGE-"].update(data=imgbytes)
+
+    window.close()
+
+main()
