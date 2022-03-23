@@ -22,6 +22,16 @@ def main():
     width=cap.get(3)
     height=cap.get(4)
 
+    start_cord_x = round(width * 1/7)
+    start_cord_y = round(height * 1/7)
+    color = (255, 0, 0) # blue BGR   
+    stroke = 2
+    w = round(width * 1/7)
+    h = round(height * .8)
+    end_cord_x = start_cord_x + w
+    end_cord_y = start_cord_y + h
+
+
     print('width, height: ', width, height) # this is to test the camara output hight and width. Will be removed later
    
     def rescale_frame(frame, percent=75):
@@ -31,16 +41,21 @@ def main():
         return cv2.resize(frame, dim, interpolation =cv2.INTER_AREA)
 
     while True:
-        event, values = window.read(timeout=20)
+        event, values = window.read(timeout=20)  
         if event == "Exit" or event == sg.WIN_CLOSED:
             break
         elif event == "NEXT STEP":
             print("you clicked the button")
         ret, frame = cap.read()
-        frame75 = rescale_frame(frame, percent=75)
+        cv2.rectangle(frame, (start_cord_x, start_cord_y), (end_cord_x, end_cord_y), color, stroke)
+        frame75 = rescale_frame(frame, percent=75)      
 
+        
         imgbytes = cv2.imencode(".png", frame75)[1].tobytes()
         window["-IMAGE-"].update(data=imgbytes)
+
+        
+      
 
     window.close()
 
