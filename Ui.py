@@ -51,7 +51,7 @@ def main():
     
     globalmovetype = Instructions.MOVE
 
-    cap = cv2.VideoCapture(0)
+    cap = cv.VideoCapture(0)
 
     width=cap.get(3)
     height=cap.get(4)
@@ -72,7 +72,7 @@ def main():
         width = int(frame.shape[1] * percent/ 100)
         height = int(frame.shape[0] * percent/ 100)
         dim = (width, height)
-        return cv2.resize(frame, dim, interpolation =cv2.INTER_AREA)
+        return cv.resize(frame, dim, interpolation =cv.INTER_AREA)
 
     while True:
         event, values = window.read(timeout=20)  
@@ -87,11 +87,11 @@ def main():
             if (globalmovetype.value < 3 ):
                 globalmovetype = Instructions(globalmovetype.value + 1)
         ret, frame = cap.read()
-        cv2.rectangle(frame, (start_cord_x, start_cord_y), (end_cord_x, end_cord_y), color, stroke)
+        cv.rectangle(frame, (start_cord_x, start_cord_y), (end_cord_x, end_cord_y), color, stroke)
         frame75 = rescale_frame(frame, percent=75)      
 
         
-        imgbytes = cv2.imencode(".png", frame75)[1].tobytes()
+        imgbytes = cv.imencode(".png", frame75)[1].tobytes()
         window["-IMAGE-"].update(data=imgbytes)
 
         
