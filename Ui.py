@@ -1,7 +1,7 @@
 from cgitb import text
 from tokenize import String
 import PySimpleGUI as sg
-import cv2
+import cv2 as cv
 import numpy as np
 
 card1 = "Queen of Spades"
