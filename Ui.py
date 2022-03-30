@@ -1,4 +1,5 @@
 from cgitb import text
+from CardSelectionWindow import Instructions
 from tokenize import String
 import PySimpleGUI as sg
 import cv2 as cv
@@ -8,10 +9,29 @@ card1 = "Queen of Spades"
 columnFrom = 4
 columnTo = 2
 foundation = "Foundation for Spades"
-taskMessage = "Move " + card1 + " from coulmn " + str(columnFrom) + " to column " + str(columnTo)
+
+
+
+moveCard = "Move " + card1 + " from coulmn " + str(columnFrom) + " to column " + str(columnTo)
 noOption = "No options. Draw card from pile"
-drawnCard = "Put drawn card: " + card1 +" in column" + str(columnTo)
-instruction = ""
+drawnCard = "Put drawn card \"" + card1 +"\" in column" + str(columnTo)
+moveFoundation = "Move " + card1 + " from " + str(columnFrom) + " to " + foundation
+
+def nextInstruction(moveType):
+        if (moveType == Instructions.MOVE):
+            return moveCard
+
+        elif (moveType == Instructions.NO_OPTION):
+            return noOption
+
+        elif (moveType == Instructions.DRAW_CARD):
+            return drawnCard
+
+        elif (moveType == Instructions.FOUNDATION):
+            return moveFoundation
+
+        else:
+            print("Wrong move type in the input, This should not be happening.")
 
 def main():
     sg.theme("LightGreen")
@@ -19,14 +39,17 @@ def main():
     # Define the window layout
     layout = [
         [sg.Image(filename="", key="-IMAGE-")],
-        [sg.Text("Instructuons go here", justification="center", font="Roboto 15 bold",pad=((0,0),(10,0)))],
+        [sg.Text("Instructuons:", justification="center", font="Roboto 15 bold",pad=((0,0),(10,0)))],
         [sg.Text("This is a dummy text", justification="center", font="Roboto 15", key="_INSTRUCTION_", pad=((0,0),(10,20)))],
         [sg.Button('NEXT STEP', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold", auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()), border_width=0)]
         
     ]
 
+
     # Create the window and show it without the plot
     window = sg.Window("7-kabale assistant", layout,element_justification="center", location=(400, 100))
+    
+    globalmovetype = Instructions.MOVE
 
     cap = cv2.VideoCapture(0)
 
@@ -57,8 +80,12 @@ def main():
             break
         elif event == "NEXT STEP":
             print("you clicked the button")
-            print(taskMessage)
-            window["_INSTRUCTION_"].update(taskMessage)
+            instruction = nextInstruction(globalmovetype)
+            print(instruction)
+            print(globalmovetype.value)
+            window["_INSTRUCTION_"].update(instruction)
+            if (globalmovetype.value < 3 ):
+                globalmovetype = Instructions(globalmovetype.value + 1)
         ret, frame = cap.read()
         cv2.rectangle(frame, (start_cord_x, start_cord_y), (end_cord_x, end_cord_y), color, stroke)
         frame75 = rescale_frame(frame, percent=75)      
@@ -71,5 +98,7 @@ def main():
       
 
     window.close()
+
+    
 
 main()
