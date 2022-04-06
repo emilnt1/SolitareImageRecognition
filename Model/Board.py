@@ -1,12 +1,15 @@
-import Column as column
-import Foundation as foundation
-import DrawPile as drawpile
-import Deck as deck
+import Column as Column
+import Foundation as Foundation
+import DrawPile as Drawpile
+import Deck as Deck
+
 
 class Board:
-    columns = [column, column, column, column, column, column, column]
-    foundations = [foundation, foundation, foundation, foundation]
-    drawPile = drawpile
-    deck = deck
+    columns = []
+    foundations = []
 
-    
+    def __init__(self):
+        self.columns = [Column, Column, Column, Column, Column, Column, Column]
+        self.foundations = [Foundation, Foundation, Foundation, Foundation]
+        self.drawPile = Drawpile
+        self.deck = Deck
