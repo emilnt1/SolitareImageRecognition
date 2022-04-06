@@ -2,7 +2,7 @@ from cgitb import text
 from CardSelectionWindow import Instructions
 from tokenize import String
 import PySimpleGUI as sg
-import cv2
+import cv2 as cv
 import numpy as np
 
 card1 = "Queen of Spades"
@@ -72,7 +72,7 @@ def main():
         width = int(frame.shape[1] * percent/ 100)
         height = int(frame.shape[0] * percent/ 100)
         dim = (width, height)
-        return cv2.resize(frame, dim, interpolation =cv2.INTER_AREA)
+        return cv.resize(frame, dim, interpolation =cv.INTER_AREA)
 
     def fixed_frame(frame):
         width = 1440
@@ -143,7 +143,7 @@ def main():
         frameFixed = fixed_frame(frame)     
 
         
-        imgbytes = cv2.imencode(".png", frame75)[1].tobytes()
+        imgbytes = cv.imencode(".png", frame75)[1].tobytes()
         window["-IMAGE-"].update(data=imgbytes)
 
         
