@@ -53,9 +53,20 @@ def getCard(frame):
     
     box2 = box
     i = 0
+    upperLeft, lowerRight = 0, 0
     for corners in box:
-        i += 1
-        
+        totalXY = box[i][0] + box[i][1]
+        if (totalXY < box[upperLeft][0] + box[upperLeft][1]):
+            upperLeft = i
+        if (totalXY > box[lowerRight][0] + box[lowerRight][1]):
+            lowerRight = i
+        i += 1        
+    
+    i = 0
+    for corners in box:
+        if (i == upperLeft):
+            width = math.sqrt(pow(box[1][0]-box[upperLeft][0],2)+pow(box[1][1]-box[upperLeft][1],2))
+        height = math.sqrt(pow(box[2][0]-box[upperLeft][0],2)+pow(box[2][1]-box[upperLeft][1],2))
     
     width = math.sqrt(pow(box[1][0]-box[0][0],2)+pow(box[1][1]-box[0][1],2))
     height = math.sqrt(pow(box[2][0]-box[0][0],2)+pow(box[2][1]-box[0][1],2))
@@ -95,11 +106,7 @@ def main():
     
     globalmovetype = Instructions.MOVE
 
-<<<<<<< HEAD
     cap = cv.VideoCapture(1)
-=======
-    cap = cv2.VideoCapture(1)
->>>>>>> ca3bf0b339ad9c28e221cc290d7284c5aa98b813
 
     width=cap.get(3)
     height=cap.get(4)
@@ -126,7 +133,7 @@ def main():
         width = 1440
         height = 810
         dim = (width, height)
-        return cv2.resize(frame, dim, interpolation =cv2.INTER_AREA)
+        return cv.resize(frame, dim, interpolation =cv.INTER_AREA)
 
 
     while True:
@@ -148,12 +155,10 @@ def main():
                 
 
         ret, frame = cap.read()
-<<<<<<< HEAD
         getCard(frame)
         cv.rectangle(frame, (start_cord_x, start_cord_y), (end_cord_x, end_cord_y), color, stroke)
         frame75 = rescale_frame(frame, percent=75)      
         
-=======
         def drawColumn(CVframe, columnNumber, imgWidth, imgHeight):
             start_cord_x = round(imgWidth * (1/7 * columnNumber))
             start_cord_y = round(imgHeight * 0.25)
@@ -167,7 +172,7 @@ def main():
             end_cord_x = start_cord_x + w
             end_cord_y = start_cord_y + h
             
-            return cv2.rectangle(CVframe, (round(start_cord_x), start_cord_y), (round(end_cord_x), end_cord_y), color, stroke)
+            return cv.rectangle(CVframe, (round(start_cord_x), start_cord_y), (round(end_cord_x), end_cord_y), color, stroke)
 
         def drawFoundationAndDeck(CVframe, columnNumber, imgWidth, imgHeight):
             start_cord_x = round(imgWidth * (1/7 * columnNumber))
@@ -182,7 +187,7 @@ def main():
             end_cord_x = start_cord_x + w
             end_cord_y = start_cord_y + h
             
-            return cv2.rectangle(CVframe, (round(start_cord_x), start_cord_y), (round(end_cord_x), end_cord_y), color, stroke)
+            return cv.rectangle(CVframe, (round(start_cord_x), start_cord_y), (round(end_cord_x), end_cord_y), color, stroke)
 
 
         for i in range(7):
@@ -191,12 +196,11 @@ def main():
                 continue
             frame = drawFoundationAndDeck(frame, i, width, height)
         
-        #cv2.rectangle(frame, (start_cord_x, start_cord_y), (end_cord_x, end_cord_y), color, stroke)
-        #cv2.rectangle(frame, (round(start_cord_x+w+20), start_cord_y), (round(end_cord_x+w+20), end_cord_y), color, stroke)
+        #cv.rectangle(frame, (start_cord_x, start_cord_y), (end_cord_x, end_cord_y), color, stroke)
+        #cv.rectangle(frame, (round(start_cord_x+w+20), start_cord_y), (round(end_cord_x+w+20), end_cord_y), color, stroke)
         frame75 = rescale_frame(frame, percent=75) 
         frameFixed = fixed_frame(frame)     
 
->>>>>>> ca3bf0b339ad9c28e221cc290d7284c5aa98b813
         
         imgbytes = cv.imencode(".png", frame75)[1].tobytes()
         window["-IMAGE-"].update(data=imgbytes)
