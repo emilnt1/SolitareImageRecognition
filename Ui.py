@@ -51,19 +51,19 @@ def main():
     
     globalmovetype = Instructions.MOVE
 
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
 
     width=cap.get(3)
     height=cap.get(4)
 
-    start_cord_x = round(width * 1/7)
-    start_cord_y = round(height * 1/7)
-    color = (255, 0, 0) # blue BGR   
-    stroke = 2
-    w = round(width * 1/7)
-    h = round(height * .8)
-    end_cord_x = start_cord_x + w
-    end_cord_y = start_cord_y + h
+    # start_cord_x = round(width * 1/7)
+    # start_cord_y = round(height * 1/7)
+    # color = (255, 0, 0) # blue BGR   
+    # stroke = 2
+    # w = round(width * 1/7)
+    # h = round(height * .8)
+    # end_cord_x = start_cord_x + w
+    # end_cord_y = start_cord_y + h
 
 
     print('width, height: ', width, height) # this is to test the camara output hight and width. Will be removed later
@@ -73,6 +73,13 @@ def main():
         height = int(frame.shape[0] * percent/ 100)
         dim = (width, height)
         return cv2.resize(frame, dim, interpolation =cv2.INTER_AREA)
+
+    def fixed_frame(frame):
+        width = 1440
+        height = 810
+        dim = (width, height)
+        return cv2.resize(frame, dim, interpolation =cv2.INTER_AREA)
+
 
     while True:
         event, values = window.read(timeout=20)  
@@ -84,11 +91,56 @@ def main():
             print(instruction)
             print(globalmovetype.value)
             window["_INSTRUCTION_"].update(instruction)
+
+            # Made for testing the instructions message types
             if (globalmovetype.value < 3 ):
                 globalmovetype = Instructions(globalmovetype.value + 1)
+            elif (globalmovetype.value == 3):
+                    globalmovetype = Instructions.MOVE
+                
+
         ret, frame = cap.read()
-        cv2.rectangle(frame, (start_cord_x, start_cord_y), (end_cord_x, end_cord_y), color, stroke)
-        frame75 = rescale_frame(frame, percent=75)      
+        def drawColumn(CVframe, columnNumber, imgWidth, imgHeight):
+            start_cord_x = round(imgWidth * (1/7 * columnNumber))
+            start_cord_y = round(imgHeight * 0.25)
+            color = (255, 0, 0) # blue BGR   
+            stroke = 2
+            if (columnNumber == 0):
+                w = round(imgWidth * 1/7)
+            else:
+                w = round(imgWidth * (1/7 * columnNumber))
+            h = round(imgHeight * .745)
+            end_cord_x = start_cord_x + w
+            end_cord_y = start_cord_y + h
+            
+            return cv2.rectangle(CVframe, (round(start_cord_x), start_cord_y), (round(end_cord_x), end_cord_y), color, stroke)
+
+        def drawFoundationAndDeck(CVframe, columnNumber, imgWidth, imgHeight):
+            start_cord_x = round(imgWidth * (1/7 * columnNumber))
+            start_cord_y = 0
+            color = (255, 0, 0) # blue BGR   
+            stroke = 2
+            if (columnNumber == 0):
+                w = round(imgWidth * 1/7)
+            else:
+                w = round(imgWidth * (1/7 * columnNumber))
+            h = round(imgHeight * .23)
+            end_cord_x = start_cord_x + w
+            end_cord_y = start_cord_y + h
+            
+            return cv2.rectangle(CVframe, (round(start_cord_x), start_cord_y), (round(end_cord_x), end_cord_y), color, stroke)
+
+
+        for i in range(7):
+            frame = drawColumn(frame, i, width, height)
+            if(i==2):
+                continue
+            frame = drawFoundationAndDeck(frame, i, width, height)
+        
+        #cv2.rectangle(frame, (start_cord_x, start_cord_y), (end_cord_x, end_cord_y), color, stroke)
+        #cv2.rectangle(frame, (round(start_cord_x+w+20), start_cord_y), (round(end_cord_x+w+20), end_cord_y), color, stroke)
+        frame75 = rescale_frame(frame, percent=75) 
+        frameFixed = fixed_frame(frame)     
 
         
         imgbytes = cv2.imencode(".png", frame75)[1].tobytes()
