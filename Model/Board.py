@@ -8,7 +8,7 @@ class Board:
     columns = []
     foundations = []
 
-    def __init__(self):
+    def __init__(self, Drawpile, Deck):
         self.columns = [Column, Column, Column, Column, Column, Column, Column]
         self.foundations = [Foundation, Foundation, Foundation, Foundation]
         self.drawPile = Drawpile
