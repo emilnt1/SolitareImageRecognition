@@ -1,7 +1,7 @@
 from Model.Column import Column
-import Foundation as Foundation
-import DrawPile as Drawpile
-import Deck as Deck
+from Model.Foundation import Foundation
+from Model.DrawPile import DrawPile
+from Model.Deck import Deck
 
 
 class Board:

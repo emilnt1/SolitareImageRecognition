@@ -1,5 +1,5 @@
-import Model.Board as board
+from Model.Board import Board
 
 
-def display(board):
-    print(board.columns[0])
+def display(Board):
+    print(Board.columns[0])
