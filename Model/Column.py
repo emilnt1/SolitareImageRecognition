@@ -28,5 +28,8 @@ class Column(CardLogic):
                 cardsToReturn.append(self.cards.pop())
             return cardsToReturn
 
-    def push(self, cards):
+    def pop(self):
+        pass
+
+    def push(cards):
         self.cards.extend(cards)

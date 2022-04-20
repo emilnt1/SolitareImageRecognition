@@ -7,5 +7,6 @@ from Model.CardFactory import CardFactory
 cardFactory = CardFactory()
 cardFactory.makeCards()
 board = Board(DrawPile, cardFactory.cards)
+board.allocateCards()
 display(board)
 
