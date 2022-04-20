@@ -1,4 +1,4 @@
-import Column as Column
+from Model.Column import Column
 import Foundation as Foundation
 import DrawPile as Drawpile
 import Deck as Deck
@@ -13,3 +13,10 @@ class Board:
         self.foundations = [Foundation, Foundation, Foundation, Foundation]
         self.drawPile = Drawpile
         self.deck = Deck
+
+    def allocateCards(self):
+        count = 1
+        for i in self.columns:
+            for l in range(count):
+                i.push(self.deck.pop())
+                count += 1

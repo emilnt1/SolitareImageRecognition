@@ -1,10 +1,11 @@
-from View.KabaleView import KabaleView
+from View.KabaleView import display
 from Model.Board import Board
 from Model.Deck import Deck
 from Model.DrawPile import DrawPile
 from Model.CardFactory import CardFactory
 
-board = Board(DrawPile, Deck)
 cardFactory = CardFactory()
-
+cardFactory.makeCards()
+board = Board(DrawPile, cardFactory.cards)
+display(board)
 

@@ -1,12 +1,5 @@
-from Model.Board import Board
+import Model.Board as board
 
-class KabaleView(Board):
 
-    def __init__(self):
-        self.cards = []
-
-    def display(self, Board):
-        for i in Board.columns:
-            print(Board.columns[1])
-
-        pass
+def display(board):
+    print(board.columns[0])

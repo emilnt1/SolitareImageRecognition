@@ -10,6 +10,7 @@ class Deck(CardLogic):
 
     def pop(self, cards):
         self.cards.pop(len(cards))
+        return self.cards.pop(len(cards))
 
     def push(self, cards):
         self.cards.extend(cards)
