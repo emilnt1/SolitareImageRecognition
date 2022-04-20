@@ -34,6 +34,36 @@ def nextInstruction(moveType):
         else:
             print("Wrong move type in the input, This should not be happening.")
 
+def drawColumn(CVframe, columnNumber, imgWidth, imgHeight):
+    start_cord_x = round(imgWidth * (1/7 * columnNumber))
+    start_cord_y = round(imgHeight * 0.25)
+    color = (255, 0, 0) # blue BGR   
+    stroke = 2
+    if (columnNumber == 0):
+        w = round(imgWidth * 1/7)
+    else:
+        w = round(imgWidth * (1/7 * columnNumber))
+    h = round(imgHeight * .745)
+    end_cord_x = start_cord_x + w
+    end_cord_y = start_cord_y + h
+    
+    return cv.rectangle(CVframe, (round(start_cord_x), start_cord_y), (round(end_cord_x), end_cord_y), color, stroke)
+
+def drawFoundationAndDeck(CVframe, columnNumber, imgWidth, imgHeight):
+    start_cord_x = round(imgWidth * (1/7 * columnNumber))
+    start_cord_y = 0
+    color = (255, 0, 0) # blue BGR   
+    stroke = 2
+    if (columnNumber == 0):
+        w = round(imgWidth * 1/7)
+    else:
+        w = round(imgWidth * (1/7 * columnNumber))
+    h = round(imgHeight * .23)
+    end_cord_x = start_cord_x + w
+    end_cord_y = start_cord_y + h
+    
+    return cv.rectangle(CVframe, (round(start_cord_x), start_cord_y), (round(end_cord_x), end_cord_y), color, stroke)
+    
 # theshold the video frame to get the card
 def getCard(frame):
     gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
@@ -155,40 +185,6 @@ def main():
                 
 
         ret, frame = cap.read()
-        getCard(frame)
-        cv.rectangle(frame, (start_cord_x, start_cord_y), (end_cord_x, end_cord_y), color, stroke)
-        frame75 = rescale_frame(frame, percent=75)      
-        
-        def drawColumn(CVframe, columnNumber, imgWidth, imgHeight):
-            start_cord_x = round(imgWidth * (1/7 * columnNumber))
-            start_cord_y = round(imgHeight * 0.25)
-            color = (255, 0, 0) # blue BGR   
-            stroke = 2
-            if (columnNumber == 0):
-                w = round(imgWidth * 1/7)
-            else:
-                w = round(imgWidth * (1/7 * columnNumber))
-            h = round(imgHeight * .745)
-            end_cord_x = start_cord_x + w
-            end_cord_y = start_cord_y + h
-            
-            return cv.rectangle(CVframe, (round(start_cord_x), start_cord_y), (round(end_cord_x), end_cord_y), color, stroke)
-
-        def drawFoundationAndDeck(CVframe, columnNumber, imgWidth, imgHeight):
-            start_cord_x = round(imgWidth * (1/7 * columnNumber))
-            start_cord_y = 0
-            color = (255, 0, 0) # blue BGR   
-            stroke = 2
-            if (columnNumber == 0):
-                w = round(imgWidth * 1/7)
-            else:
-                w = round(imgWidth * (1/7 * columnNumber))
-            h = round(imgHeight * .23)
-            end_cord_x = start_cord_x + w
-            end_cord_y = start_cord_y + h
-            
-            return cv.rectangle(CVframe, (round(start_cord_x), start_cord_y), (round(end_cord_x), end_cord_y), color, stroke)
-
 
         for i in range(7):
             frame = drawColumn(frame, i, width, height)
