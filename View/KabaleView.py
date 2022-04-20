@@ -5,8 +5,8 @@ class KabaleView(Board):
     def __init__(self):
         self.cards = []
 
-    def display(self, Board):
+    def display(Board):
         for i in Board.columns:
-            print(Board.columns[1])
-
+            print(Board.columns[i])
+           
         pass

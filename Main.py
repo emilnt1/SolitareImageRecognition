@@ -7,4 +7,4 @@ from Model.CardFactory import CardFactory
 board = Board(DrawPile, Deck)
 cardFactory = CardFactory()
 
-
+KabaleView.display(board)
