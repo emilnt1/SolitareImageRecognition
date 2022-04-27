@@ -5,18 +5,19 @@ from Model.Deck import Deck
 
 
 class Board:
-    columns = []
-    foundations = []
 
-    def __init__(self, Drawpile, Deck):
-        self.columns = [Column, Column, Column, Column, Column, Column, Column]
+    def __init__(self, drawpile, deck):
+        self.columns = [Column() for i in range(8)]
         self.foundations = [Foundation, Foundation, Foundation, Foundation]
-        self.drawPile = Drawpile
-        self.deck = Deck
+        self.drawPile = drawpile
+        self.deck = deck
 
     def allocateCards(self):
-        count = 1
+        count = 0
         for i in self.columns:
-            for l in range(count):
-                i.push(self.deck.pop())
-                count += 1
+            insertionArray = []
+            for x in range(count):
+                insertionArray.append(self.deck.pop())
+
+            i.cards.extend(insertionArray)
+            count = count + 1

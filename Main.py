@@ -9,4 +9,3 @@ cardFactory.makeCards()
 board = Board(DrawPile, cardFactory.cards)
 board.allocateCards()
 display(board)
-

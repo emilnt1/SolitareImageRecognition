@@ -31,5 +31,5 @@ class Column(CardLogic):
     def pop(self):
         pass
 
-    def push(cards):
+    def push(self, cards):
         self.cards.extend(cards)
