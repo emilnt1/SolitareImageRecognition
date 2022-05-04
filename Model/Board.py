@@ -8,7 +8,7 @@ class Board:
 
     def __init__(self, drawpile, deck):
         self.columns = [Column() for i in range(8)]
-        self.foundations = [Foundation, Foundation, Foundation, Foundation]
+        self.foundations = [Foundation() for i in range(5)]
         self.drawPile = drawpile
         self.deck = deck
 
