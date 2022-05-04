@@ -16,5 +16,7 @@ def display(Board):
 
 
 def cardPrint(Card):
-    if
-    return str(Card.rank) + Card.suit.name + " "
+    if Card.rank > 9:
+        return str(Card.rank) + Card.suit.name + " "
+    else:
+        return str(Card.rank) + Card.suit.name + "  "
