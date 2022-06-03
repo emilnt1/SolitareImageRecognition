@@ -203,7 +203,7 @@ def main():
             break
         elif event == "NEXT STEP":
             
-            currImgName = 'img/'+ str(datetime.now()).replace(" ", "_") + '.png'
+            currImgName = 'img/'+ str(datetime.now().strftime("%d-%m-%Y_%H.%M.%S")) + '.png'
             cv.imwrite(currImgName, frame_to_save)
 
             det, names = run(weights='CardRecognition/yolov5/best_run10_cards_with_number.pt', source=currImgName, conf_thres=0.4)
