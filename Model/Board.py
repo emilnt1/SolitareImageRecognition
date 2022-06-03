@@ -2,7 +2,6 @@ from Model.Column import Column
 from Model.Foundation import Foundation
 from Model.DrawPile import DrawPile
 from Model.Deck import Deck
-import CardHandler
 
 
 class Board:
