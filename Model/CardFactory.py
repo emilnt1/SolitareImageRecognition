@@ -1,5 +1,6 @@
 from Model.SuitType import SuitType as type
 from Model.Card import Card
+import random
 
 
 class CardFactory:
@@ -17,3 +18,6 @@ class CardFactory:
 
         for i in range(0, 13):
             self.cards.append(Card(i, type.D))
+
+    def randomizeCards(self):
+        random.shuffle(self.cards)
