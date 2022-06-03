@@ -201,7 +201,8 @@ def main():
 
             cv.imwrite('img/'+ str(datetime.now()) + '.png', frame_to_save)
 
-            run(weights='CardRecognition/yolov5/best_run10_cards_with_number.pt', source='CardRecognition/yolov5/test.png')
+            # TODO: modify hardcoded image path. 
+            run(weights='CardRecognition/yolov5/best_run10_cards_with_number.pt', source='CardRecognition/yolov5/test.png', conf_thres=0.4)
 
             print("you clicked the button")
             instruction = nextInstruction(globalmovetype)
