@@ -33,9 +33,9 @@ def printTopRow(Board):
 
 def cardPrint(Card):
     if Card.rank > 9:
-        return str(Card.rank) + Card.suit.name + " "
+        return Card.suit.name + str(Card.rank) + " "
     else:
-        return str(Card.rank) + Card.suit.name + "  "
+        return Card.suit.name + str(Card.rank) + "  "
 
 
 def lastElement(cardObj):
