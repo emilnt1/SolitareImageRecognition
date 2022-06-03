@@ -1,6 +1,8 @@
 from enum import Enum
+
+
 class SuitType(Enum):
-    HEART = 1
-    SPADES = 2
-    DIAMONDS = 3
-    CLUBS = 4
+    H = 1
+    S = 2
+    D = 3
+    C = 4
