@@ -136,7 +136,7 @@ def main():
     
     globalmovetype = Instructions.MOVE
 
-    cap = cv.VideoCapture(1)
+    cap = cv.VideoCapture(2)
 
     width=cap.get(3)
     height=cap.get(4)

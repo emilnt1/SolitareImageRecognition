@@ -1,9 +1,9 @@
 from Model.Card import Card
 from Model.CardLogic import CardLogic
 
+#cardsout = []
 
 class Column(CardLogic):
-    cards = []
 
     def __init__(self):
         super().__init__()
@@ -30,3 +30,4 @@ class Column(CardLogic):
 
     def push(self, cards):
         self.cards.extend(cards)
+        cards
