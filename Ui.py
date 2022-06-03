@@ -6,6 +6,7 @@ import cv2 as cv
 import numpy as np
 import math
 from datetime import datetime
+from CardRecognition.yolov5.detect import run 
 
 card1 = "Queen of Spades"
 columnFrom = 4
@@ -199,6 +200,8 @@ def main():
         elif event == "NEXT STEP":
 
             cv.imwrite('img/'+ str(datetime.now()) + '.png', frame_to_save)
+
+            run(weights='CardRecognition/yolov5/best_run10_cards_with_number.pt', source='CardRecognition/yolov5/test.png')
 
             print("you clicked the button")
             instruction = nextInstruction(globalmovetype)
