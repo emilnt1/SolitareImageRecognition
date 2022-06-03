@@ -13,10 +13,10 @@ class Column(CardLogic):
         count = 0
         for i in self.cards:
             if i.isVisible and i.suit == card.suit and i.rank == card.rank:
-                return count
+                return True, count
 
             count = count + 1
-        return False
+        return False, count
 
     def pop(self, card):
         index = self.find(card)

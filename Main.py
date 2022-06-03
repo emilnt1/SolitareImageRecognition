@@ -20,8 +20,8 @@ def rowInterpreter(string):
     string = str(string)
     if 'c' in string or 'f' in string:
         rowNum = int(string[1])
-        column = 0
-        foundation = 0
+        column = -1
+        foundation = -1
         if string[0] == 'c':
             column = rowNum
         if string[0] == 'f':
@@ -54,31 +54,36 @@ def cardInterpreter(string):
 def playPhase():
     while not gameOver:
         selectedColumn = input("Select column like (c1) or (f2):")
-        column1, foundation1 = rowInterpreter(selectedColumn)
-        selectCard = input("Select card to be moved:")
-        card : Card = cardInterpreter(selectCard)
-        somecard = None
-        if column1 == 0:
-            somecard : foundation1 = board.foundations.index(foundation1)
-        elif foundation1 == 0:
-            somecard = board.columns.pop(card)
-
+        fromColumn, fromFoundation = rowInterpreter(selectedColumn)
+        card = None
+        if fromColumn != -1:
+            selectCard = input("Select card to be moved:")
+            card : Card = cardInterpreter(selectCard)
+        else:
+            card = board.foundations[fromFoundation].cards[-1]
         selectedColumn = input("Select column like (c1) or (f2):")
-        column2 = rowInterpreter(selectedColumn)
+        toColumn, toFoundation = rowInterpreter(selectedColumn)
+        if toColumn != -1:
+            toColumn = board.columns[toColumn].cards[-1]
+            if allowedMoveColumn(card, toColumn) is True:
+                pass
+            else:
 
+        else:
+            print("Wrong input, try again")
+            playPhase()
 
+def allowedMoveColumn(card, column):
+    if card.rank == column.cards[-1].rank - 1:
+        return True
+    else:
+        return False
 
-def popFoundation(someint):
-    if
-
-
-    return board.foundations.index(someint)
-
-def popColumn(someint):
-
-    return board.columns.index(someint)
-
-
+def allowedMoveFoundation(card, foundation):
+    if card.rank == foundation.cards[-1].rank + 1:
+        return True
+    else:
+        return False
 
 def gameOver():
 
