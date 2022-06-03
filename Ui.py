@@ -5,6 +5,7 @@ import PySimpleGUI as sg
 import cv2 as cv
 import numpy as np
 import math
+from datetime import datetime
 
 card1 = "Queen of Spades"
 columnFrom = 4
@@ -136,7 +137,8 @@ def main():
     
     globalmovetype = Instructions.MOVE
 
-    cap = cv.VideoCapture(1)
+    # cap = cv.VideoCapture(1)
+    cap = cv.VideoCapture(2)
 
     width=cap.get(3)
     height=cap.get(4)
@@ -165,12 +167,39 @@ def main():
         dim = (width, height)
         return cv.resize(frame, dim, interpolation =cv.INTER_AREA)
 
-
     while True:
         event, values = window.read(timeout=20)  
+        
+        ret, frame = cap.read()
+        #frame = cv.rotate(frame, cv.ROTATE_90_CLOCKWISE)
+        #frame = cv.rotate(frame, cv.ROTATE_90_CLOCKWISE)
+        frame_to_save = cv.resize(frame, (640,640),interpolation=cv.INTER_AREA)
+
+        for i in range(7):
+            frame = drawColumn(frame, i, width, height)
+            if(i==2):
+                continue
+            frame = drawFoundationAndDeck(frame, i, width, height)
+        
+        #cv.rectangle(frame, (start_cord_x, start_cord_y), (end_cord_x, end_cord_y), color, stroke)
+        #cv.rectangle(frame, (round(start_cord_x+w+20), start_cord_y), (round(end_cord_x+w+20), end_cord_y), color, stroke)
+        frame75 = rescale_frame(frame, percent=75) 
+        frameFixed = fixed_frame(frame)     
+        
+        imgbytes = cv.imencode(".png", frame)[1].tobytes()
+
+
+
+        window["-IMAGE-"].update(data=imgbytes)
+
+
+
         if event == "Exit" or event == sg.WIN_CLOSED:
             break
         elif event == "NEXT STEP":
+
+            cv.imwrite('img/'+ str(datetime.now()) + '.png', frame_to_save)
+
             print("you clicked the button")
             instruction = nextInstruction(globalmovetype)
             print(instruction)
@@ -183,24 +212,6 @@ def main():
             elif (globalmovetype.value == 3):
                     globalmovetype = Instructions.MOVE
                 
-
-        ret, frame = cap.read()
-
-        for i in range(7):
-            frame = drawColumn(frame, i, width, height)
-            if(i==2):
-                continue
-            frame = drawFoundationAndDeck(frame, i, width, height)
-        
-        #cv.rectangle(frame, (start_cord_x, start_cord_y), (end_cord_x, end_cord_y), color, stroke)
-        #cv.rectangle(frame, (round(start_cord_x+w+20), start_cord_y), (round(end_cord_x+w+20), end_cord_y), color, stroke)
-        frame75 = rescale_frame(frame, percent=75) 
-        frameFixed = fixed_frame(frame)     
-
-        
-        imgbytes = cv.imencode(".png", frame75)[1].tobytes()
-        window["-IMAGE-"].update(data=imgbytes)
-
         
       
 
