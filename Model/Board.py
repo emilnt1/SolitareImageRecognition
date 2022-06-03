@@ -36,3 +36,4 @@ class Board:
         self.drawPile.cards.extend(self.deck.cards.pop())
         self.drawPile.cards.extend(self.deck.cards.pop())
 
+
