@@ -1,11 +1,11 @@
 from Model.CardLogic import CardLogic
+from Model.Deck import Deck
 
 
 class DrawPile(CardLogic):
-    cards = []
 
     def __init__(self):
-        super.__init__()
+        super().__init__()
         self.cards = []
 
     def pop(self, cards):

@@ -7,13 +7,13 @@ class CardFactory:
 
     def makeCards(self):
         for i in range(0, 13):
-            self.cards.append(Card(i, type.HEART))
+            self.cards.append(Card(i, type.H))
 
         for i in range(0, 13):
-            self.cards.append(Card(i, type.CLUBS))
+            self.cards.append(Card(i, type.C))
 
         for i in range(0, 13):
-            self.cards.append(Card(i, type.SPADES))
+            self.cards.append(Card(i, type.S))
 
         for i in range(0, 13):
-            self.cards.append(Card(i, type.DIAMONDS))
+            self.cards.append(Card(i, type.D))

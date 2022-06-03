@@ -5,18 +5,34 @@ from Model.Deck import Deck
 
 
 class Board:
-    columns = []
-    foundations = []
 
-    def __init__(self, Drawpile, Deck):
-        self.columns = [Column, Column, Column, Column, Column, Column, Column]
-        self.foundations = [Foundation, Foundation, Foundation, Foundation]
-        self.drawPile = Drawpile
-        self.deck = Deck
+    def __init__(self, drawpile, deck):
+        self.columns = [Column() for i in range(8)]
+        self.foundations = [Foundation() for i in range(5)]
+        self.deck = Deck()
+        self.deck.cards = deck
+        self.drawPile = drawpile
 
     def allocateCards(self):
-        count = 1
+        count = 0
         for i in self.columns:
-            for l in range(count):
-                i.push(self.deck.pop())
-                count += 1
+            insertionArray = []
+            for x in range(count):
+                insertionArray.append(self.deck.cards.pop())
+
+            i.cards.extend(insertionArray)
+            count = count + 1
+
+    def moveCard(self, place1, place2):
+        if len(place1.cards) > 1:
+            card = place1.pop()
+            place2.push(card)
+            return True
+        else:
+            return False
+
+    def drawCards(self):
+        self.drawPile.cards.extend(self.deck.cards.pop())
+        self.drawPile.cards.extend(self.deck.cards.pop())
+        self.drawPile.cards.extend(self.deck.cards.pop())
+
