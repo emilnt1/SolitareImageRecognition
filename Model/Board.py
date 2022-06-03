@@ -2,9 +2,11 @@ from Model.Column import Column
 from Model.Foundation import Foundation
 from Model.DrawPile import DrawPile
 from Model.Deck import Deck
-
+from Model.CardLogic import CardLogic
+from Model.Card import Card
 
 class Board:
+    cards = []
 
     def __init__(self, drawpile, deck):
         self.columns = [Column() for i in range(8)]
@@ -12,6 +14,7 @@ class Board:
         self.deck = Deck()
         self.deck.cards = deck
         self.drawPile = drawpile
+        self.cards = []
 
     def allocateCards(self):
         count = 0
