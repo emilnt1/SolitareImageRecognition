@@ -1,4 +1,5 @@
 from Model.CardLogic import CardLogic
+from Model.Deck import Deck
 
 
 class DrawPile(CardLogic):

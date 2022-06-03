@@ -13,8 +13,11 @@ class Deck(CardLogic):
         return self.cards.pop(len(cards))
     """
 
-    def pop(self):
-        return self.cards.pop()
+    def pop(self, cards):
+        popCall = []
+        for i in range(3):
+            popCall.extend(self.cards.pop())
+        return popCall
 
     def push(self, cards):
         self.cards.extend(cards)

@@ -9,7 +9,7 @@ class Foundation(CardLogic):
         super().__init__()
         self.cards = []
 
-    def pop(self, cards):
+    def pop(self):
         if len(self.cards) > 1:
             pass
         else:

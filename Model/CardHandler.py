@@ -1,5 +1,2 @@
-
-
-class CardHandler:
-    cards
+from Model.Board import Board
 
