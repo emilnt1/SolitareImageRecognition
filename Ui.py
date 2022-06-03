@@ -1,4 +1,5 @@
 from cgitb import text
+from wsgiref.handlers import format_date_time
 from CardSelectionWindow import Instructions
 from tokenize import String
 import PySimpleGUI as sg
@@ -7,6 +8,8 @@ import numpy as np
 import math
 from datetime import datetime
 from CardRecognition.yolov5.detect import run 
+from CardRecognition.ConvertPredictToBoard import convertPredictToBoard
+from  View.KabaleView import display 
 
 card1 = "Queen of Spades"
 columnFrom = 4
@@ -174,6 +177,7 @@ def main():
         ret, frame = cap.read()
         #frame = cv.rotate(frame, cv.ROTATE_90_CLOCKWISE)
         #frame = cv.rotate(frame, cv.ROTATE_90_CLOCKWISE)
+        
         frame_to_save = cv.resize(frame, (640,640),interpolation=cv.INTER_AREA)
 
         for i in range(7):
@@ -198,11 +202,13 @@ def main():
         if event == "Exit" or event == sg.WIN_CLOSED:
             break
         elif event == "NEXT STEP":
+            
+            currImgName = 'img/'+ str(datetime.now()).replace(" ", "_") + '.png'
+            cv.imwrite(currImgName, frame_to_save)
 
-            cv.imwrite('img/'+ str(datetime.now()) + '.png', frame_to_save)
-
-            # TODO: modify hardcoded image path. 
-            run(weights='CardRecognition/yolov5/best_run10_cards_with_number.pt', source='CardRecognition/yolov5/test.png', conf_thres=0.4)
+            det, names = run(weights='CardRecognition/yolov5/best_run10_cards_with_number.pt', source=currImgName, conf_thres=0.4)
+            currBoard = convertPredictToBoard(det, names)
+            display(currBoard)
 
             print("you clicked the button")
             instruction = nextInstruction(globalmovetype)
