@@ -1,19 +1,19 @@
-
-import SuitType as type
+import random
+from Model.SuitType import SuitType as type
 from Model.Card import Card
 
+initCards = []
 
-class CardFactory:
-    cards = []
-    def makeCards(self):
-        for i in range(0,13):
-            self.cards.append(Card(i, type.SuitType.HEART))
 
-        for i in range(0,13):
-            self.cards.append(Card(i, type.SuitType.CLUBS))
+def makeCards():
+    for i in range(0, 13):
+        initCards.append(Card(i, type.HEART))
+        initCards.append(Card(i, type.CLUBS))
+        initCards.append(Card(i, type.SPADES))
+        initCards.append(Card(i, type.DIAMONDS))
 
-        for i in range(0,13):
-            self.cards.append(Card(i, type.SuitType.SPADES))
+    return initCards
 
-        for i in range(0,13):
-            self.cards.append(Card(i, type.SuitType.DIAMONDS))
+
+def randomizeCards(cards):
+    random.shuffle(cards)

@@ -1,5 +1,4 @@
 
 
 class CardHandler:
-    cards
-
+    pass
