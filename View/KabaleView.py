@@ -44,4 +44,4 @@ def lastElement(cardObj):
     if len(cardObj.cards) == 0:
         return "[*]"
     else:
-        return cardPrint(cardObj.cards[len(cardObj.cards)])
+        return cardPrint(cardObj.cards[-1])

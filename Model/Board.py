@@ -6,11 +6,10 @@ from Model.CardLogic import CardLogic
 from Model.Card import Card
 
 class Board:
-    cards = []
 
     def __init__(self, drawpile, deck):
         self.columns = [Column() for i in range(7)]
-        self.foundations = [Foundation() for i in range(5)]
+        self.foundations = [Foundation() for i in range(4)]
         self.deck = Deck()
         self.deck.cards = deck
         self.drawPile = drawpile
@@ -34,8 +33,6 @@ class Board:
             return False
 
     def drawCards(self):
-        self.drawPile.cards.extend(self.deck.cards.pop())
-        self.drawPile.cards.extend(self.deck.cards.pop())
-        self.drawPile.cards.extend(self.deck.cards.pop())
-
-
+        self.drawPile.cards.append(self.deck.cards.pop())
+        self.drawPile.cards.append(self.deck.cards.pop())
+        self.drawPile.cards.append(self.deck.cards.pop())
