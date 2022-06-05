@@ -64,9 +64,13 @@ def playPhase(board):
         if not isFoundation:
             if allowedMoveColumn(card, toColumn):
                 toColumn.push(fromColumn.pop(card))
+            else:
+                errorInput(board)
         elif isFoundation:
             if allowedMoveFoundation(card, toColumn):
                 toColumn.push(fromColumn.pop(card))
+            else:
+                errorInput(board)
         else:
             errorInput(board)
         display(board)
@@ -80,7 +84,9 @@ def allowedMoveColumn(card, column):
 
 
 def allowedMoveFoundation(card, foundation):
-    if len(foundation.cards) == 0:
+    if len(card) > 1:
+        return False
+    elif len(foundation.cards) == 0:
         return True
     else:
         if card.rank == foundation.cards[-1].rank + 1:
@@ -88,6 +94,11 @@ def allowedMoveFoundation(card, foundation):
         else:
             return False
 
+def drawCard():
+    pass
+
+def moveCard():
+    pass
 
 def gameOver():
     return True
