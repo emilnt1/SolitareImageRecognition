@@ -9,7 +9,7 @@ class Board:
     cards = []
 
     def __init__(self, drawpile, deck):
-        self.columns = [Column() for i in range(8)]
+        self.columns = [Column() for i in range(7)]
         self.foundations = [Foundation() for i in range(5)]
         self.deck = Deck()
         self.deck.cards = deck
@@ -17,7 +17,7 @@ class Board:
         self.cards = []
 
     def allocateCards(self):
-        count = 0
+        count = 1
         for i in self.columns:
             insertionArray = []
             for x in range(count):
