@@ -3,7 +3,7 @@ class Card():
     suit = -1
     x = -1
     y = -1
-    isVisible = False
+    isVisible = True
 
     def __init__(self, rank, suit):
         self.rank = rank

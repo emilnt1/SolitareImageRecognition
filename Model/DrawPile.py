@@ -10,9 +10,7 @@ class DrawPile(CardLogic):
 
     def pop(self, cards):
         newDeck = []
-        for i in self.cards:
-            newDeck.append(i)
-            self.cards.pop(i)
+        newDeck.append(self.cards.pop())
         return newDeck
 
     def push(self, cards):

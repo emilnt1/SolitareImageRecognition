@@ -6,9 +6,11 @@ def display(Board):
 
     printTopRow(Board)
     print("")
+    print("c0  " + "c1  " + "c2  " + "c3  " + "c4  " + "c5  " + "c6  ")
+    print("-------------------------------")
     rowString = ""
     for y in range(cardAmount):
-        for x in range(8):
+        for x in range(7):
             if y >= len(Board.columns[x].cards):
                 rowString = rowString + "    "
             else:
@@ -42,4 +44,4 @@ def lastElement(cardObj):
     if len(cardObj.cards) == 0:
         return "[*]"
     else:
-        return cardPrint(cardObj.cards[len(cardObj.cards)-1])
+        return cardPrint(cardObj.cards[-1])

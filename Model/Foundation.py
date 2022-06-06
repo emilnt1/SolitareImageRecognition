@@ -9,15 +9,17 @@ class Foundation(CardLogic):
         super().__init__()
         self.cards = []
 
-    def pop(self):
+    def pop(self, cards):
         if len(self.cards) > 1:
             pass
         else:
             return self.cards.pop()
 
     def push(self, cards):
-        if len(cards) < 1:
-            if self.cards[len(cards)].rank == cards[0].rank - 1:
+        if len(cards) < 2:
+            if len(self.cards) == 0:
+                self.cards.extend(cards)
+            elif self.cards[-1].rank == cards[0].rank - 1:
                 self.cards.extend(cards)
             else:
                 pass
