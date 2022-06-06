@@ -27,8 +27,7 @@ def rowInterpreter(string, board):
             type = 2
         return column, type
     else:
-        newInput = input("Wrong input, try again")
-        rowInterpreter(newInput, board)
+        errorInput(board)
 
 
 def cardInterpreter(string, board):
