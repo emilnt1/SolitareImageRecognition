@@ -4,6 +4,7 @@ from Model.CardFactory import CardFactory
 from View.KabaleView import display
 from Model.Board import Board
 from Model.SuitType import concludeFromString
+from Model.SuitType import SuitType
 
 
 def rowInterpreter(string, board):
@@ -46,9 +47,11 @@ def cardInterpreter(string):
         newInput = input("Wrong input, try again")
         cardInterpreter(newInput)
 
+
 def errorInput(board):
     print("Wrong input, try again")
     playPhase(board)
+
 
 def playPhase(board):
     gameOver = False
@@ -60,32 +63,55 @@ def playPhase(board):
             drawCard(board)
         else:
             errorInput(board)
+        gameOver = gameEnd(board)
         display(board)
 
 
 def allowedMoveColumn(card, column):
-    if card.rank == column.cards[-1].rank - 1:
-        return True
-    else:
-        return False
-
-
-def allowedMoveFoundation(card, foundation, fromColumn):
-    if fromColumn.cards[-1] != card:
-        return False
-    if len(foundation.cards) == 0:
-        return True
-    else:
-        if card.rank == foundation.cards[-1].rank + 1:
+    if len(column.cards) == 0:
+        if card.rank == 13:
             return True
         else:
             return False
+    else:
+        if card.rank == column.cards[-1].rank - 1:
+            if column.cards[-1].suit == SuitType.D or column.cards[-1].suit == SuitType.H:
+                if card.suit == SuitType.C or card.suit == SuitType.S:
+                    return True
+                else:
+                    return False
+            elif column.cards[-1].suit == SuitType.C or column.cards[-1].suit == SuitType.S:
+                if card.suit == SuitType.D or card.suit == SuitType.H:
+                    return True
+                else:
+                    return False
+            else:
+                print("Card identity failure!")
+                return False
+
+        else:
+            return False
+
+
+def allowedMoveFoundation(card, foundation):
+    if len(foundation.cards) == 0:
+        if card.rank == 1:
+            return True
+        else:
+            return False
+    else:
+        if card.rank == foundation.cards[-1].rank + 1 and card.suit == foundation.cards[-1].suit:
+            return True
+        else:
+            return False
+
 
 def drawCard(board):
     if len(board.deck.cards) < 3:
         board.deck.cards.extend(board.drawPile.cards)
         board.drawPile.cards = []
     board.drawCards()
+
 
 def moveCard(board):
     selectedColumn = input("Select column (c0) or foundation (f0) or drawpile (d):")
@@ -109,12 +135,16 @@ def moveCard(board):
         else:
             errorInput(board)
     elif type == 1:
-        if allowedMoveFoundation(card, toColumn, fromColumn):
+        if allowedMoveFoundation(card, toColumn):
             toColumn.push(fromColumn.pop(card))
         else:
             errorInput(board)
     else:
         errorInput(board)
 
-def gameOver():
+
+def gameEnd(board):
+    for i in board.foundations:
+        if len(i.cards) == 0 or i.cards[-1].rank != 13:
+            return False
     return True
