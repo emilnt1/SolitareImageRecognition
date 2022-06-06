@@ -49,7 +49,7 @@ def cardInterpreter(string, board):
 
 
 def errorInput(board):
-    print("Wrong input, try again")
+    print("Wrong input or illegal move")
     playPhase(board)
 
 
@@ -94,6 +94,8 @@ def allowedMoveColumn(card, column):
 
 
 def allowedMoveFoundation(card, foundation):
+    if len(card) > 1:
+        return False
     if len(foundation.cards) == 0:
         if card.rank == 1:
             return True
