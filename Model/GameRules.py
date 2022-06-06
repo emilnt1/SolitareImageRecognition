@@ -21,6 +21,8 @@ def rowInterpreter(string, board):
             column = board.foundations[rowNum]
             type = 1
         else:
+            if len(board.drawPile.cards) == 0:
+                errorInput(board)
             column = board.drawPile
             type = 2
         return column, type
@@ -29,7 +31,7 @@ def rowInterpreter(string, board):
         rowInterpreter(newInput, board)
 
 
-def cardInterpreter(string):
+def cardInterpreter(string, board):
     string = str(string)
     if 'H' in string or 'S' in string or 'D' in string or 'C' in string:
         cardRank = None
@@ -44,8 +46,7 @@ def cardInterpreter(string):
         card = Card(cardRank, cardSuit)
         return card
     else:
-        newInput = input("Wrong input, try again")
-        cardInterpreter(newInput)
+        errorInput(board)
 
 
 def errorInput(board):
@@ -119,7 +120,7 @@ def moveCard(board):
     card = None
     if type == 0:
         selectCard = input("Select card to be moved:")
-        card = cardInterpreter(selectCard)
+        card = cardInterpreter(selectCard, board)
         boo, card = fromColumn.find(card)
         if not boo:
             errorInput(board)
