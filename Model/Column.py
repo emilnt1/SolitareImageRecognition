@@ -13,21 +13,23 @@ class Column(CardLogic):
         count = 0
         for i in self.cards:
             if i.isVisible and i.suit == card.suit and i.rank == card.rank:
-                return count
+                return True, i
 
             count = count + 1
-        return False
+        return False, i
 
     def pop(self, card):
-        index = self.find(card)
         cardsToReturn = []
-        if not card:
-            pass
-        else:
-            for i in range(index, len(self.cards)):
+        boo = False
+        for i in reversed(self.cards):
+            if card == i:
+                boo = True
+            else:
                 cardsToReturn.append(self.cards.pop())
-            return cardsToReturn
-
+            if boo:
+                cardsToReturn.append(self.cards.pop())
+                return cardsToReturn
 
     def push(self, cards):
-        self.cards.extend(cards)
+        cardsReversed = cards[::-1]
+        self.cards.extend(cardsReversed)
