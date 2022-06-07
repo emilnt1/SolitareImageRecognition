@@ -21,8 +21,8 @@ def nextMove(board):
     #    return  curr_move
     #
 
-    moves = [putFoundation]
-    
+    moves = [putFoundation, putColumn]
+
     for move in moves:
         curr_result = move(board)
         if ( len(curr_result) != 0):
@@ -52,3 +52,22 @@ def putFoundation(board):
                 #return (True, count_columns,count_foundation, c.cards[-1])
     return ""        
 
+
+def putColumn(board):
+    count_columns_outer = 0
+    for column_outer in board.columns:
+        count_columns_outer += 1
+        count_columns_inner = 0
+        for column_inner in board.columns:
+            count_columns_inner += 1
+            if(count_columns_outer==count_columns_inner):
+                continue
+            # IF count_columns == count_ column outer . Column outer. Continue;
+            for c in column_outer.cards:
+                if allowedMoveColumn(c, column_inner):
+                    return "Move " + str(c) +   " from column: " + str(count_columns_outer) + " to column: " + str(count_columns_inner) + "."
+            #if column_outer.cards:
+            #    if allowedMoveColumn(column_outer.cards, column_inner):
+            #        curr_card =  column_outer.cards[-1]
+            #        return "Move " + str(curr_card) +   " from column: " + str(count_columns_outer) + " to column: " + str(count_columns_inner) + "." 
+    return ""        
