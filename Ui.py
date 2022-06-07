@@ -10,6 +10,7 @@ from datetime import datetime
 from CardRecognition.yolov5.detect import run 
 from CardRecognition.ConvertPredictToBoard import convertPredictToBoard
 from  View.KabaleView import display 
+from AI.AI import *
 
 card1 = "Queen of Spades"
 columnFrom = 4
@@ -210,11 +211,13 @@ def main():
             #det, names = run(weights='CardRecognition/yolov5/best_run12.pt', source='test.png', conf_thres=0.4)
             currBoard = convertPredictToBoard(det, names)
             display(currBoard)
+            
 
             print("you clicked the button")
-            instruction = nextInstruction(globalmovetype)
-            print(instruction)
+            #instruction = nextInstruction(globalmovetype)
+            #print(instruction)
             print(globalmovetype.value)
+            instruction = nextMove(currBoard)
             window["_INSTRUCTION_"].update(instruction)
 
             # Made for testing the instructions message types
