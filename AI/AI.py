@@ -22,9 +22,11 @@ def findAce(board):
         count_columns += 1
         count_foundation = 0
         for foundation in board.foundations:
-            count_foundation = +1
-            if allowedMoveFoundation(c.cards[-1], foundation):
-                return "Move " +  str(c.cards[-1].rank) + str(c.cards[-1].suit) +  "  from column: " + str(count_columns) + " to foundation:" + str(count_foundation) + "." 
+            count_foundation +=1
+            if c.cards:
+                if allowedMoveFoundation(c.cards[-1], foundation):
+                    #return "Move " +  str(c.cards[-1].rank) + str(c.cards[-1].suit) +  "  from column: " + str(count_columns) + " to foundation:" + str(count_foundation) + "." 
+                    return "Move " + str(c.cards[-1]) +   " from column: " + str(count_columns) + " to foundation: " + str(count_foundation) + "." 
                 #return (True, count_columns,count_foundation, c.cards[-1])
-            
+    return ""        
 

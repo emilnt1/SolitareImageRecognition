@@ -94,16 +94,16 @@ def allowedMoveColumn(card, column):
 
 
 def allowedMoveFoundation(card, foundation):
-    #if len(card) > 1:
-    #    return False
+    if isinstance(card, list):
+        return False
     if len(foundation.cards) == 0:
         if card.rank == 1:
+            print(str(len(foundation.cards)))
             return True
         else:
             return False
     else:
         if card.rank == foundation.cards[-1].rank + 1 and card.suit == foundation.cards[-1].suit:
-            print('bla')
             return True
         else:
             return False
