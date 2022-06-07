@@ -40,29 +40,31 @@ def nextInstruction(moveType):
             print("Wrong move type in the input, This should not be happening.")
 
 def drawColumn(CVframe, columnNumber, imgWidth, imgHeight):
-    start_cord_x = round(imgWidth * (1/7 * columnNumber))
-    start_cord_y = round(imgHeight * 0.25)
-    color = (255, 0, 0) # blue BGR   
-    stroke = 2
-    if (columnNumber == 0):
-        w = round(imgWidth * 1/7)
-    else:
-        w = round(imgWidth * (1/7 * columnNumber))
-    h = round(imgHeight * .745)
-    end_cord_x = start_cord_x + w
-    end_cord_y = start_cord_y + h
-    
-    return cv.rectangle(CVframe, (round(start_cord_x), start_cord_y), (round(end_cord_x), end_cord_y), color, stroke)
-
-def drawFoundationAndDeck(CVframe, columnNumber, imgWidth, imgHeight):
-    start_cord_x = round(imgWidth * (1/7 * columnNumber))
+    start_cord_x = round(imgWidth * (1/8 * columnNumber))
     start_cord_y = 0
     color = (255, 0, 0) # blue BGR   
     stroke = 2
     if (columnNumber == 0):
-        w = round(imgWidth * 1/7)
+        w = round(imgWidth * 1/8)
     else:
-        w = round(imgWidth * (1/7 * columnNumber))
+        w = round(imgWidth * (1/8 * columnNumber))
+    h = round(imgHeight * .745)
+    end_cord_x = start_cord_x
+    end_cord_y = int(imgHeight)
+    point1 = (round(start_cord_x), start_cord_y +1)
+    point2 = (round(end_cord_x), end_cord_y -1)
+    
+    return cv.line(CVframe, point1, point2, color, stroke)
+
+def drawFoundationAndDeck(CVframe, columnNumber, imgWidth, imgHeight):
+    start_cord_x = round(imgWidth * (1/8 * columnNumber))
+    start_cord_y = 0
+    color = (255, 0, 0) # blue BGR   
+    stroke = 2
+    if (columnNumber == 0):
+        w = round(imgWidth * 1/8)
+    else:
+        w = round(imgWidth * (1/8 * columnNumber))
     h = round(imgHeight * .23)
     end_cord_x = start_cord_x + w
     end_cord_y = start_cord_y + h
@@ -180,11 +182,12 @@ def main():
         
         frame_to_save = cv.resize(frame, (640,640),interpolation=cv.INTER_AREA)
 
-        for i in range(7):
-            frame = drawColumn(frame, i, width, height)
-            if(i==2):
-                continue
-            frame = drawFoundationAndDeck(frame, i, width, height)
+        for i in range(8):
+            if (i > 0):
+                frame = drawColumn(frame, i, width, height)
+            #if(i==2):
+            #    continue
+            #frame = drawFoundationAndDeck(frame, i, width, height)
         
         #cv.rectangle(frame, (start_cord_x, start_cord_y), (end_cord_x, end_cord_y), color, stroke)
         #cv.rectangle(frame, (round(start_cord_x+w+20), start_cord_y), (round(end_cord_x+w+20), end_cord_y), color, stroke)
