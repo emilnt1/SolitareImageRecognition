@@ -6,9 +6,11 @@ from Model.Board import Board
 from Model.SuitType import concludeFromString
 from Model.SuitType import SuitType
 from Model.GameRules import *
+from Model.DrawPile import DrawPile
+from Model.Deck import Deck
 
 ## Statefull board
-stateful_board = Board()
+stateful_board = Board(DrawPile(), None)
 
 def nextMove(board):
     ## Merge board fra ML and stateful_board
@@ -26,14 +28,14 @@ def putFoundation(board):
     for c in board.columns:
         count_columns += 1
         count_foundation = 0
-        for foundation in board.foundations:
-            count_foundation +=1
+        for foundation in stateful_board.foundations:
+            count_foundation += 1
             if c.cards:
                 if allowedMoveFoundation(c.cards[-1], foundation):
-                    #return "Move " +  str(c.cards[-1].rank) + str(c.cards[-1].suit) +  "  from column: " + str(count_columns) + " to foundation:" + str(count_foundation) + "." 
-                    #board.moveCard(c, c.cards[-1], foundation)
-                    #stateful_board = b
-                    stateful_board.foundations[count_foundation-1].append
+                    #return "Move " +  str(c.cards[-1].rank) + str(c.cards[-1].suit) +  "  from column: " + str(count_columns) + " to foundation:" + str(count_foundation) + "."
+                    board.moveCard(c, c.cards[-1], foundation)
+                    #stateful_board.foundations = board.foundations
+                    #stateful_board.foundations[count_foundation-1].append
                     return "Move " + str(c.cards[-1]) +   " from column: " + str(count_columns) + " to foundation: " + str(count_foundation) + "." 
                 #return (True, count_columns,count_foundation, c.cards[-1])
     return ""        
