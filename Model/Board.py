@@ -25,12 +25,9 @@ class Board:
             i.cards.extend(insertionArray)
             count = count + 1
 
-    def moveCard(self, cards, place):
-        if cards is not None:
-            place.push(cards)
-            return True
-        else:
-            return False
+    def moveCard(self, origin, cards, place):
+        place.push(origin.pop(cards))
+
 
     def drawCards(self):
         self.drawPile.cards.append(self.deck.cards.pop())
