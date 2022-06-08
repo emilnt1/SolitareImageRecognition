@@ -11,6 +11,8 @@ from Model.Deck import Deck
 
 ## Statefull board only with foundations
 stateful_board = Board(DrawPile(), None)
+cardsLeftDeckDrawPile = 24
+isLastDrawMade = False
 
 def nextMove(board):
     ## Merge board fra ML and stateful_board
@@ -26,7 +28,7 @@ def nextMove(board):
     #stateful_board.foundations[0].cards.append(card)
     ###
 
-    moves = [putFoundation, putColumn] # TODO makeDraw
+    moves = [makeLastDraw, putFoundation, putColumn, makeDraw]
 
     for move in moves:
         curr_result = move(board)
@@ -50,6 +52,7 @@ def putFoundation(board):
             count_foundation += 1
             if(allowedMoveFoundation(drawPileCard, foundation)):
                 foundation.cards.append(drawPileCard)
+                cardsLeftDeckDrawPile -= 1
                 return "Move " + str(drawPileCard) + " from drawpile " + "to foundation:" + str(count_foundation) 
 
     # Search in columns
@@ -106,12 +109,21 @@ def putColumn(board):
         for column in board.columns:
             count_column += 1
             if(allowedMoveColumn(drawPileCard, column)):
+                cardsLeftDeckDrawPile -= 1
                 return "Move " + str(drawPileCard) +  " from drawpile to column: " + str(count_column) 
 
 
     return ""        
 
 
+def makeLastDraw(board):
+    if cardsLeftDeckDrawPile == 3 and not isLastDrawMade:
+        isLastDrawMade = True
+        return "Make draw"
+
+def makeDraw(board):
+    if cardsLeftDeckDrawPile > 3:
+        return "Make draw"
 
 #def putKingToEmptyColumn(board):
     # if there is an empty column. search king
