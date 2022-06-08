@@ -39,8 +39,16 @@ def nextMove(board):
 
 
 def putFoundation(board):
-    # TODO: Search in drawpile
-
+    
+    # Search in drawpile
+    if board.drawPile.cards:
+        drawPileCard = board.drawPile.cards[-1]
+        count_foundation = 0
+        for foundation in stateful_board.foundations:
+            count_foundation += 1
+            if(allowedMoveFoundation(drawPileCard, foundation)):
+                foundation.cards.append(drawPileCard)
+                return "Move " + str(drawPileCard) + " from drawpile " + "to foundation:" + str(count_foundation) 
 
     # Search in columns
     count_columns = 0
