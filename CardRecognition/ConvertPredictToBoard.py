@@ -19,6 +19,7 @@ def convertPredictToBoard(det, names):
         card.x = xyxy_array[0]
         card.y = xyxy_array[1]
 
+        columns.append(card)
         # Opdele til foundations and columner. 
         #if xyxy_array[1] <= 100:
         #    upper_cards.append(card)
