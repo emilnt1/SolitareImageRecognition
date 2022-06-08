@@ -1,0 +1,5 @@
+pandas
+opencv-python
+PySimpleGUI
+yolov5
+PyYAML
