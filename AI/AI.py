@@ -26,13 +26,15 @@ def nextMove(board):
     #stateful_board.foundations[0].cards.append(card)
     ###
 
-    moves = [putFoundation, putColumn]
+    moves = [putFoundation, putColumn] # TODO makeDraw
 
     for move in moves:
         curr_result = move(board)
         if ( len(curr_result) != 0):
             return curr_result
     
+
+
     return "No moves available."
 
     
@@ -71,6 +73,8 @@ def putFoundation(board):
 
 
 def putColumn(board):
+
+    # Search in columns
     count_columns_outer = 0
     for column_outer in board.columns:
         count_columns_outer += 1
@@ -87,6 +91,18 @@ def putColumn(board):
             #    if allowedMoveColumn(column_outer.cards, column_inner):
             #        curr_card =  column_outer.cards[-1]
             #        return "Move " + str(curr_card) +   " from column: " + str(count_columns_outer) + " to column: " + str(count_columns_inner) + "." 
+    
+    
+    # Search in drawpile
+    if board.drawPile.cards:
+        drawPileCard = board.drawPile.cards[-1]
+        count_column = 0
+        for column in board.columns:
+            count_column += 1
+            if(allowedMoveColumn(drawPileCard, column)):
+                return "Move " + str(drawPileCard) +  " from drawpile to column: " + str(count_column) 
+
+
     return ""        
 
 #def putKingToEmptyColumn(board):
