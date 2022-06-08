@@ -4,12 +4,12 @@ from Model.CardFactory import CardFactory
 from View.KabaleView import display
 from Model.Board import Board
 from Model.SuitType import concludeFromString
-from Model.SuitType import SuitType
+from Model.SuitType import SuitType as type
 from Model.GameRules import *
 from Model.DrawPile import DrawPile
 from Model.Deck import Deck
 
-## Statefull board
+## Statefull board only with foundations
 stateful_board = Board(DrawPile(), None)
 
 def nextMove(board):
@@ -20,6 +20,11 @@ def nextMove(board):
     #if ( len(curr_move) != 0):
     #    return  curr_move
     #
+
+    ### DELETE ME
+    #card = Card(1,type.H)
+    #stateful_board.foundations[0].cards.append(card)
+    ###
 
     moves = [putFoundation, putColumn]
 
@@ -71,3 +76,6 @@ def putColumn(board):
             #        curr_card =  column_outer.cards[-1]
             #        return "Move " + str(curr_card) +   " from column: " + str(count_columns_outer) + " to column: " + str(count_columns_inner) + "." 
     return ""        
+
+#def putKingToEmptyColumn(board):
+    # if there is an empty column. search king

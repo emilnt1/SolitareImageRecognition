@@ -210,9 +210,8 @@ def main():
             det, names = run(weights='CardRecognition/yolov5/best_run14.pt', source=currImgName, conf_thres=0.4)
             #det, names = run(weights='CardRecognition/yolov5/best_run12.pt', source='test.png', conf_thres=0.4)
             currBoard = convertPredictToBoard(det, names)
+            currBoard.mergeFoundations(stateful_board)
             display(currBoard)
-            
-
             print("you clicked the button")
             #instruction = nextInstruction(globalmovetype)
             #print(instruction)
