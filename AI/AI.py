@@ -119,11 +119,11 @@ def putColumn(board):
 def makeLastDraw(board):
     if cardsLeftDeckDrawPile == 3 and not isLastDrawMade:
         isLastDrawMade = True
-        return "Make draw"
+        return "Make a draw"
 
 def makeDraw(board):
     if cardsLeftDeckDrawPile > 3:
-        return "Make draw"
+        return "Make a draw"
 
 #def putKingToEmptyColumn(board):
     # if there is an empty column. search king
