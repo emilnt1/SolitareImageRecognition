@@ -77,20 +77,25 @@ def putColumn(board):
     # Search in columns
     count_columns_outer = 0
     for column_outer in board.columns:
+
         count_columns_outer += 1
         count_columns_inner = 0
+
+        if column_outer.cards:
+            if stateful_board.columns[count_columns_outer-1].isKingMovedTo:
+                continue
+
         for column_inner in board.columns:
             count_columns_inner += 1
             if(count_columns_outer==count_columns_inner):
                 continue
-            # IF count_columns == count_ column outer . Column outer. Continue;
             for c in column_outer.cards:
+                # if card is 13 and outer column  isKingMovedTo 
+
                 if allowedMoveColumn(c, column_inner):
+                    if(c.rank == 13):
+                        stateful_board.columns[count_columns_inner-1].isKingMovedTo = True
                     return "Move " + str(c) +   " from column: " + str(count_columns_outer) + " to column: " + str(count_columns_inner) + "."
-            #if column_outer.cards:
-            #    if allowedMoveColumn(column_outer.cards, column_inner):
-            #        curr_card =  column_outer.cards[-1]
-            #        return "Move " + str(curr_card) +   " from column: " + str(count_columns_outer) + " to column: " + str(count_columns_inner) + "." 
     
     
     # Search in drawpile
@@ -104,6 +109,8 @@ def putColumn(board):
 
 
     return ""        
+
+
 
 #def putKingToEmptyColumn(board):
     # if there is an empty column. search king
