@@ -33,3 +33,8 @@ class Board:
         self.drawPile.cards.append(self.deck.cards.pop())
         self.drawPile.cards.append(self.deck.cards.pop())
         self.drawPile.cards.append(self.deck.cards.pop())
+
+    def mergeFoundations(self, boardWithFoundations):
+        self.foundations = boardWithFoundations.foundations
+
+
