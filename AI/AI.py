@@ -81,9 +81,6 @@ def putColumn(board):
         count_columns_outer += 1
         count_columns_inner = 0
 
-        if column_outer.cards:
-            if stateful_board.columns[count_columns_outer-1].isKingMovedTo:
-                continue
 
         for column_inner in board.columns:
             count_columns_inner += 1
@@ -91,6 +88,9 @@ def putColumn(board):
                 continue
             for c in column_outer.cards:
                 # if card is 13 and outer column  isKingMovedTo 
+                
+                if c.rank == 13 and stateful_board.columns[count_columns_outer-1].isKingMovedTo:
+                    continue
 
                 if allowedMoveColumn(c, column_inner):
                     if(c.rank == 13):
