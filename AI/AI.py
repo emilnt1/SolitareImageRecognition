@@ -39,6 +39,10 @@ def nextMove(board):
 
 
 def putFoundation(board):
+    # TODO: Search in drawpile
+
+
+    # Search in columns
     count_columns = 0
     for c in board.columns:
         count_columns += 1
