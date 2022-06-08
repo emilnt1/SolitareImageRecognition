@@ -9,7 +9,7 @@ from Model.SuitType import SuitType as type
 import numpy as np
 
 def convertPredictToBoard(det, names):
-    columns = []
+    cards = []
 
     # Separate to upper and lower cards.
     for *xyxy, conf, cls in reversed(det):
@@ -19,7 +19,7 @@ def convertPredictToBoard(det, names):
         card.x = xyxy_array[0]
         card.y = xyxy_array[1]
 
-        columns.append(card)
+        cards.append(card)
         # Opdele til foundations and columner. 
         #if xyxy_array[1] <= 100:
         #    upper_cards.append(card)
@@ -29,23 +29,23 @@ def convertPredictToBoard(det, names):
     # Divide lower cards to columns
 
     board = Board(DrawPile(), Deck())
-    for columns in columns:
-        if columns.x <= 40.0:
-            board.drawPile.cards.append(columns)
-        elif columns.x > 40.0 and columns.x <= 120.0:
-            board.columns[0].cards.append(columns)
-        elif columns.x > 120.0 and columns.x <= 200.0:
-            board.columns[1].cards.append(columns)
-        elif columns.x > 200.0 and columns.x <= 280.0:
-            board.columns[2].cards.append(columns)
-        elif columns.x > 280.0 and columns.x <= 360.0:
-            board.columns[3].cards.append(columns)
-        elif columns.x > 360.0 and columns.x <= 440.0:
-            board.columns[4].cards.append(columns)
-        elif columns.x > 440.0 and columns.x <= 520.0:
-            board.columns[5].cards.append(columns)
-        elif columns.x > 520:
-            board.columns[6].cards.append(columns)  
+    for card in cards:
+        if card.x <= 40.0:
+            board.drawPile.cards.append(card)
+        elif card.x > 40.0 and cards.x <= 120.0:
+            board.columns[0].cards.append(card)
+        elif card.x > 120.0 and cards.x <= 200.0:
+            board.columns[1].cards.append(card)
+        elif card.x > 200.0 and cards.x <= 280.0:
+            board.columns[2].cards.append(card)
+        elif card.x > 280.0 and cards.x <= 360.0:
+            board.columns[3].cards.append(card)
+        elif card.x > 360.0 and cards.x <= 440.0:
+            board.columns[4].cards.append(card)
+        elif card.x > 440.0 and cards.x <= 520.0:
+            board.columns[5].cards.append(card)
+        elif card.x > 520:
+            board.columns[6].cards.append(card)  
 
 
     for c in board.columns:
