@@ -32,17 +32,17 @@ def convertPredictToBoard(det, names):
     for card in cards:
         if card.x <= 40.0:
             board.drawPile.cards.append(card)
-        elif card.x > 40.0 and cards.x <= 120.0:
+        elif card.x > 40.0 and card.x <= 120.0:
             board.columns[0].cards.append(card)
-        elif card.x > 120.0 and cards.x <= 200.0:
+        elif card.x > 120.0 and card.x <= 200.0:
             board.columns[1].cards.append(card)
-        elif card.x > 200.0 and cards.x <= 280.0:
+        elif card.x > 200.0 and card.x <= 280.0:
             board.columns[2].cards.append(card)
-        elif card.x > 280.0 and cards.x <= 360.0:
+        elif card.x > 280.0 and card.x <= 360.0:
             board.columns[3].cards.append(card)
-        elif card.x > 360.0 and cards.x <= 440.0:
+        elif card.x > 360.0 and card.x <= 440.0:
             board.columns[4].cards.append(card)
-        elif card.x > 440.0 and cards.x <= 520.0:
+        elif card.x > 440.0 and card.x <= 520.0:
             board.columns[5].cards.append(card)
         elif card.x > 520:
             board.columns[6].cards.append(card)  
