@@ -8,11 +8,13 @@ from Model.SuitType import SuitType as type
 from Model.GameRules import *
 from Model.DrawPile import DrawPile
 from Model.Deck import Deck
+from Model.Column import Column
 
 ## Statefull board only with foundations
 stateful_board = Board(DrawPile(), None)
-cardsLeftDeckDrawPile = 24
-isLastDrawMade = False
+#global cardsLeftDeckDrawPile,isLastDrawMade
+#cardsLeftDeckDrawPile = 24
+#isLastDrawMade = False
 
 def nextMove(board):
     ## Merge board fra ML and stateful_board
@@ -30,7 +32,7 @@ def nextMove(board):
 
     moves = [makeLastDraw, 
             putFoundation, 
-            putKingToEmptyColumnIfQueenAvailable,
+            # putKingToEmptyColumnIfQueenAvailable,
             putColumn, 
             makeDraw]
 
@@ -56,7 +58,7 @@ def putFoundation(board):
             count_foundation += 1
             if(allowedMoveFoundation(drawPileCard, foundation)):
                 foundation.cards.append(drawPileCard)
-                cardsLeftDeckDrawPile -= 1
+                stateful_board.cardsLeftDeckDrawPile -= 1
                 return "Move " + str(drawPileCard) + " from drawpile " + "to foundation:" + str(count_foundation) 
 
     # Search in columns
@@ -71,6 +73,7 @@ def putFoundation(board):
                     #return "Move " +  str(c.cards[-1].rank) + str(c.cards[-1].suit) +  "  from column: " + str(count_columns) + " to foundation:" + str(count_foundation) + "."
                     curr_card =  c.cards[-1]
                     board.moveCard(c, c.cards[-1], foundation)
+                    stateful_board.cardsLeftColumns[count_columns-1] -= 1
                     #stateful_board.foundations = board.foundations
                     #stateful_board.foundations[count_foundation-1].append
                     #return "Move " + str(c.cards[-1]) +   " from column: " + str(count_columns) + " to foundation: " + str(count_foundation) + "." 
@@ -82,6 +85,7 @@ def putFoundation(board):
 def putColumn(board):
 
     # Search in columns
+    possibleFromColumn = []
     count_columns_from = 0
     for column_from in board.columns:
 
@@ -101,9 +105,21 @@ def putColumn(board):
                     continue
 
                 if allowedMoveColumn(c, column_to):
-                    if(c.rank == 13):
-                        stateful_board.columns[count_columns_to-1].isKingMovedTo = True
-                    return "Move " + str(c) +   " from column: " + str(count_columns_from) + " to column: " + str(count_columns_to) + "."
+                    possibleFromColumn.append(c, count_columns_from, count_columns_to, board.getCardsLeftColumn[count_columns_from-1])
+                    #stateful_board.cardsLeftColumns[count_columns_from-1] -= 1
+                    #if(c.rank == 13):
+                    #    stateful_board.columns[count_columns_to-1].isKingMovedTo = True
+                    #return "Move " + str(c) +   " from column: " + str(count_columns_from) + " to column: " + str(count_columns_to) + "."
+    
+    # Find the best move with the most hidden cards
+    if possibleFromColumn:
+        idx, bestMoveWithMostHiddenCards = max(possibleFromColumn, key = lambda item: item[3])
+        (c, count_columns_from, count_columns_to, numberHiddenCards) = bestMoveWithMostHiddenCards
+        stateful_board.cardsLeftColumns[count_columns_from-1] -= 1
+        if(c.rank == 13):
+           stateful_board.columns[count_columns_to-1].isKingMovedTo = True
+        return "Move " + str(c) +   " from column: " + str(count_columns_from) + " to column: " + str(count_columns_to) + "."
+        
 
     
     # Search in drawpile
@@ -113,7 +129,7 @@ def putColumn(board):
         for column in board.columns:
             count_column += 1
             if(allowedMoveColumn(drawPileCard, column)):
-                cardsLeftDeckDrawPile -= 1
+                stateful_board.cardsLeftDeckDrawPile -= 1
                 return "Move " + str(drawPileCard) +  " from drawpile to column: " + str(count_column) 
 
 
@@ -121,20 +137,49 @@ def putColumn(board):
 
 
 def makeLastDraw(board):
-    if cardsLeftDeckDrawPile == 3 and not isLastDrawMade:
-        isLastDrawMade = True
+    if stateful_board.cardsLeftDeckDrawPile == 3 and not stateful_board.isLastDrawMade:
+        stateful_board.isLastDrawMade = True
         return "Make a draw"
     return ""
 
 def makeDraw(board):
-    if cardsLeftDeckDrawPile > 3:
+    if stateful_board.cardsLeftDeckDrawPile > 3:
         return "Make a draw"
-
-# TODO
-def putKingToEmptyColumnIfQueenAvailable(board):
-    # TODO
     return ""
 
+# def putKingToEmptyColumnIfQueenAvailable(board):
+#     # Search for empty columns
+#     emptyColumns = []
+#     column_count = 0
+#     for column in board.columns:
+#         if not column.cards:
+#             emptyColumns.append(column_count)
+#         column_count += 1
+    
+#     if not emptyColumns :
+#         return ""
 
-#def putKingToEmptyColumn(board):
-    # if there is an empty column. search king
+#     # Search for kings availble to move 
+#     columnWithKingsToMove = []
+#     count_columns_from = 0
+#     for column in board.columns:
+#         count_columns_from += 1        
+#         if column.cards:
+#             c = column.cards[0]
+#             if c.rank == 13 and not stateful_board.columns[count_columns_from-1].isKingMovedTo:
+#                 columnWithKingsToMove.append((count_columns_from-1, c))
+
+#     # Search for queen
+#     for columnWithKing, kingCard in columnWithKingsToMove:
+#         temp_column = Column()
+#         temp_column.cards.append(kingCard)
+
+#         for columnForPossibleQueen in board.columns:
+#             if columnForPossibleQueen.cards:
+#                 possibleQueen = column.cards[0]
+#                 if allowedMoveColumn(possibleQueen, temp_column):
+#                     stateful_board.columns[emptyColumns[0]].isKingMovedTo = True
+#                     return "Move " + str(kingCard) +   " from column: " + str(columnWithKing) + " to column: " + str(emptyColumns[0]) + "." 
+
+#     return ""
+ 
