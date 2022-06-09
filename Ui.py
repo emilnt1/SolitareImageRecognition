@@ -220,7 +220,7 @@ def main():
             #instruction = nextInstruction(globalmovetype)
             #print(instruction)
             print(globalmovetype.value)
-            instruction = treeSearchBackTracking(currBoard).commands
+            instruction = starter(currBoard)
             print(instruction)
             window["_INSTRUCTION_"].update(instruction)
 

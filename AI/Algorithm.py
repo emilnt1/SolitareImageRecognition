@@ -2,6 +2,10 @@ from Model.GameRules import *
 from AI.Node import Node
 
 stateful_board = Board(DrawPile(), None)
+def starter(board):
+    node = Node(0, board, "")
+    last_node = treeSearchBackTracking(node)
+    return last_node.commands
 
 def treeSearchBackTracking(node):
     priorityQueue = []
