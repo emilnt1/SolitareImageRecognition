@@ -85,6 +85,7 @@ def putFoundation(board):
 def putColumn(board):
 
     # Search in columns
+    possibleFromColumn = []
     count_columns_from = 0
     for column_from in board.columns:
 
@@ -104,10 +105,21 @@ def putColumn(board):
                     continue
 
                 if allowedMoveColumn(c, column_to):
-                    stateful_board.cardsLeftColumns[count_columns_from-1] -= 1
-                    if(c.rank == 13):
-                        stateful_board.columns[count_columns_to-1].isKingMovedTo = True
-                    return "Move " + str(c) +   " from column: " + str(count_columns_from) + " to column: " + str(count_columns_to) + "."
+                    possibleFromColumn.append(c, count_columns_from, count_columns_to, board.getCardsLeftColumn[count_columns_from-1])
+                    #stateful_board.cardsLeftColumns[count_columns_from-1] -= 1
+                    #if(c.rank == 13):
+                    #    stateful_board.columns[count_columns_to-1].isKingMovedTo = True
+                    #return "Move " + str(c) +   " from column: " + str(count_columns_from) + " to column: " + str(count_columns_to) + "."
+    
+    # Find the best move with the most hidden cards
+    if possibleFromColumn:
+        idx, bestMoveWithMostHiddenCards = max(possibleFromColumn, key = lambda item: item[3])
+        (c, count_columns_from, count_columns_to, numberHiddenCards) = bestMoveWithMostHiddenCards
+        stateful_board.cardsLeftColumns[count_columns_from-1] -= 1
+        if(c.rank == 13):
+           stateful_board.columns[count_columns_to-1].isKingMovedTo = True
+        return "Move " + str(c) +   " from column: " + str(count_columns_from) + " to column: " + str(count_columns_to) + "."
+        
 
     
     # Search in drawpile
