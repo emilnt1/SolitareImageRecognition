@@ -28,7 +28,11 @@ def nextMove(board):
     #stateful_board.foundations[0].cards.append(card)
     ###
 
-    moves = [makeLastDraw, putFoundation, putColumn, makeDraw]
+    moves = [makeLastDraw, 
+            putFoundation, 
+            putKingToEmptyColumnIfQueenAvailable,
+            putColumn, 
+            makeDraw]
 
     for move in moves:
         curr_result = move(board)
@@ -78,28 +82,28 @@ def putFoundation(board):
 def putColumn(board):
 
     # Search in columns
-    count_columns_outer = 0
-    for column_outer in board.columns:
+    count_columns_from = 0
+    for column_from in board.columns:
 
-        count_columns_outer += 1
-        count_columns_inner = 0
+        count_columns_from += 1
+        count_columns_to = 0
 
 
-        for column_inner in board.columns:
-            count_columns_inner += 1
-            if(count_columns_outer==count_columns_inner):
+        for column_to in board.columns:
+            count_columns_to += 1
+            if(count_columns_from==count_columns_to):
                 continue
             #for c in column_outer.cards:
             # Only the first card
-            if column_outer.cards:
-                c = column_outer.cards[0]
-                if c.rank == 13 and stateful_board.columns[count_columns_outer-1].isKingMovedTo:
+            if column_from.cards:
+                c = column_from.cards[0]
+                if c.rank == 13 and stateful_board.columns[count_columns_from-1].isKingMovedTo:
                     continue
 
-                if allowedMoveColumn(c, column_inner):
+                if allowedMoveColumn(c, column_to):
                     if(c.rank == 13):
-                        stateful_board.columns[count_columns_inner-1].isKingMovedTo = True
-                    return "Move " + str(c) +   " from column: " + str(count_columns_outer) + " to column: " + str(count_columns_inner) + "."
+                        stateful_board.columns[count_columns_to-1].isKingMovedTo = True
+                    return "Move " + str(c) +   " from column: " + str(count_columns_from) + " to column: " + str(count_columns_to) + "."
 
     
     # Search in drawpile
@@ -120,10 +124,17 @@ def makeLastDraw(board):
     if cardsLeftDeckDrawPile == 3 and not isLastDrawMade:
         isLastDrawMade = True
         return "Make a draw"
+    return ""
 
 def makeDraw(board):
     if cardsLeftDeckDrawPile > 3:
         return "Make a draw"
+
+# TODO
+def putKingToEmptyColumnIfQueenAvailable(board):
+    # TODO
+    return ""
+
 
 #def putKingToEmptyColumn(board):
     # if there is an empty column. search king
