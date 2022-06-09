@@ -14,6 +14,8 @@ class Board:
         self.deck.cards = deck
         self.drawPile = drawpile
         self.cards = []
+        self.cardsLeftDeckDrawPile = 24
+        self.isLastDrawMade = False
 
     def allocateCards(self):
         count = 1

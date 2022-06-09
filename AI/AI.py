@@ -12,9 +12,9 @@ from Model.Column import Column
 
 ## Statefull board only with foundations
 stateful_board = Board(DrawPile(), None)
-global cardsLeftDeckDrawPile,isLastDrawMade
-cardsLeftDeckDrawPile = 24
-isLastDrawMade = False
+#global cardsLeftDeckDrawPile,isLastDrawMade
+#cardsLeftDeckDrawPile = 24
+#isLastDrawMade = False
 
 def nextMove(board):
     ## Merge board fra ML and stateful_board
@@ -58,7 +58,7 @@ def putFoundation(board):
             count_foundation += 1
             if(allowedMoveFoundation(drawPileCard, foundation)):
                 foundation.cards.append(drawPileCard)
-                cardsLeftDeckDrawPile -= 1
+                stateful_board.cardsLeftDeckDrawPile -= 1
                 return "Move " + str(drawPileCard) + " from drawpile " + "to foundation:" + str(count_foundation) 
 
     # Search in columns
@@ -115,7 +115,7 @@ def putColumn(board):
         for column in board.columns:
             count_column += 1
             if(allowedMoveColumn(drawPileCard, column)):
-                cardsLeftDeckDrawPile -= 1
+                stateful_board.cardsLeftDeckDrawPile -= 1
                 return "Move " + str(drawPileCard) +  " from drawpile to column: " + str(count_column) 
 
 
@@ -123,13 +123,13 @@ def putColumn(board):
 
 
 def makeLastDraw(board):
-    if cardsLeftDeckDrawPile == 3 and not isLastDrawMade:
-        isLastDrawMade = True
+    if stateful_board.cardsLeftDeckDrawPile == 3 and not stateful_board.isLastDrawMade:
+        stateful_board.isLastDrawMade = True
         return "Make a draw"
     return ""
 
 def makeDraw(board):
-    if cardsLeftDeckDrawPile > 3:
+    if stateful_board.cardsLeftDeckDrawPile > 3:
         return "Make a draw"
 
 # TODO
