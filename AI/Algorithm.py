@@ -2,10 +2,13 @@ from Model.GameRules import *
 from AI.Node import Node
 
 stateful_board = Board(DrawPile(), None)
+
+
 def starter(board):
     node = Node(0, board, "")
     last_node = treeSearchBackTracking(node)
     return last_node.commands
+
 
 def treeSearchBackTracking(node):
     priorityQueue = []
@@ -136,7 +139,7 @@ def kingToEmpty(board, card, origin, originNum):
                 boardCopy = board.copy
                 boardCopy.moveCard(column1, card, column2)
                 moves.append(Node(4, boardCopy,
-                              "Card " + str(card) + " from column " + str(originNum) + " to column " + str(
-                                  col2) + "\n"))
+                                  "Card " + str(card) + " from column " + str(originNum) + " to column " + str(
+                                      col2) + "\n"))
             col2 += 1
     return boo, moves
