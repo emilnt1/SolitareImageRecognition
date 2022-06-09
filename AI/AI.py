@@ -131,6 +131,7 @@ def makeLastDraw(board):
 def makeDraw(board):
     if stateful_board.cardsLeftDeckDrawPile > 3:
         return "Make a draw"
+    return ""
 
 # def putKingToEmptyColumnIfQueenAvailable(board):
 #     # Search for empty columns
