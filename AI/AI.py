@@ -32,7 +32,7 @@ def nextMove(board):
 
     moves = [makeLastDraw, 
             putFoundation, 
-        #    putKingToEmptyColumnIfQueenAvailable,
+            putKingToEmptyColumnIfQueenAvailable,
             putColumn, 
             makeDraw]
 
@@ -132,67 +132,76 @@ def makeDraw(board):
     if stateful_board.cardsLeftDeckDrawPile > 3:
         return "Make a draw"
 
-# TODO
-# def putKingToEmptyColumnIfQueenAvailable(board):
-#     # Search for empty columns
-#     emptyColumns = []
-#     column_count = 0
-#     for column in board.columns:
-#         if not column.cards:
-#             emptyColumns.append(column_count)
-#         column_count += 1
+def putKingToEmptyColumnIfQueenAvailable(board):
+    # Search for empty columns
+    emptyColumns = []
+    column_count = 0
+    for column in board.columns:
+        if not column.cards:
+            emptyColumns.append(column_count)
+        column_count += 1
     
-#     if not emptyColumns :
-#         return ""
+    if not emptyColumns :
+        return ""
 
-#     # Search for kings availble to move 
-#     columnWithKingsToMove = []
-#     count_columns_from = 0
-#     for column in board.columns:
-#         count_columns_from += 1        
-#         if column.cards:
-#             c = column.cards[0]
-#             if c.rank == 13 and not stateful_board.columns[count_columns_from-1].isKingMovedTo:
-#                 columnWithKingsToMove.append((count_columns_from-1, c))
+    # Search for kings availble to move 
+    columnWithKingsToMove = []
+    count_columns_from = 0
+    for column in board.columns:
+        count_columns_from += 1        
+        if column.cards:
+            c = column.cards[0]
+            if c.rank == 13 and not stateful_board.columns[count_columns_from-1].isKingMovedTo:
+                columnWithKingsToMove.append((count_columns_from-1, c))
 
-#     # Search for queen
-#     for columnWithKing, card in columnWithKingsToMove:
-#         #temp_column = Column()
-#         #temp_column.cards.append(c)
+    # Search for queen
+    for columnWithKing, kingCard in columnWithKingsToMove:
+        temp_column = Column()
+        temp_column.cards.append(kingCard)
 
+        for columnForPossibleQueen in board.columns:
+            if columnForPossibleQueen.cards:
+                possibleQueen = column.cards[0]
+                if allowedMoveColumn(possibleQueen, temp_column):
+                    stateful_board.columns[emptyColumns[0]].isKingMovedTo = True
+                    return "Move " + str(kingCard) +   " from column: " + str(columnWithKing) + " to column: " + str(emptyColumns[0]) + "." 
 
-
-#     # Search in columns
-#     count_columns_from = 0
-#     for column_from in board.columns:
-
-#         count_columns_from += 1
-#         count_columns_to = 0
-
-
-#         for column_to in board.columns:
-#             count_columns_to += 1
-#             if(count_columns_from==count_columns_to):
-#                 continue
-#             #for c in column_outer.cards:
-#             # Only the first card
-#             if column_from.cards:
-#                 c = column_from.cards[0]
-#                 if c.rank == 13:
-#                     if stateful_board.columns[count_columns_from-1].isKingMovedTo:
-#                         continue
-#                     temp_column = Column()
-#                     temp_column.cards.append(c)
+    return ""
+        # moveTo emptyColumns[0]
 
 
-#                     for column in board.columns:
-#                         if column
+
+    # Search in columns
+    # count_columns_from = 0
+    # for column_from in board.columns:
+
+    #     count_columns_from += 1
+    #     count_columns_to = 0
 
 
-#                 if allowedMoveColumn(c, column_to):
-#                     if(c.rank == 13):
-#                         stateful_board.columns[count_columns_to-1].isKingMovedTo = True
-#                     return "Move " + str(c) +   " from column: " + str(count_columns_from) + " to column: " + str(count_columns_to) + "."
+    #     for column_to in board.columns:
+    #         count_columns_to += 1
+    #         if(count_columns_from==count_columns_to):
+    #             continue
+    #         #for c in column_outer.cards:
+    #         # Only the first card
+    #         if column_from.cards:
+    #             c = column_from.cards[0]
+    #             if c.rank == 13:
+    #                 if stateful_board.columns[count_columns_from-1].isKingMovedTo:
+    #                     continue
+    #                 temp_column = Column()
+    #                 temp_column.cards.append(c)
+
+
+    #                 for column in board.columns:
+    #                     if allowedMoveColumn()
+
+
+    #             if allowedMoveColumn(c, column_to):
+    #                 if(c.rank == 13):
+    #                     stateful_board.columns[count_columns_to-1].isKingMovedTo = True
+    #                 return "Move " + str(c) +   " from column: " + str(count_columns_from) + " to column: " + str(count_columns_to) + "."
 
     
 
