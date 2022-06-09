@@ -16,6 +16,7 @@ class Board:
         self.cards = []
         self.cardsLeftDeckDrawPile = 24
         self.isLastDrawMade = False
+        self.cardsLeftColumns = [0,1,2,3,4,5,6]
 
     def allocateCards(self):
         count = 1
@@ -36,7 +37,14 @@ class Board:
         self.drawPile.cards.append(self.deck.cards.pop())
         self.drawPile.cards.append(self.deck.cards.pop())
 
-    def mergeFoundations(self, boardWithFoundations):
-        self.foundations = boardWithFoundations.foundations
+    def mergeStatefulBoard(self, statefulBoard):
+        self.cardsLeftColumns = statefulBoard.cardsLeftColumns
+        self.cardsLeftDeckDrawPile = statefulBoard.cardsLeftDeckDrawPile
+        self.foundations = statefulBoard.foundations
+
+    def getCardsLeftColumn(self,c):
+        if self.cardsLeftColumns[c]>0:
+            return self.cardsLeftColumns[c]
+        return 0
 
 

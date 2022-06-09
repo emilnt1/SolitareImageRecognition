@@ -73,6 +73,7 @@ def putFoundation(board):
                     #return "Move " +  str(c.cards[-1].rank) + str(c.cards[-1].suit) +  "  from column: " + str(count_columns) + " to foundation:" + str(count_foundation) + "."
                     curr_card =  c.cards[-1]
                     board.moveCard(c, c.cards[-1], foundation)
+                    stateful_board.cardsLeftColumns[count_columns-1] -= 1
                     #stateful_board.foundations = board.foundations
                     #stateful_board.foundations[count_foundation-1].append
                     #return "Move " + str(c.cards[-1]) +   " from column: " + str(count_columns) + " to foundation: " + str(count_foundation) + "." 
@@ -103,6 +104,7 @@ def putColumn(board):
                     continue
 
                 if allowedMoveColumn(c, column_to):
+                    stateful_board.cardsLeftColumns[count_columns_from-1] -= 1
                     if(c.rank == 13):
                         stateful_board.columns[count_columns_to-1].isKingMovedTo = True
                     return "Move " + str(c) +   " from column: " + str(count_columns_from) + " to column: " + str(count_columns_to) + "."
