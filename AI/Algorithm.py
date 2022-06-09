@@ -1,6 +1,7 @@
 from Model.GameRules import *
 from AI.Node import Node
 
+stateful_board = Board(DrawPile(), None)
 
 def treeSearchBackTracking(node):
     priorityQueue = []
@@ -16,7 +17,7 @@ def treeSearchBackTracking(node):
             highestSuccessNode = nextNode
         elif highestSuccessNode.points < node.points:
             highestSuccessNode = nextNode
-
+    stateful_board.foundations = highestSuccessNode.board.foundations
     return highestSuccessNode
 
 
@@ -63,6 +64,10 @@ def drawpileToColumnMove(board):
         i = 1
         for card in board.drawPile.cards:
             for column2 in board.columns:
+                if card.rank == 13:
+                    boo, kmoves = kingToEmpty(board, card, None, -1)
+                    if boo:
+                        moves.extend(kmoves)
                 if allowedMoveColumn(card, column2):
                     boardCopy = board.copy
                     boardCopy.moveCard(board.drawPile, card, column2)
@@ -107,15 +112,27 @@ def drawpileToFoundation(board):
 def kingToEmpty(board, card, origin, originNum):
     moves = []
     boo = False
-    column1 = origin
-    col2 = 1
-    for column2 in board.columns:
-        if column1 != column2 and len(column2.cards) == 0:
-            boo = True
-            boardCopy = board.copy
-            boardCopy.moveCard(column1, card, column2)
-            moves.append(Node(4, boardCopy,
+    if originNum == -1:
+        col2 = 1
+        for column2 in board.columns:
+            if len(column2.cards) == 0:
+                boo = True
+                boardCopy = board.copy
+                boardCopy.moveCard(board.drawPile, card, column2)
+                moves.append(Node(4, boardCopy,
+                                  "Card " + str(card) + " from drawpile to column " + str(
+                                      col2) + "\n"))
+            col2 += 1
+    else:
+        column1 = origin
+        col2 = 1
+        for column2 in board.columns:
+            if column1 != column2 and len(column2.cards) == 0:
+                boo = True
+                boardCopy = board.copy
+                boardCopy.moveCard(column1, card, column2)
+                moves.append(Node(4, boardCopy,
                               "Card " + str(card) + " from column " + str(originNum) + " to column " + str(
                                   col2) + "\n"))
-        col2 += 1
-    return False, moves
+            col2 += 1
+    return boo, moves

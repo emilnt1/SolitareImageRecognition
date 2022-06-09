@@ -11,6 +11,7 @@ from CardRecognition.yolov5.detect import run
 from CardRecognition.ConvertPredictToBoard import convertPredictToBoard
 from  View.KabaleView import display 
 from AI.AI import *
+from AI.Algorithm import *
 
 card1 = "Queen of Spades"
 columnFrom = 4
@@ -219,7 +220,7 @@ def main():
             #instruction = nextInstruction(globalmovetype)
             #print(instruction)
             print(globalmovetype.value)
-            instruction = nextMove(currBoard)
+            instruction = treeSearchBackTracking(currBoard)
             print(instruction)
             window["_INSTRUCTION_"].update(instruction)
 
