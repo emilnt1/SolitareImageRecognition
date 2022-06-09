@@ -8,8 +8,8 @@ def display(Board):
     print("")
     print("c0  " + "c1  " + "c2  " + "c3  " + "c4  " + "c5  " + "c6  ")
     print(str(Board.getCardsLeftColumn(0)) + "   " + 
-            str(Board.getCardsLeftColumn(2)) +"   " + 
             str(Board.getCardsLeftColumn(1)) +"   " + 
+            str(Board.getCardsLeftColumn(2)) +"   " + 
             str(Board.getCardsLeftColumn(3)) +"   " + 
             str(Board.getCardsLeftColumn(4)) +"   " + 
             str(Board.getCardsLeftColumn(5)) +"   " + 
