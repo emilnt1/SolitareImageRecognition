@@ -220,6 +220,7 @@ def main():
             #print(instruction)
             print(globalmovetype.value)
             instruction = nextMove(currBoard)
+            print(instruction)
             window["_INSTRUCTION_"].update(instruction)
 
             # Made for testing the instructions message types
