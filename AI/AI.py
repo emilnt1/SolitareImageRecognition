@@ -105,7 +105,7 @@ def putColumn(board):
                     continue
 
                 if allowedMoveColumn(c, column_to):
-                    possibleFromColumn.append(c, count_columns_from, count_columns_to, board.getCardsLeftColumn(count_columns_from-1))
+                    possibleFromColumn.append((c, count_columns_from, count_columns_to, board.getCardsLeftColumn(count_columns_from-1)))
                     #stateful_board.cardsLeftColumns[count_columns_from-1] -= 1
                     #if(c.rank == 13):
                     #    stateful_board.columns[count_columns_to-1].isKingMovedTo = True
@@ -113,7 +113,7 @@ def putColumn(board):
     
     # Find the best move with the most hidden cards
     if possibleFromColumn:
-        idx, bestMoveWithMostHiddenCards = max(possibleFromColumn, key = lambda item: item[3])
+        bestMoveWithMostHiddenCards = max(possibleFromColumn, key = lambda item: item[3])
         (c, count_columns_from, count_columns_to, numberHiddenCards) = bestMoveWithMostHiddenCards
         stateful_board.cardsLeftColumns[count_columns_from-1] -= 1
         if(c.rank == 13):
