@@ -146,8 +146,9 @@ def moveCard(board):
         errorInput(board)
 
 
-def gameEnd(board):
+def gameWon(board):
     for i in board.foundations:
         if len(i.cards) == 0 or i.cards[-1].rank != 13:
             return False
+    print("Won")
     return True

@@ -23,7 +23,12 @@ class Board:
         for i in self.columns:
             insertionArray = []
             for x in range(count):
-                insertionArray.append(self.deck.cards.pop())
+                if x == count-1:
+                    insertionArray.append(self.deck.cards.pop())
+                else:
+                    card = self.deck.cards[-1]
+                    card.makeInvisible()
+                    insertionArray.append(self.deck.cards.pop())
 
             i.cards.extend(insertionArray)
             count = count + 1
@@ -47,4 +52,5 @@ class Board:
             return self.cardsLeftColumns[c]
         return 0
 
-
+    def __copy__(self):
+        return type(self)(self.drawPile, self.deck.cards)

@@ -11,6 +11,9 @@ class Card():
         self.rank = rank
         self.suit = suit
 
+    def makeInvisible(self):
+        self.isVisible = False
+
     def makeVisible(self):
         self.isVisible = True
 

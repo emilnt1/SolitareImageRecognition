@@ -42,7 +42,9 @@ def printTopRow(Board):
 
 
 def cardPrint(Card):
-    if Card.rank > 9:
+    if not Card.isVisible:
+        return "[*] "
+    elif Card.rank > 9:
         return Card.suit.name + str(Card.rank) + " "
     else:
         return Card.suit.name + str(Card.rank) + "  "
