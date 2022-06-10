@@ -42,7 +42,7 @@ def printTopRow(Board):
 
 
 def cardPrint(Card):
-    return Card.suit.name + str(Card.rank) + "("+str(Card.conf) +") "
+    return Card.suit.name + str(Card.rank) + "("+"{:.2f}".format(float(Card.conf)) +") "
     #if Card.rank > 9:
     #    return Card.suit.name + str(Card.rank) + "("+str(Card.conf) +") "
     #else:
