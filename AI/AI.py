@@ -9,6 +9,7 @@ from Model.GameRules import *
 from Model.DrawPile import DrawPile
 from Model.Deck import Deck
 from Model.Column import Column
+import copy
 
 ## Statefull board only with foundations
 stateful_board = Board(DrawPile(), None)
@@ -34,7 +35,7 @@ def nextMove(board):
             putFoundation, 
             # putKingToEmptyColumnIfQueenAvailable,
             putColumn, 
-            fromFoundationToColumn,
+            fromFoundationToColumnTwoSteps,
             makeDraw]
 
     for move in moves:
@@ -164,6 +165,36 @@ def fromFoundationToColumn(board):
                     stateful_board.isLastMoveFromFoundationToColumn = True
                     stateful_board.foundations[f_idx].cards.pop()
                     return "Move " + str(c) +  " from foundation:" + str(f_idx+1) + " to column: " + str(c_idx+1) + "."
+    return ""
+
+def fromFoundationToColumnTwoSteps(board):
+    possibleFoundationToColumns = []
+
+    for f_idx, foundation in enumerate(board.foundations):
+        if foundation.cards:
+            c = foundation.cards[-1]
+            if c.rank == 1:
+                continue
+            for c_idx, column in enumerate(board.columns):
+                if allowedMoveColumn(c, column):
+                    # Her finder jeg alle de mulige foundation to columns 
+                    possibleFoundationToColumns.append((c,f_idx, c_idx))
+                    
+        # Drawpille eller columnen
+    
+    for possibleFoundationToColumn in possibleFoundationToColumns:
+        (c,f_idx, c_idx) = possibleFoundationToColumn
+        #tempColumn = board.columns[c_idx]
+        #tempColumn.cards.append(c)
+        tempBoard = copy.deepcopy(board)
+        tempBoard.columns[c_idx].cards.append(c)
+        tempBoard.foundations[f_idx].cards.pop()
+
+        if putColumn(tempBoard) != "":
+            stateful_board.isLastMoveFromFoundationToColumn = True
+            stateful_board.foundations[f_idx].cards.pop()
+            return "Move " + str(c) +  " from foundation:" + str(f_idx+1) + " to column: " + str(c_idx+1) + "."
+        
     return ""
 
 # def putKingToEmptyColumnIfQueenAvailable(board):
