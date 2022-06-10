@@ -189,13 +189,69 @@ def fromFoundationToColumnTwoSteps(board):
         tempBoard = copy.deepcopy(board)
         tempBoard.columns[c_idx].cards.append(c)
         tempBoard.foundations[f_idx].cards.pop()
-
-        if putColumn(tempBoard) != "":
+        #orginalStafulBoard = copy.deepcopy(stateful_board)
+        #putColumnMove = putColumn(tempBoard)
+        if isPutColumnAllowed:
+            #stateful_board = copy.deepcopy(orginalStafulBoard)
             stateful_board.isLastMoveFromFoundationToColumn = True
             stateful_board.foundations[f_idx].cards.pop()
             return "Move " + str(c) +  " from foundation:" + str(f_idx+1) + " to column: " + str(c_idx+1) + "."
         
     return ""
+
+
+def isPutColumnAllowed(board):
+
+    # Search in columns
+    possibleFromColumn = []
+    count_columns_from = 0
+    for column_from in board.columns:
+
+        count_columns_from += 1
+        count_columns_to = 0
+
+
+        for column_to in board.columns:
+            count_columns_to += 1
+            if(count_columns_from==count_columns_to):
+                continue
+            #for c in column_outer.cards:
+            # Only the first card
+            if column_from.cards:
+                c = column_from.cards[0]
+                if c.rank == 13 and stateful_board.columns[count_columns_from-1].isKingMovedTo:
+                    continue
+
+                if allowedMoveColumn(c, column_to):
+                    possibleFromColumn.append((c, count_columns_from, count_columns_to, board.getCardsLeftColumn(count_columns_from-1)))
+                    #stateful_board.cardsLeftColumns[count_columns_from-1] -= 1
+                    #if(c.rank == 13):
+                    #    stateful_board.columns[count_columns_to-1].isKingMovedTo = True
+                    #return "Move " + str(c) +   " from column: " + str(count_columns_from) + " to column: " + str(count_columns_to) + "."
+    
+    # Find the best move with the most hidden cards
+    if possibleFromColumn:
+        bestMoveWithMostHiddenCards = max(possibleFromColumn, key = lambda item: item[3])
+        (c, count_columns_from, count_columns_to, numberHiddenCards) = bestMoveWithMostHiddenCards
+        #stateful_board.cardsLeftColumns[count_columns_from-1] -= 1
+        #if(c.rank == 13):
+           #stateful_board.columns[count_columns_to-1].isKingMovedTo = True
+        return True
+        
+
+    
+    # Search in drawpile
+    if board.drawPile.cards:
+        drawPileCard = board.drawPile.cards[-1]
+        count_column = 0
+        for column in board.columns:
+            count_column += 1
+            if(allowedMoveColumn(drawPileCard, column)):
+                #stateful_board.cardsLeftDeckDrawPile -= 1
+                return True 
+
+
+    return False   
 
 # def putKingToEmptyColumnIfQueenAvailable(board):
 #     # Search for empty columns
