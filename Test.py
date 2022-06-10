@@ -92,7 +92,33 @@ def moveFromFoundationToColumn():
   #      print("PASSED")
 
 
+def kingMovesTwoTime():
+    stateful_board.cardsLeftColumns = [0,0,2,2,2,2,2]
+    b1 = Board(DrawPile(), None)
+    b1.mergeStatefulBoard(stateful_board)
+    b1.columns[2].cards.append(Card(2,type.H))
+    b1.columns[3].cards.append(Card(6,type.C))
+    b1.columns[4].cards.append(Card(8,type.S))
+    b1.columns[5].cards.append(Card(10,type.S))
+    b1.columns[6].cards.append(Card(12,type.S))
+    b1.drawPile.cards.append(Card(13,type.S))
+   # display(b1)
+    print(nextMove(b1))
+    display(b1)
 
-#startGameWithBasicSetup()
-#lenNoneTypeBug()
+    b2 = Board(DrawPile(), None)
+    b2.mergeStatefulBoard(stateful_board)
+    b2.columns[0].cards.append(Card(13,type.S))
+    b2.columns[2].cards.append(Card(2,type.H))
+    b2.columns[3].cards.append(Card(6,type.C))
+    b2.columns[4].cards.append(Card(8,type.S))
+    b2.columns[5].cards.append(Card(10,type.S))
+    b2.columns[6].cards.append(Card(12,type.S))
+  #  display(b2)
+    print(nextMove(b2))
+    display(b2)
+
+startGameWithBasicSetup()
+lenNoneTypeBug()
 moveFromFoundationToColumn()
+kingMovesTwoTime()

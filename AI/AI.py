@@ -108,8 +108,10 @@ def putColumn(board):
             # Only the first card
             if column_from.cards:
                 c = column_from.cards[0]
-                if c.rank == 13 and stateful_board.columns[count_columns_from-1].isKingMovedTo:
+                if c.rank == 13 and stateful_board.getCardsLeftColumn(count_columns_from-1) == 0:
                     continue
+                #if c.rank == 13 and stateful_board.columns[count_columns_from-1].isKingMovedTo:
+                #    continue
 
                 if allowedMoveColumn(c, column_to):
                     possibleFromColumn.append((c, count_columns_from, count_columns_to, board.getCardsLeftColumn(count_columns_from-1)))
@@ -217,9 +219,9 @@ def isPutColumnAllowed(board):
                 continue
             if column_from.cards:
                 c = column_from.cards[0]
-                if c.rank == 13 and stateful_board.columns[count_columns_from-1].isKingMovedTo:
+                if c.rank == 13 and stateful_board.getCardsLeftColumn(count_columns_from-1) == 0:
                     continue
-
+                
                 if allowedMoveColumn(c, column_to):
                     possibleFromColumn.append((c, count_columns_from, count_columns_to, board.getCardsLeftColumn(count_columns_from-1)))
 
