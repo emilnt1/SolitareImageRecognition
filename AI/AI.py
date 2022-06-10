@@ -34,12 +34,15 @@ def nextMove(board):
             putFoundation, 
             # putKingToEmptyColumnIfQueenAvailable,
             putColumn, 
-            makeDraw]
+            makeDraw,
+            fromFoundationToColumn]
 
     for move in moves:
         curr_result = move(board)
-        if ( len(curr_result) != 0):
+        if curr_result is not None and len(curr_result) != 0:
             return curr_result
+        #if ( len(curr_result) != 0):
+        #    return curr_result
     
 
 
@@ -145,6 +148,16 @@ def makeLastDraw(board):
 def makeDraw(board):
     if stateful_board.cardsLeftDeckDrawPile > 3:
         return "Make a draw"
+    return ""
+
+def fromFoundationToColumn(board):
+    for f_idx, foundation in enumerate(board.foundations):
+        if foundation.cards:
+            c = foundation.cards[-1]
+
+            for c_idx, column in enumerate(board.columns):
+                if allowedMoveColumn(c, column):
+                    return "Move " + str(c) +  " from foundation:" + str(f_idx+1) + " to column: " + str(c_idx+1) + "."
     return ""
 
 # def putKingToEmptyColumnIfQueenAvailable(board):

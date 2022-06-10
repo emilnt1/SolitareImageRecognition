@@ -12,6 +12,8 @@ from Model.Column import Column
 from AI.AI import *
 
 
+
+
 def startGameWithBasicSetup():
     b1 = Board(DrawPile(), None)
     b1.columns[0].cards.append(Card(2,type.D))
@@ -27,5 +29,28 @@ def startGameWithBasicSetup():
     b1.mergeStatefulBoard(stateful_board)
     display(b1)
     
+def lenNoneTypeBug():
+    stateful_board.cardsLeftDeckDrawPile = 2
+    print(nextMove(stateful_board))
+    
+
+def moveFromFoundationToColumn():
+    stateful_board.cardsLeftDeckDrawPile = 2
+    b1 = Board(DrawPile(), None)
+    b1.foundations[0].cards.append(Card(10,type.H))
+    b1.columns[0].cards.append(Card(13,type.C))
+    b1.columns[0].cards.append(Card(12,type.D))
+    b1.columns[0].cards.append(Card(11,type.C))
+    b1.columns[1].cards.append(Card(9,type.C))
+    b1.columns[2].cards.append(Card(13,type.D))
+    b1.columns[3].cards.append(Card(13,type.D))
+    b1.columns[4].cards.append(Card(13,type.D))
+    b1.columns[5].cards.append(Card(13,type.D))
+    b1.columns[6].cards.append(Card(13,type.D))
+    display(b1)
+    print(nextMove(b1))
+
 
 startGameWithBasicSetup()
+lenNoneTypeBug()
+moveFromFoundationToColumn()
