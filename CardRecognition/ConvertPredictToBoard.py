@@ -18,6 +18,7 @@ def convertPredictToBoard(det, names):
         card = Card(int(names[c][1:]), convertSuitStrToEnum(names[c][0]))
         card.x = xyxy_array[0]
         card.y = xyxy_array[1]
+        card.conf = conf
 
         cards.append(card)
         # Opdele til foundations and columner. 
