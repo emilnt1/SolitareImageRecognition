@@ -36,6 +36,12 @@ class Board:
     def moveCard(self, origin, cards, place):
         place.push(origin.pop(cards))
 
+    def updateCardsLeft(self):
+        self.cardsLeftDeckDrawPile = len(self.deck.cards) + len(self.drawPile.cards)
+        columnCards = 0
+        for column in self.columns:
+            columnCards += len(column.cards)
+        self.cardsLeftColumns = columnCards
 
     def drawCards(self):
         self.drawPile.cards.append(self.deck.cards.pop())
@@ -47,8 +53,8 @@ class Board:
         self.cardsLeftDeckDrawPile = statefulBoard.cardsLeftDeckDrawPile
         self.foundations = statefulBoard.foundations
 
-    def getCardsLeftColumn(self,c):
-        if self.cardsLeftColumns[c]>0:
+    def getCardsLeftColumn(self, c):
+        if self.cardsLeftColumns[c] > 0:
             return self.cardsLeftColumns[c]
         return 0
 

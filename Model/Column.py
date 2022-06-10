@@ -23,7 +23,7 @@ class Column(CardLogic):
         cardsToReturn = []
         boo = False
         for i in reversed(self.cards):
-            if card == i:
+            if card.rank == i.rank and card.suit == i.suit:
                 boo = True
             else:
                 cardsToReturn.append(self.cards.pop())

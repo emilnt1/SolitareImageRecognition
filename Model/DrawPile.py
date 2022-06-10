@@ -7,6 +7,13 @@ class DrawPile(CardLogic):
     def __init__(self):
         super().__init__()
         self.cards = []
+        self.draws = 0
+
+    def drawIncrement(self):
+        self.draws += 1
+
+    def drawReset(self):
+        self.draws = 0
 
     def pop(self, cards):
         newDeck = []
