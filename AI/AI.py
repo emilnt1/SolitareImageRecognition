@@ -34,10 +34,13 @@ def nextMove(board):
             putFoundation, 
             # putKingToEmptyColumnIfQueenAvailable,
             putColumn, 
-            makeDraw,
-            fromFoundationToColumn]
+            fromFoundationToColumn,
+            makeDraw]
 
     for move in moves:
+        if move.__name__ == "putFoundation" and stateful_board.isLastMoveFromFoundationToColumn:
+            stateful_board.isLastMoveFromFoundationToColumn = False
+            continue
         curr_result = move(board)
         if curr_result is not None and len(curr_result) != 0:
             return curr_result
@@ -157,6 +160,8 @@ def fromFoundationToColumn(board):
 
             for c_idx, column in enumerate(board.columns):
                 if allowedMoveColumn(c, column):
+                    stateful_board.isLastMoveFromFoundationToColumn = True
+                    stateful_board.foundations[f_idx].cards.pop()
                     return "Move " + str(c) +  " from foundation:" + str(f_idx+1) + " to column: " + str(c_idx+1) + "."
     return ""
 

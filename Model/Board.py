@@ -17,6 +17,7 @@ class Board:
         self.cardsLeftDeckDrawPile = 24
         self.isLastDrawMade = False
         self.cardsLeftColumns = [0,1,2,3,4,5,6]
+        self.isLastMoveFromFoundationToColumn = False
 
     def allocateCards(self):
         count = 1
@@ -41,6 +42,7 @@ class Board:
         self.cardsLeftColumns = statefulBoard.cardsLeftColumns
         self.cardsLeftDeckDrawPile = statefulBoard.cardsLeftDeckDrawPile
         self.foundations = statefulBoard.foundations
+        self.isLastMoveFromFoundationToColumn = statefulBoard.isLastMoveFromFoundationToColumn
 
     def getCardsLeftColumn(self,c):
         if self.cardsLeftColumns[c]>0:
