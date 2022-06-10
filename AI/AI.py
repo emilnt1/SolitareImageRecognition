@@ -191,7 +191,7 @@ def fromFoundationToColumnTwoSteps(board):
         tempBoard.foundations[f_idx].cards.pop()
         #orginalStafulBoard = copy.deepcopy(stateful_board)
         #putColumnMove = putColumn(tempBoard)
-        if isPutColumnAllowed:
+        if isPutColumnAllowed(tempBoard):
             #stateful_board = copy.deepcopy(orginalStafulBoard)
             stateful_board.isLastMoveFromFoundationToColumn = True
             stateful_board.foundations[f_idx].cards.pop()
@@ -215,8 +215,6 @@ def isPutColumnAllowed(board):
             count_columns_to += 1
             if(count_columns_from==count_columns_to):
                 continue
-            #for c in column_outer.cards:
-            # Only the first card
             if column_from.cards:
                 c = column_from.cards[0]
                 if c.rank == 13 and stateful_board.columns[count_columns_from-1].isKingMovedTo:
@@ -224,18 +222,8 @@ def isPutColumnAllowed(board):
 
                 if allowedMoveColumn(c, column_to):
                     possibleFromColumn.append((c, count_columns_from, count_columns_to, board.getCardsLeftColumn(count_columns_from-1)))
-                    #stateful_board.cardsLeftColumns[count_columns_from-1] -= 1
-                    #if(c.rank == 13):
-                    #    stateful_board.columns[count_columns_to-1].isKingMovedTo = True
-                    #return "Move " + str(c) +   " from column: " + str(count_columns_from) + " to column: " + str(count_columns_to) + "."
-    
-    # Find the best move with the most hidden cards
+
     if possibleFromColumn:
-        bestMoveWithMostHiddenCards = max(possibleFromColumn, key = lambda item: item[3])
-        (c, count_columns_from, count_columns_to, numberHiddenCards) = bestMoveWithMostHiddenCards
-        #stateful_board.cardsLeftColumns[count_columns_from-1] -= 1
-        #if(c.rank == 13):
-           #stateful_board.columns[count_columns_to-1].isKingMovedTo = True
         return True
         
 
@@ -247,7 +235,6 @@ def isPutColumnAllowed(board):
         for column in board.columns:
             count_column += 1
             if(allowedMoveColumn(drawPileCard, column)):
-                #stateful_board.cardsLeftDeckDrawPile -= 1
                 return True 
 
 
