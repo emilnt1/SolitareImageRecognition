@@ -157,7 +157,8 @@ def fromFoundationToColumn(board):
     for f_idx, foundation in enumerate(board.foundations):
         if foundation.cards:
             c = foundation.cards[-1]
-
+            if c.rank == 1:
+                continue
             for c_idx, column in enumerate(board.columns):
                 if allowedMoveColumn(c, column):
                     stateful_board.isLastMoveFromFoundationToColumn = True

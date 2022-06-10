@@ -69,6 +69,28 @@ def moveFromFoundationToColumn():
     print(nextMove(b2))
     display(stateful_board)
 
+    b3 = Board(DrawPile(), None)
+    b3.columns[0].cards.append(Card(13,type.C))
+    b3.columns[0].cards.append(Card(12,type.D))
+    b3.columns[0].cards.append(Card(11,type.C))
+    b3.columns[0].cards.append(Card(10,type.H))
+    b3.columns[0].cards.append(Card(9,type.C))
+    b3.columns[1].cards.append(Card(1,type.D))
+    b3.columns[2].cards.append(Card(13,type.D))
+    b3.columns[3].cards.append(Card(13,type.D))
+    b3.columns[4].cards.append(Card(13,type.D))
+    b3.columns[5].cards.append(Card(13,type.D))
+    b3.columns[6].cards.append(Card(13,type.D))
+    b3.mergeStatefulBoard(stateful_board)
+    display(b3)
+    print(nextMove(b3))
+    display(stateful_board)
+
+
+  #  if stateful_board.foundations[0].cards[0].rank == 9 and
+  #      Card(9,type.H) and stateful_board.foundations[1].cards[0] == Card(1,type.D):
+  #      print("PASSED")
+
 
 
 #startGameWithBasicSetup()
