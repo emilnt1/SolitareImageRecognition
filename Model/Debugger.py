@@ -2,17 +2,27 @@ from Model.Board import Board
 from Model.SuitType import SuitType as type
 from Model.Card import Card
 from Model.Column import Column
+from View.KabaleView import display
+from AI.AI import stateful_board
 
 
-def menu(board, statefulBoard):
-    while(finished == NULL):
-        option = input("Please enter one of the following commands:\ncc:  change card\ncf: correct foundation count\ndc: change deck count")
+def menu(board):
+    while(finished == "Y"):
+        
+        option = input("Please enter one of the following commands:\ncc:  change card\ncf: correct foundation count\ndc: change deck count\n Here: ")
 
         if option == "cc":
             changeCard(board)
 
         elif option == "cf":
-            correctFoundationCount(statefulBoard)
+            correctFoundationCount(stateful_board)
+
+        board.mergeStatefulBoard(stateful_board)
+
+        display(board)
+
+        finished = input("Do you want to continue Y/N: ") 
+
 
     
 
@@ -45,7 +55,7 @@ def changeCard(board):
     column = board.columns[x-1]
     card = newCard
 
-def correctFoundationCount(statefulBoard):
+def correctFoundationCount():
     newFoundation = input("Please enter the foundation you want to correct:")
     choice = input("Y for pop N for push:")
     if(choice == "N"):
@@ -73,9 +83,9 @@ def correctFoundationCount(statefulBoard):
         newRank = newCardString.index(1)
 
     if(choice == "Y"):
-        statefulBoard.foundations[newFoundation-1].cards.pop()
+        stateful_board.foundations[newFoundation-1].cards.pop()
     else:
-        statefulBoard.foundations[newFoundation-1].cards.push(newCard)
+        stateful_board.foundations[newFoundation-1].cards.push(newCard)
 
 
             
