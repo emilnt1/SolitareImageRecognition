@@ -7,6 +7,7 @@ from AI.AI import stateful_board
 
 
 def menu(board):
+    finished = "Y"
     while(finished == "Y"):
         
         option = input("Please enter one of the following commands:\ncc:  change card\ncf: correct foundation count\ndc: change deck count\n Here: ")
@@ -15,9 +16,9 @@ def menu(board):
             changeCard(board)
 
         elif option == "cf":
-            correctFoundationCount(stateful_board)
+            correctFoundationCount()
 
-        board.mergeStatefulBoard(stateful_board)
+        board.mergeStatefulBoard()
 
         display(board)
 
@@ -60,10 +61,10 @@ def correctFoundationCount():
     choice = input("Y for pop N for push:")
     if(choice == "N"):
         newCardString = input("Please enter the card you want to change it to:")
+        newSuit = newCardString.index(0)
 
 
-    newSuit = newCardString.index(0)
-    foundationNumber = newFoundation.index(0)
+    
     
     if(newSuit == "H"):
         newCard = Card(newRank, type.H)
