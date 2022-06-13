@@ -10,7 +10,7 @@ def menu(board):
     finished = "Y"
     while(finished == "Y"):
         
-        option = input("Please enter one of the following commands:\ncc:  change card\ncf: correct foundation count\ndc: change deck count\n Here: ")
+        option = input("Please enter one of the following commands:\ncc: change card\ncf: correct foundation count\ncd: change deck\nhc: change hidden column counts\nHere: ")
 
         if option == "cc":
             changeCard(board)
@@ -18,29 +18,58 @@ def menu(board):
         elif option == "cf":
             correctFoundationCount()
 
-        board.mergeStatefulBoard()
+        elif option == "cd":
+            changeDeck()
+
+        elif option == "hc":
+            changeHiddenColumnCount()
+
+        board.mergeStatefulBoard(stateful_board)
 
         display(board)
 
         finished = input("Do you want to continue Y/N: ") 
 
 
+
+
+def changeDeck():
+    deckChange = input("Enter integer to change deck count?: ")
+
+    if deckChange[0] == "-" :
+        toInt = int(deckChange[1:])
+        stateful_board.changeCardsLeftDeckDrawPile(-toInt) 
+    else: 
+        toInt = int(deckChange)
+        stateful_board.changeCardsLeftDeckDrawPile(toInt)
+
+    
     
 
+def changeHiddenColumnCount():
+    column = int(input("Which column do you want to change?: "))
+    changeHiddenColumnNmb = input("Enter integer to change column count: ")
+
+    if changeHiddenColumnNmb[0] == "-" :
+        toInt = int(changeHiddenColumnNmb[1:])
+        stateful_board.changeCardsLeftColumns(column,-toInt)
+    else: 
+        toInt = int(changeHiddenColumnNmb)
+        stateful_board.changeCardsLeftColumns(column,toInt)
 
 
 def changeCard(board):
-    position = input("Please position of the card you want to change (column, row \"xy\":")
-    newCardString = input("Please enter which card you want to change it to:")
-    newSuit = newCardString.index(0)
-    if(newCardString.index(2) != NULL):
-        newRank = newCardString.index(1,2)
-    else: 
-        newRank = newCardString.index(1)
+    position = input("Please position of the card you want to change (column, row \"xy\"): ")
+    newCardString = input("Please enter which card you want to change it to: ")
+    newSuit = newCardString[0]
+    
+    
+    newRank = int(newCardString[1:])
 
 
-    x = position.index(0)
-    y = position.index(1)
+    x = int(position[0])
+    y = int(position[1])
+
     if(newSuit == "H"):
         newCard = Card(newRank, type.H)
             
@@ -54,39 +83,40 @@ def changeCard(board):
         newCard = Card(newRank, type.D)
 
     column = board.columns[x-1]
-    card = newCard
+    column.cards[y-1] = newCard
 
 def correctFoundationCount():
+
     newFoundation = input("Please enter the foundation you want to correct:")
+    newFoundationInt = int(newFoundation)
     choice = input("Y for pop N for push:")
-    if(choice == "N"):
-        newCardString = input("Please enter the card you want to change it to:")
-        newSuit = newCardString.index(0)
-
-
-    
-    
-    if(newSuit == "H"):
-        newCard = Card(newRank, type.H)
-            
-    elif (newSuit == "C"):
-        newCard = Card(newRank, type.C)
-
-    elif (newSuit == "S"):
-        newCard = Card(newRank, type.S)
-
-    elif (newSuit == "D"):
-        newCard = Card(newRank, type.D)
-    
-    if(newCardString.index(2) != NULL):
-        newRank = newCardString.index(1,2)
-    else: 
-        newRank = newCardString.index(1)
+    newSuit= ""
+    newRank = -1
+       
 
     if(choice == "Y"):
-        stateful_board.foundations[newFoundation-1].cards.pop()
-    else:
-        stateful_board.foundations[newFoundation-1].cards.push(newCard)
+        stateful_board.foundations[newFoundationInt-1].cards.pop()
+    elif(choice == "N"):
+        
+        newCardString = input("Please enter the card you want to change it to:")
+        newSuit = newCardString[0]
+
+        newRank = newCardString[1:]
+
+        if(newSuit == "H"):
+            newCard = Card(newRank, type.H)
+                
+        elif (newSuit == "C"):
+            newCard = Card(newRank, type.C)
+
+        elif (newSuit == "S"):
+            newCard = Card(newRank, type.S)
+
+        elif (newSuit == "D"):
+            newCard = Card(newRank, type.D)
+        
+        
+        stateful_board.foundations[newFoundationInt-1].cards.append(newCard)
 
 
             
