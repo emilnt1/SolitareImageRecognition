@@ -1,0 +1,198 @@
+
+13-06-2022_14.14.09
+Move Spades 3 from column: 7 to column: 6.
+Move Spades 3 from column: 7 to column: 6.
+Move Diamonds 4 from column: 6 to column: 2.
+Move Clubs 2 from column: 5 to column: 4.
+
+
+13-06-2022_14.15.57
+Move Spades 3 from column: 7 to column: 6.
+Move Clubs 2 from column: 5 to column: 4.
+Move Diamonds 4 from column: 6 to column: 2.
+Move Diamonds 8 from column: 5 to column: 7.
+Make a draw
+Make a draw
+Make a draw
+Make a draw
+Make a draw
+Move Spades 8 from drawpile to column: 6
+Make a draw
+Move Hearts 11 from drawpile to column: 3
+Make a draw
+Make a draw
+Make a draw
+Make a draw
+Make a draw
+Make a draw
+Move Hearts 7 from drawpile to column: 6
+Move Spades 10 from drawpile to column: 3
+Make a draw
+Move Hearts 9 from column: 6 to column: 3.
+Move Diamonds 2 from column: 6 to column: 2.
+Move Clubs 5 from column: 2 to column: 6.
+Make a draw
+Make a draw
+Move Diamonds 1 from drawpile to foundation:1
+Move Hearts 1 from drawpile to foundation:2
+Move Diamonds 2 from column: 6 to foundation: 1.
+Make a draw
+Move Clubs 1 from drawpile to foundation:3
+Move Clubs 2 from column: 4 to foundation: 3.
+Move Clubs 3 from drawpile to foundation:3
+Move Diamonds 3 from column: 4 to foundation: 1.
+Move Diamonds 12 from column: 2 to column: 4.
+Move Clubs 13 from column: 4 to column: 2.
+Move Spades 1 from column: 4 to foundation: 4.
+Move Clubs 7 from column: 4 to column: 1.
+Move Spades 6 from drawpile to column: 3
+Make a draw
+Move Diamonds 13 from drawpile to column: 4
+Move Clubs 12 from column: 3 to column: 4.
+Move Hearts 6 from column: 6 to column: 1.
+Move Spades 4 from column: 3 to column: 6.
+Move Clubs 6 from column: 3 to column: 4.
+Move Diamonds 5 from column: 6 to column: 4.
+Move Clubs 9 from column: 7 to column: 6.
+Make a draw
+Make a draw
+Make a draw
+Move Hearts 2 from drawpile to foundation:2
+Make a draw
+Move Hearts 3 from drawpile to foundation:2
+Move Hearts 4 from column: 5 to foundation: 2.
+Move Spades 11 from column: 5 to column: 2.
+Move Diamonds 10 from column: 6 to column: 2.
+Make a draw
+Make a draw
+Make a draw
+Move Diamonds 9 from drawpile to column: 5
+Move Clubs 4 from drawpile to foundation:3
+Move Hearts 13 from drawpile to column: 3
+Make a draw
+Move Spades 6 from drawpile to column: 7
+Move Hearts 5 from drawpile to foundation:2
+Make a draw
+Move Spades 2 from drawpile to foundation:4
+Move Spades 3 from column: 1 to foundation: 4.
+Move Diamonds 4 from column: 1 to foundation: 1.
+Move Clubs 5 from column: 1 to foundation: 3.
+Move Hearts 6 from column: 1 to foundation: 2.
+Move Spades 4 from column: 4 to foundation: 4.
+Make a draw
+Move Spades 5 from drawpile to foundation:4
+Move Diamonds 5 from column: 4 to foundation: 1.
+Move Clubs 6 from column: 4 to foundation: 3.
+Move Clubs 7 from column: 1 to foundation: 3.
+Move Hearts 7 from column: 4 to foundation: 2.
+Move Hearts 8 from column: 1 to foundation: 2.
+Move Spades 6 from column: 7 to foundation: 4.
+Move Diamonds 7 from column: 7 to column: 4.
+Move Spades 7 from column: 7 to foundation: 4.
+Move Clubs 8 from column: 7 to foundation: 3.
+Make a draw
+
+
+13-06-2022_14.31.10
+Move Spades 3 from column: 7 to column: 6.
+Move Diamonds 4 from column: 6 to column: 2.
+Move Clubs 2 from column: 5 to column: 4.
+Move Diamonds 8 from column: 5 to column: 7.
+Make a draw
+Make a draw
+Make a draw
+Make a draw
+Make a draw
+Move Spades 8 from drawpile to column: 6
+Make a draw
+Move Hearts 11 from drawpile to column: 3
+Make a draw
+Make a draw
+Make a draw
+Make a draw
+Make a draw
+Make a draw
+Move Hearts 7 from drawpile to column: 6
+Move Spades 10 from drawpile to column: 3
+Move Hearts 9 from column: 6 to column: 3.
+Move Diamonds 2 from column: 6 to column: 2.
+Move Clubs 5 from column: 2 to column: 6.
+Make a draw
+Make a draw
+Move Diamonds 1 from drawpile to foundation:1
+Move Hearts 1 from drawpile to foundation:2
+Move Diamonds 2 from column: 6 to foundation: 1.
+Make a draw
+Move Clubs 1 from drawpile to foundation:3
+Move Clubs 2 from column: 4 to foundation: 3.
+
+
+13-06-2022_14.37.26
+Move Diamonds 1 from column: 4 to foundation: 1.
+Move Diamonds 2 from column: 4 to foundation: 1.
+
+
+13-06-2022_14.39.22
+
+
+13-06-2022_14.39.35
+Move Diamonds 1 from column: 4 to foundation: 1.
+Move Diamonds 2 from column: 4 to foundation: 1.
+Make a draw
+
+
+13-06-2022_14.40.22
+Move Diamonds 1 from column: 4 to foundation: 1.
+Move Diamonds 2 from column: 4 to foundation: 1.
+Move Diamonds 3 from column: 4 to foundation: 1.
+
+
+13-06-2022_14.41.15
+Move Diamonds 1 from column: 4 to foundation: 1.
+Move Diamonds 2 from column: 4 to foundation: 1.
+Move Diamonds 3 from column: 4 to foundation: 1.
+Move Diamonds 12 from column: 2 to column: 4.
+
+
+13-06-2022_14.43.01
+
+
+13-06-2022_14.44.37
+Move Spades 3 from column: 7 to column: 6.
+Move Clubs 2 from column: 5 to column: 4.
+Move Diamonds 8 from column: 5 to column: 7.
+Move Diamonds 4 from column: 6 to column: 2.
+Make a draw
+Make a draw
+Make a draw
+Make a draw
+Make a draw
+Move Spades 8 from drawpile to column: 6
+Make a draw
+Move Hearts 11 from drawpile to column: 3
+Make a draw
+Make a draw
+Make a draw
+Make a draw
+Make a draw
+Make a draw
+Move Hearts 7 from drawpile to column: 6
+Move Spades 10 from drawpile to column: 3
+Move Hearts 9 from column: 6 to column: 3.
+Move Diamonds 2 from column: 6 to column: 2.
+Move Clubs 5 from column: 2 to column: 6.
+Make a draw
+Make a draw
+Move Diamonds 1 from drawpile to foundation:1
+Move Hearts 1 from drawpile to foundation:2
+Make a draw
+Move Clubs 1 from drawpile to foundation:3
+Move Clubs 2 from column: 4 to foundation: 3.
+Move Clubs 3 from drawpile to foundation:3
+Move Diamonds 2 from column: 6 to foundation: 1.
+Move Diamonds 3 from column: 4 to foundation: 1.
+Move Diamonds 12 from column: 2 to column: 4.
+Move Clubs 13 from column: 4 to column: 2.
+Move Spades 1 from column: 4 to foundation: 4.
+Move Hearts 6 from column: 6 to column: 4.
+Move Clubs 7 from column: 4 to column: 1.

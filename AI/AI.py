@@ -80,7 +80,8 @@ def putFoundation(board):
                     #return "Move " +  str(c.cards[-1].rank) + str(c.cards[-1].suit) +  "  from column: " + str(count_columns) + " to foundation:" + str(count_foundation) + "."
                     curr_card =  c.cards[-1]
                     board.moveCard(c, c.cards[-1], foundation)
-                    stateful_board.cardsLeftColumns[count_columns-1] -= 1
+                    if (len(c.cards) < 1):
+                        stateful_board.cardsLeftColumns[count_columns-1] -= 1
                     #stateful_board.foundations = board.foundations
                     #stateful_board.foundations[count_foundation-1].append
                     #return "Move " + str(c.cards[-1]) +   " from column: " + str(count_columns) + " to foundation: " + str(count_foundation) + "." 
