@@ -85,9 +85,9 @@ def removeTwoGuesses(cards):
             if(abs((cards[i].x - cards[j].x)) < 10) and (abs(cards[i].y - cards[j].y) < 10):
                 if cards[i].conf < cards[j].conf:
                     cardsToRemove.append(i)
-                    print("Double guess, removing:" + str(cards[i]) + " instead of " + cards[j])
+                    print("Double guess, removing:" + str(cards[i]) + " instead of " + str(cards[j]))
                 else:
                     cardsToRemove.append(j)
-                    print("Double guess, removing:" + str(cards[j]) + " instead of " + cards[i])
+                    print("Double guess, removing:" + str(cards[j]) + " instead of " + str(cards[i]))
     for index in sorted(cardsToRemove, reverse=True):
         del cards[index]

@@ -11,6 +11,7 @@ from CardRecognition.yolov5.detect import run
 from CardRecognition.ConvertPredictToBoard import convertPredictToBoard
 from  View.KabaleView import display 
 from AI.AI import *
+import keyboard #pip install keyboard
 
 card1 = "Queen of Spades"
 columnFrom = 4
@@ -174,6 +175,7 @@ def main():
         dim = (width, height)
         return cv.resize(frame, dim, interpolation =cv.INTER_AREA)
 
+
     while True:
         event, values = window.read(timeout=20)  
         
@@ -199,8 +201,7 @@ def main():
 
 
 
-        window["-IMAGE-"].update(data=imgbytes)
-
+        window["-IMAGE-"].update(data=imgbytes)      
 
 
         if event == "Exit" or event == sg.WIN_CLOSED:
