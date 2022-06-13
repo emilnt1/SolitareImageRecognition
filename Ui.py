@@ -135,7 +135,7 @@ def main():
         [sg.Image(filename="", key="-IMAGE-")],
         [sg.Text("Instructions:", justification="center", font="Roboto 15 bold",pad=((0,0),(10,0)))],
         [sg.Text("Make a draw", justification="center", font="Roboto 15", key="_INSTRUCTION_", pad=((0,0),(10,20)))],
-        [sg.Button('NEXT STEP', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold", auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()), border_width=0)]
+        [sg.Button('NEXT STEP', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold", auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()), border_width=0, bind_return_key=True)]
         
     ]
 
