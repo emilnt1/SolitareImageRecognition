@@ -12,6 +12,10 @@ from CardRecognition.ConvertPredictToBoard import convertPredictToBoard
 from  View.KabaleView import display 
 from AI.AI import *
 import keyboard #pip install keyboard
+from gtts import gTTS #pip install gTTS
+import os
+from playsound import playsound #pip install playsound==1.2.2
+import threading
 
 card1 = "Queen of Spades"
 columnFrom = 4
@@ -175,6 +179,11 @@ def main():
         dim = (width, height)
         return cv.resize(frame, dim, interpolation =cv.INTER_AREA)
 
+    # Make space between runs in the the instructions file
+    f = open("Instructions.txt", "a")
+    f.write("\n\n" + str(datetime.now().strftime("%d-%m-%Y_%H.%M.%S")) + "\n")
+    f.close 
+
 
     while True:
         event, values = window.read(timeout=20)  
@@ -223,7 +232,15 @@ def main():
             instruction = nextMove(currBoard)
             print(instruction)
             window["_INSTRUCTION_"].update(instruction)
-
+            f = open("Instructions.txt", "a")
+            f.write(instruction + "\n")
+            f.close
+            #ttsInstruction = gTTS(text=instruction, lang='en', slow=False)
+            #ttsInstruction.save("tts/instruction.mp3")
+            #playsound('tts/instruction.mp3')
+            #ttsPlay = threading.Thread(target=playsound, args=('tts/instruction.mp3',), daemon=True)
+            #ttsPlay.start()
+            #ttsPlay.join()
             # Made for testing the instructions message types
             if (globalmovetype.value < 3 ):
                 globalmovetype = Instructions(globalmovetype.value + 1)

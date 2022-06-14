@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Instructions file
+Instructions.txt
+
 # C extensions
 *.so
 *.png
