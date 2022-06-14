@@ -60,7 +60,7 @@ def analyse_moves(node):
     moves.extend(columnToColumnMove(node.board))
     moves.extend(drawpileToColumnMove(node.board))
     moves.extend(drawCardsFromBoard(node))
-    moves.extend(foundationToColumn(node.board))
+    #moves.extend(foundationToColumn(node.board))
     return reversed(moves)
 
 
@@ -152,7 +152,7 @@ def foundationToColumn(board):
     for fRange in range(len(board.foundations)):
         if len(board.foundations[fRange].cards) != 0:
             card = board.foundations[fRange].cards[-1]
-            for cRange in range(board.columns):
+            for cRange in range(len(board.columns)):
                 if allowedMoveColumn(card, board.columns[cRange]):
                     boardcopy = copy.deepcopy(board)
                     boardcopy.moveCard(boardcopy.foundations[fRange], card, boardcopy.columns[cRange])
