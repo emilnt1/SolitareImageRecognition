@@ -12,7 +12,8 @@ from Model.Column import Column
 import copy
 
 ## Statefull board only with foundations
-stateful_board = Board(DrawPile(), None)
+stateful_board = Board(DrawPile(), Deck())
+
 #global cardsLeftDeckDrawPile,isLastDrawMade
 #cardsLeftDeckDrawPile = 24
 #isLastDrawMade = False
@@ -30,6 +31,10 @@ def nextMove(board):
     #card = Card(1,type.H)
     #stateful_board.foundations[0].cards.append(card)
     ###
+
+    # if stateful_board.lastMoveMakeDraw:
+    #   updateDeckDrawPile(board)    
+    #   last element in drawpile er lige med board.drawpile.cards[0]
 
     moves = [makeLastDraw, 
             putFoundation, 
@@ -66,6 +71,7 @@ def putFoundation(board):
             if(allowedMoveFoundation(drawPileCard, foundation)):
                 foundation.cards.append(drawPileCard)
                 stateful_board.cardsLeftDeckDrawPile -= 1
+                stateful_board.drawPile.cards.pop()
                 return "Move " + str(drawPileCard) + " from drawpile " + "to foundation:" + str(count_foundation) 
 
     # Search in columns
@@ -139,6 +145,7 @@ def putColumn(board):
             count_column += 1
             if(allowedMoveColumn(drawPileCard, column)):
                 stateful_board.cardsLeftDeckDrawPile -= 1
+                stateful_board.drawPile.cards.pop()
                 return "Move " + str(drawPileCard) +  " from drawpile to column: " + str(count_column) 
 
 
@@ -152,7 +159,9 @@ def makeLastDraw(board):
     return ""
 
 def makeDraw(board):
+    # Move 3 cards from deck to drawpile. if deck is less then 3, then move another way
     if stateful_board.cardsLeftDeckDrawPile > 3:
+        stateful_board.drawCards()
         return "Make a draw"
     return ""
 

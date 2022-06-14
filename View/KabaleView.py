@@ -3,7 +3,8 @@ def display(Board):
     for i in Board.columns:
         if len(i.cards) > cardAmount:
             cardAmount = len(i.cards)
-
+    printDeck(Board)
+    printDrawPile(Board)
     printTopRow(Board)
     print("")
     print("c1  " + "c2  " + "c3  " + "c4  " + "c5  " + "c6  " + "c7  ")
@@ -54,3 +55,19 @@ def lastElement(cardObj):
         return "[*]"
     else:
         return cardPrint(cardObj.cards[-1])
+
+def printDeck(Board):
+    print("Current deck:")
+    deck = "["
+    for c in Board.deck.cards:
+        deck += c.suit.name + str(c.rank) + ", "
+    deck += "]"
+    print(deck)
+
+def printDrawPile(Board):
+    print("Current drawpile:")
+    drawpile = "["
+    for c in Board.drawPile.cards:
+        drawpile += c.suit.name + str(c.rank) + ", "
+    drawpile += "]"
+    print(drawpile)

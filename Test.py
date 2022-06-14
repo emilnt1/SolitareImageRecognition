@@ -119,6 +119,6 @@ def kingMovesTwoTime():
     display(b2)
 
 startGameWithBasicSetup()
-lenNoneTypeBug()
-moveFromFoundationToColumn()
-kingMovesTwoTime()
+#lenNoneTypeBug()
+#moveFromFoundationToColumn()
+#kingMovesTwoTime()
