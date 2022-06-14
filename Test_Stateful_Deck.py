@@ -21,21 +21,21 @@ def startGameWithBasicSetup():
     # b1.columns[5].cards.append(Card(7,type.D))
     # b1.columns[6].cards.append(Card(2,type.D))
    # b1.drawPile.cards.append(Card(4,type.S))
-    stateful_board.deck.cards = []
-    stateful_board.deck.cards.append(Card(11, type.C))
-    stateful_board.deck.cards.append(Card(13, type.H))
-    stateful_board.deck.cards.append(Card(13, type.D))
-    stateful_board.deck.cards.append(Card(11, type.D))
-    stateful_board.drawPile.cards = []
+    stateful_board[-1].deck.cards = []
+    stateful_board[-1].deck.cards.append(Card(11, type.C))
+    stateful_board[-1].deck.cards.append(Card(13, type.H))
+    stateful_board[-1].deck.cards.append(Card(13, type.D))
+    stateful_board[-1].deck.cards.append(Card(11, type.D))
+    stateful_board[-1].drawPile.cards = []
    # nextMove(b1)
     #b1.mergeStatefulBoard(stateful_board)
-    display(stateful_board)
-    print(nextMove(stateful_board))
+    display(stateful_board[-1])
+    print(nextMove(stateful_board[-1]))
     #b1.mergeStatefulBoard(stateful_board)
-    display(stateful_board)
-    print(nextMove(stateful_board))
+    display(stateful_board[-1])
+    print(nextMove(stateful_board[-1]))
     #b1.mergeStatefulBoard(stateful_board)
-    display(stateful_board)
+    display(stateful_board[-1])
 
 def testMergeBoards():
     b1 = Board(DrawPile(), Deck())
@@ -47,22 +47,22 @@ def testMergeBoards():
     b1.columns[5].cards.append(Card(7,type.D))
     b1.columns[6].cards.append(Card(2,type.D))
     b1.drawPile.cards.append(Card(13,type.D))
-    b1.mergeStatefulBoard(stateful_board)
+    b1.mergeStatefulBoard(stateful_board[-1])
     display(b1)
     print(nextMove(b1))
     b1.drawPile.cards = []
     b1.drawPile.cards.append(Card(13,type.H))
-    b1.mergeStatefulBoard(stateful_board)
+    b1.mergeStatefulBoard(stateful_board[-1])
     display(b1)
     print(nextMove(b1))
     b1.drawPile.cards = []
     b1.drawPile.cards.append(Card(1,type.C))
-    b1.mergeStatefulBoard(stateful_board)
+    b1.mergeStatefulBoard(stateful_board[-1])
     display(b1)
     print(nextMove(b1))
     b1.drawPile.cards = []
     b1.drawPile.cards.append(Card(11,type.D))
-    b1.mergeStatefulBoard(stateful_board)
+    b1.mergeStatefulBoard(stateful_board[-1])
     display(b1)
 
 

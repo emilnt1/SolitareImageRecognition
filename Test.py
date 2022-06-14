@@ -26,18 +26,18 @@ def startGameWithBasicSetup():
     b1.drawPile.cards.append(Card(4,type.S))
     display(b1)
     print(nextMove(b1))
-    b1.mergeStatefulBoard(stateful_board)
+    b1.mergeStatefulBoard(stateful_board[-1])
     display(b1)
     
 def lenNoneTypeBug():
-    stateful_board.cardsLeftDeckDrawPile = 2
-    print(nextMove(stateful_board))
+    stateful_board[-1].cardsLeftDeckDrawPile = 2
+    print(nextMove(stateful_board[-1]))
     
 
 def moveFromFoundationToColumn():
-    stateful_board.cardsLeftDeckDrawPile = 2
-    stateful_board.foundations[0].cards.append(Card(9,type.H))
-    stateful_board.foundations[0].cards.append(Card(10,type.H))
+    stateful_board[-1].cardsLeftDeckDrawPile = 2
+    stateful_board[-1].foundations[0].cards.append(Card(9,type.H))
+    stateful_board[-1].foundations[0].cards.append(Card(10,type.H))
     b1 = Board(DrawPile(), None)
     b1.columns[0].cards.append(Card(13,type.C))
     b1.columns[0].cards.append(Card(12,type.D))
@@ -48,10 +48,10 @@ def moveFromFoundationToColumn():
     b1.columns[4].cards.append(Card(13,type.D))
     b1.columns[5].cards.append(Card(13,type.D))
     b1.columns[6].cards.append(Card(13,type.D))
-    b1.mergeStatefulBoard(stateful_board)
+    b1.mergeStatefulBoard(stateful_board[-1])
     display(b1)
     print(nextMove(b1))
-    display(stateful_board)
+    display(stateful_board[-1])
 
     b2 = Board(DrawPile(), None)
     b2.columns[0].cards.append(Card(13,type.C))
@@ -64,10 +64,10 @@ def moveFromFoundationToColumn():
     b2.columns[4].cards.append(Card(13,type.D))
     b2.columns[5].cards.append(Card(13,type.D))
     b2.columns[6].cards.append(Card(13,type.D))
-    b2.mergeStatefulBoard(stateful_board)
+    b2.mergeStatefulBoard(stateful_board[-1])
     display(b2)
     print(nextMove(b2))
-    display(stateful_board)
+    display(stateful_board[-1])
 
     b3 = Board(DrawPile(), None)
     b3.columns[0].cards.append(Card(13,type.C))
@@ -81,10 +81,10 @@ def moveFromFoundationToColumn():
     b3.columns[4].cards.append(Card(13,type.D))
     b3.columns[5].cards.append(Card(13,type.D))
     b3.columns[6].cards.append(Card(13,type.D))
-    b3.mergeStatefulBoard(stateful_board)
+    b3.mergeStatefulBoard(stateful_board[-1])
     display(b3)
     print(nextMove(b3))
-    display(stateful_board)
+    display(stateful_board[-1])
 
 
   #  if stateful_board.foundations[0].cards[0].rank == 9 and
@@ -93,9 +93,9 @@ def moveFromFoundationToColumn():
 
 
 def kingMovesTwoTime():
-    stateful_board.cardsLeftColumns = [0,0,2,2,2,2,2]
+    stateful_board[-1].cardsLeftColumns = [0,0,2,2,2,2,2]
     b1 = Board(DrawPile(), None)
-    b1.mergeStatefulBoard(stateful_board)
+    b1.mergeStatefulBoard(stateful_board[-1])
     b1.columns[2].cards.append(Card(2,type.H))
     b1.columns[3].cards.append(Card(6,type.C))
     b1.columns[4].cards.append(Card(8,type.S))
@@ -107,7 +107,7 @@ def kingMovesTwoTime():
     display(b1)
 
     b2 = Board(DrawPile(), None)
-    b2.mergeStatefulBoard(stateful_board)
+    b2.mergeStatefulBoard(stateful_board[-1])
     b2.columns[0].cards.append(Card(13,type.S))
     b2.columns[2].cards.append(Card(2,type.H))
     b2.columns[3].cards.append(Card(6,type.C))
