@@ -1,10 +1,7 @@
 class Node():
 
-    def __init__(self, points, board, command):
-        self.points = points
+    def __init__(self, board):
         self.board = board
-        self.commands = [command]
-        self.edgeNotes = []
-
-    def getPoints(self):
-        return self.points
+        self.edgeNodes = []
+        self.commands = []
+        self.drawNum = 0

@@ -5,7 +5,7 @@ from View.KabaleView import display
 from Model.Board import Board
 from Model.SuitType import concludeFromString
 from Model.SuitType import SuitType
-
+from AI.AI import stateful_board
 
 def rowInterpreter(string, board):
     string = str(string)
@@ -63,7 +63,7 @@ def playPhase(board):
             drawCard(board)
         else:
             errorInput(board)
-        gameOver = gameEnd(board)
+        gameOver = gameWon(board)
         display(board)
 
 

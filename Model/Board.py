@@ -44,9 +44,12 @@ class Board:
         self.cardsLeftColumns = columnCards
 
     def drawCards(self):
-        self.drawPile.cards.append(self.deck.cards.pop())
-        self.drawPile.cards.append(self.deck.cards.pop())
-        self.drawPile.cards.append(self.deck.cards.pop())
+        if len(self.deck.cards) != 0:
+            self.drawPile.cards.append(self.deck.cards.pop())
+        if len(self.deck.cards) != 0:
+            self.drawPile.cards.append(self.deck.cards.pop())
+        if len(self.deck.cards) != 0:
+            self.drawPile.cards.append(self.deck.cards.pop())
 
     def mergeStatefulBoard(self, statefulBoard):
         self.cardsLeftColumns = statefulBoard.cardsLeftColumns
