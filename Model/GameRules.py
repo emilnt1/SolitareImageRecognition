@@ -63,7 +63,7 @@ def playPhase(board):
             drawCard(board)
         else:
             errorInput(board)
-        gameOver = gameEnd(board)
+        gameOver = gameWon(board)
         display(board)
 
 
