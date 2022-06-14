@@ -1,4 +1,7 @@
+from asyncio.windows_events import NULL
+from cgi import test
 from cgitb import text
+from sqlite3 import Row
 from wsgiref.handlers import format_date_time
 from CardSelectionWindow import Instructions
 from tokenize import String
@@ -114,34 +117,50 @@ def getCard(frame):
     cv.waitKey(1)
 
 
-
-
-
 def main():
     sg.theme("LightGreen")
 
     col1 = [[sg.Text("Board: ", justification="center", font="Roboto 15 bold", pad=((0, 0), (10, 0)))],
             [sg.Text("Board is empty", justification="left", font="TkFixedFont", key="_BOARDTEXT_",
-                     pad=((0, 0), (10, 20)))]]
+                     pad=((0, 0), (10, 20)), size=(50,10))],
+            [sg.Text("------------------------------------", justification="center", font="TkFixedFont")]]
+    for y in range(1,14):
+        col1 += [[sg.Input(default_text = str(x) + "," + str(y), size=(4,4)) for x in range(1,8)]]
+    #     [Sg.Input(do_not_clear=True, size=(20, 0.7), enable_events=True, key=f'G_INPUT0{j}')] +
+    #     [Sg.Input(do_not_clear=True, size=(14, 0.7), enable_events=True, key=f'INPUT{i}{j}') for i in range(9)]
 
-    col2 = [[sg.Image(filename="", key="-IMAGE-")],
+    # for j in range(3):
+    #     layout += [
+    #     [Sg.Checkbox("Some text", pad=(3, 20))],
+    #     [Sg.Input(do_not_clear=True, size=(20, 0.7), enable_events=True, key=f'G_INPUT0{j}')] +
+    #     [Sg.Input(do_not_clear=True, size=(14, 0.7), enable_events=True, key=f'INPUT{i}{j}') for i in range(9)],
+    #     [Sg.Listbox(list_1, size=(20, 0.7), enable_events=True, key=f'G_LIST0{j}')] +
+    #     [Sg.Listbox(list_1, size=(14, 0.7), enable_events=True, key=f'LIST{i}{j}') for i in range(9)],
+    #     [Sg.Text(' G: ', size=(20, 0.7), key=f'G_TEXT{j}')] +
+    #     [Sg.Text(f' T{i}: ', size=(14, 0.7), key=f'TEXT{i}{j}') for i in range(9)]
+    # ]
+    
+    col2 = [[sg.Image("", background_color="#404040", size=(2,640))]]
+
+    col3 = [[sg.Image(filename="", key="-IMAGE-")],
         [sg.Text("Instructions:", justification="center", font="Roboto 15 bold",pad=((0,0),(10,0)))],
         [sg.Text("Make a draw", justification="center", font="Roboto 15", key="_INSTRUCTION_", pad=((0,0),(10,20)))],
         [
             sg.Button('NEXT STEP', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold", 
             auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()), 
-            border_width=0, bind_return_key=True),
-            
+            border_width=0, bind_return_key=True, focus=False),
+
             sg.Button('UNDO', pad=((0, 0), (10, 20)), image_filename=("BlueButton.png"), font="Raleway 15 bold",
             auto_size_button=True, button_color=(sg.theme_background_color(), sg.theme_background_color()),
-            border_width=0, bind_return_key=True)
+            border_width=0, bind_return_key=True, focus=False)
         ]]
 
 
 
     # Define the window layout
     layout = [[sg.Column(col1, element_justification='c'),
-               sg.Column(col2, element_justification='c')]]
+                sg.Column(col2, element_justification='c', background_color='#404040', size=(3,640)),
+                sg.Column(col3, element_justification='c')]]
 
 
 
