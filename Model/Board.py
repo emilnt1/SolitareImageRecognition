@@ -21,8 +21,8 @@ class Board:
         self.cardsLeftColumns = [0,1,2,3,4,5,6]
         self.isLastMoveFromFoundationToColumn = False
 
-        #for x in range(21):
-        for x in range(1):
+        for x in range(21):
+        # for x in range(1):
            deck.cards.append(Card(-1, type.H))
         for y in range(3):
            drawpile.cards.append(Card(-1, type.H))
