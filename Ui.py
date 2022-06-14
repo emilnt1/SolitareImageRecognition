@@ -123,22 +123,22 @@ def main():
     col1 = [[sg.Text("Board: ", justification="center", font="Roboto 15 bold", pad=((0, 0), (10, 0)))],
             [sg.Text("Board is empty", justification="left", font="TkFixedFont", key="_BOARDTEXT_",
                      pad=((0, 0), (10, 20)), size=(50,10))],
+            [sg.Input("H13", size=(4,4), justification="center", key="_TOTAL_"), 
+             sg.Input("H13", size=(4,4), justification="center", key="_DRAWPILE_", pad=((5,45),(0,0))), 
+             sg.Input("H13", size=(4,4), justification="center", key="_F1_"), 
+             sg.Input("H13", size=(4,4), justification="center", key="_F2_"),
+             sg.Input("H13", size=(4,4), justification="center", key="_F3_"),
+             sg.Input("H13", size=(4,4), justification="center", key="_F4_")],
+            [sg.Text("------------------------------------", justification="center", font="TkFixedFont")],
+            [sg.Text(f'C{i}', justification="center", font="TkFixedFont", pad=((11,11), (0,0))) for i in range(1,8)],
+            [sg.Input("H13", size=(4,4), justification="center", key=f'_C{i}_') for i in range(1,8)],
             [sg.Text("------------------------------------", justification="center", font="TkFixedFont")]]
     for y in range(1,14):
-        col1 += [[sg.Input(default_text = str(x) + "," + str(y), size=(4,4)) for x in range(1,8)]]
-    #     [Sg.Input(do_not_clear=True, size=(20, 0.7), enable_events=True, key=f'G_INPUT0{j}')] +
-    #     [Sg.Input(do_not_clear=True, size=(14, 0.7), enable_events=True, key=f'INPUT{i}{j}') for i in range(9)]
-
-    # for j in range(3):
-    #     layout += [
-    #     [Sg.Checkbox("Some text", pad=(3, 20))],
-    #     [Sg.Input(do_not_clear=True, size=(20, 0.7), enable_events=True, key=f'G_INPUT0{j}')] +
-    #     [Sg.Input(do_not_clear=True, size=(14, 0.7), enable_events=True, key=f'INPUT{i}{j}') for i in range(9)],
-    #     [Sg.Listbox(list_1, size=(20, 0.7), enable_events=True, key=f'G_LIST0{j}')] +
-    #     [Sg.Listbox(list_1, size=(14, 0.7), enable_events=True, key=f'LIST{i}{j}') for i in range(9)],
-    #     [Sg.Text(' G: ', size=(20, 0.7), key=f'G_TEXT{j}')] +
-    #     [Sg.Text(f' T{i}: ', size=(14, 0.7), key=f'TEXT{i}{j}') for i in range(9)]
-    # ]
+        col1 += [[sg.Input(default_text = str(x) + "," + str(y), size=(4,4), justification="center", key=f'_CARD{x}{y}_') for x in range(1,8)]]
+    col1 += [[sg.Button('MAKE EDIT', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold", 
+            auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()), 
+            border_width=0, focus=False)]]
+    
     
     col2 = [[sg.Image("", background_color="#404040", size=(2,640))]]
 
@@ -152,7 +152,7 @@ def main():
 
             sg.Button('UNDO', pad=((0, 0), (10, 20)), image_filename=("BlueButton.png"), font="Raleway 15 bold",
             auto_size_button=True, button_color=(sg.theme_background_color(), sg.theme_background_color()),
-            border_width=0, bind_return_key=True, focus=False)
+            border_width=0, focus=False)
         ]]
 
 
