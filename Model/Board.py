@@ -19,6 +19,12 @@ class Board:
         self.cardsLeftColumns = [0,1,2,3,4,5,6]
         self.isLastMoveFromFoundationToColumn = False
 
+    def changeCardsLeftDeckDrawPile(self, integer):
+        self.cardsLeftDeckDrawPile += integer
+
+    def changeCardsLeftColumns(self, columnNmb, integer):
+        self.cardsLeftColumns[columnNmb-1] += integer
+
     def allocateCards(self):
         count = 1
         for i in self.columns:
@@ -28,6 +34,7 @@ class Board:
 
             i.cards.extend(insertionArray)
             count = count + 1
+    
 
     def moveCard(self, origin, cards, place):
         place.push(origin.pop(cards))
