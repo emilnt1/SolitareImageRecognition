@@ -155,6 +155,7 @@ def putColumn(board):
 def makeLastDraw(board):
     if stateful_board.cardsLeftDeckDrawPile == 3 and not stateful_board.isLastDrawMade:
         stateful_board.isLastDrawMade = True
+        stateful_board.drawCards()
         return "Make a draw"
     return ""
 
