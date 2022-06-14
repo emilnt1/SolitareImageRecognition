@@ -21,18 +21,18 @@ def startGameWithBasicSetup():
     b1.columns[5].cards.append(Card(2,type.S))
     b1.columns[6].cards.append(Card(3,type.S))
     b1.drawPile.cards.append(Card(4,type.S))
-    b1.mergeStatefulBoard(stateful_board)
+    b1.mergeStatefulBoard(stateful_board[-1])
 
     print("################ Initial Prev stateful board ################")
     display(prev_stateful_boards[-1])
     print("################ Initial  Curr stateful board ################")
-    display(stateful_board) # Skulle være efter move, så D1 i foundations 
+    display(stateful_board[-1]) # Skulle være efter move, så D1 i foundations 
 
     print(nextMove(b1))
     print("################ After 1. move Prev stateful board ################")
     display(prev_stateful_boards[-1])
     print("################ After 1. move  Curr stateful board ################")
-    display(stateful_board) # Skulle være efter move, så D1 i foundations 
+    display(stateful_board[-1]) # Skulle være efter move, så D1 i foundations 
 
 
     b2 = Board(DrawPile(), Deck())
@@ -43,12 +43,12 @@ def startGameWithBasicSetup():
     b2.columns[5].cards.append(Card(2,type.S))
     b2.columns[6].cards.append(Card(3,type.S))
     b2.drawPile.cards.append(Card(4,type.S))
-    b2.mergeStatefulBoard(stateful_board)
+    b2.mergeStatefulBoard(stateful_board[-1])
     print(nextMove(b2))
     print("################ After 2. move Prev stateful board ################")
     display(prev_stateful_boards[-1])
     print("################ After 2. move Curr stateful board ################")
-    display(stateful_board)
+    display(stateful_board[-1])
     
 
 def testDrawPile():
@@ -61,18 +61,18 @@ def testDrawPile():
     b1.columns[5].cards.append(Card(8,type.S))
     b1.columns[6].cards.append(Card(8,type.S))
     b1.drawPile.cards.append(Card(1,type.S))
-    b1.mergeStatefulBoard(stateful_board)
+    b1.mergeStatefulBoard(stateful_board[-1])
 
     print("################ Initial Prev stateful board ################")
     display(prev_stateful_boards[-1])
     print("################ Initial  Curr stateful board ################")
-    display(stateful_board) # Skulle være efter move, så D1 i foundations 
+    display(stateful_board[-1]) # Skulle være efter move, så D1 i foundations 
 
     print(nextMove(b1))
     print("################ After 1. move Prev stateful board ################")
     display(prev_stateful_boards[-1])
     print("################ After 1. move  Curr stateful board ################")
-    display(stateful_board) # Skulle være efter move, så D1 i foundations 
+    display(stateful_board[-1]) # Skulle være efter move, så D1 i foundations 
 
 
     b2 = Board(DrawPile(), Deck())
@@ -83,12 +83,12 @@ def testDrawPile():
     b2.columns[5].cards.append(Card(8,type.S))
     b2.columns[6].cards.append(Card(8,type.S))
     b2.drawPile.cards.append(Card(2,type.S))
-    b2.mergeStatefulBoard(stateful_board)
+    b2.mergeStatefulBoard(stateful_board[-1])
     print(nextMove(b2))
     print("################ After 2. move Prev stateful board ################")
     display(prev_stateful_boards[-1])
     print("################ After 2. move Curr stateful board ################")
-    display(stateful_board)
+    display(stateful_board[-1])
 
 #startGameWithBasicSetup()
 testDrawPile()

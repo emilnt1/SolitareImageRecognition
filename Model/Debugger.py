@@ -3,7 +3,7 @@ from Model.SuitType import SuitType as type
 from Model.Card import Card
 from Model.Column import Column
 from View.KabaleView import display
-from AI.AI import stateful_board
+from AI.AI import stateful_board[-1]
 
 
 def menu(board):
@@ -24,7 +24,7 @@ def menu(board):
         elif option == "hc":
             changeHiddenColumnCount()
 
-        board.mergeStatefulBoard(stateful_board)
+        board.mergeStatefulBoard(stateful_board[-1])
 
         display(board)
 
@@ -38,10 +38,10 @@ def changeDeck():
 
     if deckChange[0] == "-" :
         toInt = int(deckChange[1:])
-        stateful_board.changeCardsLeftDeckDrawPile(-toInt) 
+        stateful_board[-1].changeCardsLeftDeckDrawPile(-toInt) 
     else: 
         toInt = int(deckChange)
-        stateful_board.changeCardsLeftDeckDrawPile(toInt)
+        stateful_board[-1].changeCardsLeftDeckDrawPile(toInt)
 
     
     
@@ -52,10 +52,10 @@ def changeHiddenColumnCount():
 
     if changeHiddenColumnNmb[0] == "-" :
         toInt = int(changeHiddenColumnNmb[1:])
-        stateful_board.changeCardsLeftColumns(column,-toInt)
+        stateful_board[-1].changeCardsLeftColumns(column,-toInt)
     else: 
         toInt = int(changeHiddenColumnNmb)
-        stateful_board.changeCardsLeftColumns(column,toInt)
+        stateful_board[-1].changeCardsLeftColumns(column,toInt)
 
 
 def changeCard(board):
@@ -95,7 +95,7 @@ def correctFoundationCount():
        
 
     if(choice == "Y"):
-        stateful_board.foundations[newFoundationInt-1].cards.pop()
+        stateful_board[-1].foundations[newFoundationInt-1].cards.pop()
     elif(choice == "N"):
         
         newCardString = input("Please enter the card you want to change it to:")
@@ -116,7 +116,7 @@ def correctFoundationCount():
             newCard = Card(newRank, type.D)
         
         
-        stateful_board.foundations[newFoundationInt-1].cards.append(newCard)
+        stateful_board[-1].foundations[newFoundationInt-1].cards.append(newCard)
 
 
             

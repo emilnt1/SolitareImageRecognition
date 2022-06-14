@@ -26,11 +26,11 @@ def testBasicBoard():
     b1.columns[6].cards.append(Card(10,type.S))
     b1.drawPile.cards.append(Card(11,type.S))
 
-    stateful_board.foundations[0].cards.append(Card(1,type.H))
-    stateful_board.foundations[1].cards.append(Card(1,type.C))
-    stateful_board.foundations[2].cards.append(Card(1,type.D))
-    stateful_board.foundations[3].cards.append(Card(1,type.S))
-    b1.mergeStatefulBoard(stateful_board)
+    stateful_board[-1].foundations[0].cards.append(Card(1,type.H))
+    stateful_board[-1].foundations[1].cards.append(Card(1,type.C))
+    stateful_board[-1].foundations[2].cards.append(Card(1,type.D))
+    stateful_board[-1].foundations[3].cards.append(Card(1,type.S))
+    b1.mergeStatefulBoard(stateful_board[-1])
     display(b1)
 
     menu(b1)
