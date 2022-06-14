@@ -16,6 +16,6 @@ board = Board(DrawPile(), cardFactory.cards)
 board.allocateCards()
 display(board)
 commands = starter(board)
-for command in commands:
-    print(str(command))
+for command in reversed(commands):
+    print(command + "\n")
 
