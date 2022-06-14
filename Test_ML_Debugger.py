@@ -16,7 +16,7 @@ from Model.Debugger import *
 
 
 def testBasicBoard():
-    b1 = Board(DrawPile(), None)
+    b1 = Board(DrawPile(), Deck())
     b1.columns[0].cards.append(Card(4,type.D))
     b1.columns[1].cards.append(Card(5,type.D))
     b1.columns[2].cards.append(Card(6,type.H))

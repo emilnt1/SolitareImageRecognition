@@ -13,7 +13,8 @@ import copy
 
 ## Statefull board only with foundations
 stateful_board = Board(DrawPile(), Deck())
-
+prev_stateful_boards = [] 
+prev_stateful_boards.append(copy.deepcopy(stateful_board))
 #global cardsLeftDeckDrawPile,isLastDrawMade
 #cardsLeftDeckDrawPile = 24
 #isLastDrawMade = False
@@ -35,6 +36,7 @@ def nextMove(board):
     # if stateful_board.lastMoveMakeDraw:
     #   updateDeckDrawPile(board)    
     #   last element in drawpile er lige med board.drawpile.cards[0]
+    prev_stateful_boards.append(copy.deepcopy(stateful_board))
 
     moves = [makeLastDraw, 
             putFoundation, 
