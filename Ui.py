@@ -131,7 +131,7 @@ def main():
              sg.Input("H13", size=(4,4), justification="center", key="_F4_")],
             [sg.Text("------------------------------------", justification="center", font="TkFixedFont")],
             [sg.Text(f'C{i}', justification="center", font="TkFixedFont", pad=((11,11), (0,0))) for i in range(1,8)],
-            [sg.Input("H13", size=(4,4), justification="center", key=f'_C{i}_') for i in range(1,8)],
+            [sg.Input(str(i-1), size=(4,4), justification="center", key=f'_C{i}_') for i in range(1,8)],
             [sg.Text("------------------------------------", justification="center", font="TkFixedFont")]]
     for y in range(1,14):
         col1 += [[sg.Input(default_text = str(x) + "," + str(y), size=(4,4), justification="center", key=f'_CARD{x}{y}_') for x in range(1,8)]]
