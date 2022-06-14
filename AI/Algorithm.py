@@ -11,10 +11,10 @@ def starter(board):
     return last_node.commands
 
 def treeSearchBackTracking(node, highestSuccessNode):
-    display(node.board)
-    if len(node.commands) != 0:
-        print(node.commands[0])
-    input("Press Enter")
+    #display(node.board)
+    #if len(node.commands) != 0:
+    #    print(node.commands[0])
+    #input("Press Enter")
     if gameWon(node.board):
         node.commands.append("Won")
         node.points += 600
@@ -60,6 +60,7 @@ def analyse_moves(node):
     moves.extend(columnToColumnMove(node.board))
     moves.extend(drawpileToColumnMove(node.board))
     moves.extend(drawCardsFromBoard(node))
+    moves.extend(foundationToColumn(node.board))
     return reversed(moves)
 
 
@@ -148,7 +149,7 @@ def drawCardsFromBoard(node):
 
 def foundationToColumn(board):
     moves = []
-    for fRange in range(board.foundations):
+    for fRange in range(len(board.foundations)):
         if len(board.foundations[fRange].cards) != 0:
             card = board.foundations[fRange].cards[-1]
             for cRange in range(board.columns):
