@@ -14,8 +14,5 @@ cardFactory.makeCards()
 cardFactory.randomizeCards()
 board = Board(DrawPile(), cardFactory.cards)
 board.allocateCards()
-display(board)
 commands = starter(board)
-for command in reversed(commands):
-    print(command + "\n")
 
