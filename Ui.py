@@ -62,21 +62,7 @@ def drawColumn(CVframe, columnNumber, imgWidth, imgHeight):
     
     return cv.line(CVframe, point1, point2, color, stroke)
 
-def drawFoundationAndDeck(CVframe, columnNumber, imgWidth, imgHeight):
-    start_cord_x = round(imgWidth * (1/8 * columnNumber))
-    start_cord_y = 0
-    color = (255, 0, 0) # blue BGR   
-    stroke = 2
-    if (columnNumber == 0):
-        w = round(imgWidth * 1/8)
-    else:
-        w = round(imgWidth * (1/8 * columnNumber))
-    h = round(imgHeight * .23)
-    end_cord_x = start_cord_x + w
-    end_cord_y = start_cord_y + h
-    
-    return cv.rectangle(CVframe, (round(start_cord_x), start_cord_y), (round(end_cord_x), end_cord_y), color, stroke)
-    
+
 # theshold the video frame to get the card
 def getCard(frame):
     gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
@@ -134,18 +120,59 @@ def getCard(frame):
 def main():
     sg.theme("LightGreen")
 
-    # Define the window layout
-    layout = [
-        [sg.Image(filename="", key="-IMAGE-")],
+    col1 = [[sg.Text("Board: ", justification="center", font="Roboto 15 bold", pad=((0, 0), (10, 0)))],
+            [sg.Text("Board is empty", justification="left", font="TkFixedFont", key="_BOARDTEXT_",
+                     pad=((0, 0), (10, 20))]]
+
+    col2 = [[sg.Image(filename="", key="-IMAGE-")],
         [sg.Text("Instructions:", justification="center", font="Roboto 15 bold",pad=((0,0),(10,0)))],
         [sg.Text("Make a draw", justification="center", font="Roboto 15", key="_INSTRUCTION_", pad=((0,0),(10,20)))],
-        [sg.Button('NEXT STEP', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold", auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()), border_width=0, bind_return_key=True)]
-        
+        [sg.Button('NEXT STEP', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold", auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()), border_width=0, bind_return_key=True)],
+        [sg.Button('UNDO', pad=((0, 0), (10, 20)), image_filename=("BlueButton.png"), font="Raleway 15 bold",
+                   auto_size_button=True, button_color=(sg.theme_background_color(), sg.theme_background_color()),
+                   border_width=0, bind_return_key=True)]]
+
+
+
+    # Define the window layout
+    layout = [[sg.Column(col1, element_justification='c'),
+               sg.Column(col2, element_justification='c')]]
+
+
+
+
+
+
+
+
+
+
+        #[sg.Image(filename="", key="-IMAGE-")],
+        #[sg.Text("Instructions:", justification="center", font="Roboto 15 bold",pad=((0,0),(10,0)))],
+        #[sg.Text("Make a draw", justification="center", font="Roboto 15", key="_INSTRUCTION_", pad=((0,0),(10,20)))],
+        #[sg.Button('NEXT STEP', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold", auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()), border_width=0, bind_return_key=True)],
+        #[sg.Button('UNDO', pad=((0, 0), (10, 20)), image_filename=("BlueButton.png"), font="Raleway 15 bold",
+        #           auto_size_button=True, button_color=(sg.theme_background_color(), sg.theme_background_color()),
+        #          border_width=0, bind_return_key=True)]
+
+
+
+    layout_Debug = [
+        [sg.Image(filename="", key="-IMAGE-")],
+        [sg.Text("Instructions:", justification="center", font="Roboto 15 bold", pad=((0, 0), (10, 0)))],
+        [sg.Text("Make a draw", justification="center", font="Roboto 15", key="_INSTRUCTION_", pad=((0, 0), (10, 20)))],
+        [sg.Button('NEXT STEP', pad=((0, 0), (10, 20)), image_filename=("BlueButton.png"), font="Raleway 15 bold",
+                   auto_size_button=True, button_color=(sg.theme_background_color(), sg.theme_background_color()),
+                   border_width=0, bind_return_key=True)],
+        [sg.Button('UNDO', pad=((0, 0), (10, 20)), image_filename=("BlueButton.png"), font="Raleway 15 bold",
+                   auto_size_button=True, button_color=(sg.theme_background_color(), sg.theme_background_color()),
+                   border_width=0, bind_return_key=True)]
+
     ]
 
 
     # Create the window and show it without the plot
-    window = sg.Window("7-kabale assistant", layout,element_justification="center", location=(400, 100))
+    window = sg.Window("7-kabale assistant", layout,element_justification="center", location=(1000, 100))
     
     globalmovetype = Instructions.MOVE
 
@@ -224,7 +251,7 @@ def main():
             #det, names = run(weights='CardRecognition/yolov5/best_run12.pt', source='test.png', conf_thres=0.4)
             currBoard = convertPredictToBoard(det, names)
             currBoard.mergeStatefulBoard(stateful_board)
-            display(currBoard)
+            window["_BOARDTEXT_"].update(display(currBoard))
             print("you clicked the button")
             #instruction = nextInstruction(globalmovetype)
             #print(instruction)
@@ -246,6 +273,10 @@ def main():
                 globalmovetype = Instructions(globalmovetype.value + 1)
             elif (globalmovetype.value == 3):
                     globalmovetype = Instructions.MOVE
+        elif (event == 'UNDO'):
+
+            window = sg.Window("7-kabale Debug", layout_Debug, element_justification="center", location=(400, 100))
+
                 
         
       
