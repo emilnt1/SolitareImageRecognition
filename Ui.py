@@ -122,7 +122,7 @@ def main():
 
     col1 = [[sg.Text("Board: ", justification="center", font="Roboto 15 bold", pad=((0, 0), (10, 0)))],
             [sg.Text("Board is empty", justification="left", font="TkFixedFont", key="_BOARDTEXT_",
-                     pad=((0, 0), (10, 20))]]
+                     pad=((0, 0), (10, 20)))]]
 
     col2 = [[sg.Image(filename="", key="-IMAGE-")],
         [sg.Text("Instructions:", justification="center", font="Roboto 15 bold",pad=((0,0),(10,0)))],
