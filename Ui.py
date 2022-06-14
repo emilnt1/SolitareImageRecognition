@@ -157,22 +157,11 @@ def main():
 
 
 
-    layout_Debug = [
-        [sg.Image(filename="", key="-IMAGE-")],
-        [sg.Text("Instructions:", justification="center", font="Roboto 15 bold", pad=((0, 0), (10, 0)))],
-        [sg.Text("Make a draw", justification="center", font="Roboto 15", key="_INSTRUCTION_", pad=((0, 0), (10, 20)))],
-        [sg.Button('NEXT STEP', pad=((0, 0), (10, 20)), image_filename=("BlueButton.png"), font="Raleway 15 bold",
-                   auto_size_button=True, button_color=(sg.theme_background_color(), sg.theme_background_color()),
-                   border_width=0, bind_return_key=True)],
-        [sg.Button('UNDO', pad=((0, 0), (10, 20)), image_filename=("BlueButton.png"), font="Raleway 15 bold",
-                   auto_size_button=True, button_color=(sg.theme_background_color(), sg.theme_background_color()),
-                   border_width=0, bind_return_key=True)]
 
-    ]
 
 
     # Create the window and show it without the plot
-    window = sg.Window("7-kabale assistant", layout,element_justification="center", location=(1000, 100))
+    window = sg.Window("7-kabale assistant", layout,element_justification="center", location=(400, 100))
     
     globalmovetype = Instructions.MOVE
 
@@ -273,11 +262,7 @@ def main():
                 globalmovetype = Instructions(globalmovetype.value + 1)
             elif (globalmovetype.value == 3):
                     globalmovetype = Instructions.MOVE
-        elif (event == 'UNDO'):
 
-            window = sg.Window("7-kabale Debug", layout_Debug, element_justification="center", location=(400, 100))
-
-                
         
       
 

@@ -708,3 +708,6 @@ Move Spades 6 from column: 7 to column: 2.
 
 
 14-06-2022_15.34.27
+
+
+14-06-2022_15.38.45
