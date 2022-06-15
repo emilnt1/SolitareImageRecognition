@@ -1,6 +1,7 @@
 from asyncio.windows_events import NULL
 from cgi import test
 from cgitb import text
+from errno import errorcode
 from sqlite3 import Row
 from wsgiref.handlers import format_date_time
 from CardSelectionWindow import Instructions
@@ -137,21 +138,28 @@ def load_board_into_debugger(board, window):
 
 def load_debugger_into_board(values):
 
-
+    errorCode = 0
     board = Board(DrawPile(),Deck())
-    board.drawPile.cards.append(convert_string_to_card(values["_DRAWPILE_"]))
+    card = convert_string_to_card(values["_DRAWPILE_"])
+    if not card == 1:
+        board.drawPile.cards.append(card)
+    else:
+        errorCode = 1
+
 
     for y in range(13):
 
         for x in range(7):
             if not(values[f'_CARD{x}{y}_'] == ""):
                 card = convert_string_to_card(values[f'_CARD{x}{y}_'])
-                print(str(card.suit) + str(card.rank))
-                board.columns[x].cards.append(card)
+                if not card == 1:
+                    board.columns[x].cards.append(card)
+                else:
+                    errorCode = 1
 
 
 
-    return board
+    return board, errorCode
 
 
 
@@ -189,43 +197,23 @@ def main():
             sg.Button('NEXT STEP', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold", 
             auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()), 
             border_width=0, bind_return_key=True, focus=True),
-
-            sg.Button('UNDO', pad=((0, 0), (10, 20)), image_filename=("BlueButton.png"), font="Raleway 15 bold",
-            auto_size_button=True, button_color=(sg.theme_background_color(), sg.theme_background_color()),
-            border_width=0, focus=False)
         ]]
 
 
-
+    menu_def = [['&Game', ['&Restart Game']]]
     # Define the window layout
-    layout = [[sg.Column(col1, element_justification='c'),
-                sg.Column(col2, element_justification='c', background_color='#404040', size=(3,640)),
-                sg.Column(col3, element_justification='c')]]
+    layout = [[sg.Menu(menu_def)],
+              [sg.Column(col1, element_justification='c'),
+               sg.Column(col2, element_justification='c', background_color='#404040', size=(3,640)),
+               sg.Column(col3, element_justification='c')]]
 
-
-
-
-
-
-
-
-
-
-        #[sg.Image(filename="", key="-IMAGE-")],
-        #[sg.Text("Instructions:", justification="center", font="Roboto 15 bold",pad=((0,0),(10,0)))],
-        #[sg.Text("Make a draw", justification="center", font="Roboto 15", key="_INSTRUCTION_", pad=((0,0),(10,20)))],
-        #[sg.Button('NEXT STEP', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold", auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()), border_width=0, bind_return_key=True)],
-        #[sg.Button('UNDO', pad=((0, 0), (10, 20)), image_filename=("BlueButton.png"), font="Raleway 15 bold",
-        #           auto_size_button=True, button_color=(sg.theme_background_color(), sg.theme_background_color()),
-        #          border_width=0, bind_return_key=True)]
-
-
-
-
+    errorLayout = [[sg.Text("Error Happened", font=("roboto 15 bold"), key="_ERRORTEXT_")],
+                    [sg.Button('OK')]]
 
 
     # Create the window and show it without the plot
     window = sg.Window("7-kabale assistant", layout,element_justification="center", location=(400, 100))
+    errorWindow = sg.Window("7-kabale ERROR", errorLayout,element_justification="center", location=(600, 600))
     
     globalmovetype = Instructions.MOVE
 
@@ -330,12 +318,21 @@ def main():
             elif (globalmovetype.value == 3):
                 globalmovetype = Instructions.MOVE
         elif event == "MAKE EDIT":
-            edited_board = load_debugger_into_board(values)
-            undoMove()
-            edited_board.mergeStatefulBoard(stateful_board[-1])
-            display(edited_board)
-            instruction = nextMove(edited_board)
-            window["_INSTRUCTION_"].update(instruction)
+            edited_board, errorCode = load_debugger_into_board(values)
+            if not errorCode == 1:
+                undoMove()
+                edited_board.mergeStatefulBoard(stateful_board[-1])
+                display(edited_board)
+                instruction = nextMove(edited_board)
+                window["_INSTRUCTION_"].update(instruction)
+            else:
+                # errorWindow.read()
+                sg.Popup("Error Happened")
+                errorCode = 0
+
+        elif event == "Restart Game":
+            print("Restarting")
+        
 
     window.close()
 
