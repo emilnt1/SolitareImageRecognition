@@ -59,21 +59,14 @@ def analyse_moves(node):
 
 def columnToColumnMove(board):
     moves = []
-    col1 = 1
-    for column1 in board.columns:
-        if len(column1.cards) != 0:
-            col2 = 1
-            for column2 in board.columns:
-                if column1 != column2 and len(column2.cards) != 0:
-                    for card1 in column1.cards:
-                        if allowedMoveColumn(card1, column2) and card1.isVisible:
-                            boardcopy = copy.deepcopy(board)
-                            boardcopy.moveCard(boardcopy.columns[col1-1], card1, boardcopy.columns[col2-1])
-                            newMove = Node(2, boardcopy)
-                            newMove.commands.append("Card " + str(card1) + " from column " + str(col1) + " to column " + str(col2))
-                            moves.append(newMove)
-                col2 += 1
-        col1 += 1
+    for column1 in range(len(board.columns)):
+        if len(board.columns[column1].cards) != 0:
+            for card in range(len(board.columns[column1].cards)):
+                for column2 in range(len(board.columns)):
+                    if allowedMoveColumn(board.columns[column1].cards[card], board.columns[column2]):
+                        boardcopy = copy.deepcopy(board)
+                        boardcopy
+
     return moves
 
 
@@ -103,7 +96,7 @@ def columnToFoundation(board):
             for foundation in board.foundations:
                 if allowedMoveFoundation(card, foundation) and card.isVisible:
                     boardcopy = copy.deepcopy(board)
-                    boardcopy.moveCard(boardcopy.columns[col1-1], [card], boardcopy.foundations[found1-1])
+                    boardcopy.moveCard(boardcopy.columns[col1-1], card, boardcopy.foundations[found1-1])
                     newMoves = Node(5, boardcopy)
                     newMoves.commands.append("Card " + str(card) + " from column " + str(col1) + " to foundation " + str(found1))
                     moves.append(newMoves)
@@ -122,7 +115,7 @@ def drawpileToFoundation(board):
         for foundation in board.foundations:
             if allowedMoveFoundation(card, foundation) and card.isVisible:
                 boardcopy = copy.deepcopy(board)
-                boardcopy.moveCard(boardcopy.drawPile, [card], boardcopy.foundations[i-1])
+                boardcopy.moveCard(boardcopy.drawPile, card, boardcopy.foundations[i-1])
                 newMove = Node(5, boardcopy)
                 newMove.commands.append("From drawpile to foundation " + str(i))
                 moves.append(newMove)
@@ -150,7 +143,7 @@ def foundationToColumn(board):
             for cRange in range(len(board.columns)):
                 if allowedMoveColumn(card, board.columns[cRange]):
                     boardcopy = copy.deepcopy(board)
-                    boardcopy.moveCard(boardcopy.foundations[fRange], [card], boardcopy.columns[cRange])
+                    boardcopy.moveCard(boardcopy.foundations[fRange], card, boardcopy.columns[cRange])
                     newMove = Node(-5, boardcopy)
                     newMove.commands.append("From foundation " + str(fRange + 1) + " move card " + str(card) + " to column " + str(cRange + 1))
                     moves.append(newMove)
