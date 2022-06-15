@@ -59,7 +59,7 @@ def analyse_moves(node):
     moves.extend(drawpileToFoundation(node.board))
     moves.extend(columnToColumnMove(node.board))
     moves.extend(drawpileToColumnMove(node.board))
-    #moves.extend(drawCardsFromBoard(node))
+    moves.extend(drawCardsFromBoard(node))
     moves.extend(foundationToColumn(node.board))
     return reversed(moves)
 
