@@ -8,10 +8,10 @@ stateful_Board = Board(DrawPile(), None)
 
 def treeSearchBackTracking(node, highestSuccessNode, depth):
     depth = depth - 1
-    display(node.board)
+    #display(node.board)
     #if len(node.commands) != 0:
     #    print(node.commands[0])
-    input("Press Enter")
+    #input("Press Enter")
     if gameWon(node.board):
         node.commands.append("Won")
         node.points += 600
