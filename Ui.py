@@ -9,15 +9,17 @@ import PySimpleGUI as sg
 import cv2 as cv
 import numpy as np
 import math
+
 from datetime import datetime
 from CardRecognition.yolov5.detect import run 
 from CardRecognition.ConvertPredictToBoard import convertPredictToBoard
 from  View.KabaleView import display, lastElement 
 from AI.AI import *
-import keyboard #pip install keyboard
-from gtts import gTTS #pip install gTTS
+from Model.Debugger import *
+#import keyboard #pip install keyboard
+#from gtts import gTTS #pip install gTTS
 import os
-from playsound import playsound #pip install playsound==1.2.2
+#from playsound import playsound #pip install playsound==1.2.2
 import threading
 
 card1 = "Queen of Spades"
@@ -133,24 +135,46 @@ def load_board_into_debugger(board, window):
                     window[f'_CARD{x}{y}_'].update("")
 
 
+def load_debugger_into_board(values):
+
+
+    board = Board(DrawPile(),Deck())
+    board.drawPile.cards.append(convert_string_to_card(values["_DRAWPILE_"]))
+
+    for y in range(13):
+
+        for x in range(7):
+            if not(values[f'_CARD{x}{y}_'] == ""):
+                card = convert_string_to_card(values[f'_CARD{x}{y}_'])
+                print(str(card.suit) + str(card.rank))
+                board.columns[x].cards.append(card)
+
+
+
+    return board
+
+
+
+
+
 def main():
     sg.theme("LightGreen")
 
     col1 = [[sg.Text("Board: ", justification="center", font="Roboto 15 bold", pad=((0, 0), (10, 0)))],
             [sg.Text("Board is empty", justification="left", font="TkFixedFont", key="_BOARDTEXT_",
                      pad=((0, 0), (10, 20)), size=(50,10))],
-            [sg.Input("H13", size=(4,4), justification="center", key="_TOTAL_"), 
-             sg.Input("H13", size=(4,4), justification="center", key="_DRAWPILE_", pad=((5,45),(0,0))), 
-             sg.Input("H13", size=(4,4), justification="center", key="_F0_"), 
-             sg.Input("H13", size=(4,4), justification="center", key="_F1_"),
-             sg.Input("H13", size=(4,4), justification="center", key="_F2_"),
-             sg.Input("H13", size=(4,4), justification="center", key="_F3_")],
+            [sg.Input("H13", size=(4,4), justification="center", key="_TOTAL_", disabled=True),
+             sg.Input("H13", size=(4,4), justification="center", key="_DRAWPILE_", focus=False, pad=((5,45),(0,0))),
+             sg.Input("H13", size=(4,4), justification="center", key="_F0_", disabled=True),
+             sg.Input("H13", size=(4,4), justification="center", key="_F1_", disabled=True),
+             sg.Input("H13", size=(4,4), justification="center", key="_F2_", disabled=True),
+             sg.Input("H13", size=(4,4), justification="center", key="_F3_", disabled=True)],
             [sg.Text("------------------------------------", justification="center", font="TkFixedFont")],
             [sg.Text(f'C{i}', justification="center", font="TkFixedFont", pad=((11,11), (0,0))) for i in range(1,8)],
-            [sg.Input(str(i-1), size=(4,4), justification="center", key=f'_C{i}_') for i in range(7)],
+            [sg.Input(str(i), size=(4,4), justification="center", key=f'_C{i}_', disabled=True) for i in range(7)],
             [sg.Text("------------------------------------", justification="center", font="TkFixedFont")]]
     for y in range(13):
-        col1 += [[sg.Input(default_text = str(x) + "," + str(y), size=(4,4), justification="center", key=f'_CARD{x}{y}_') for x in range(7)]]
+        col1 += [[sg.Input(default_text = str(x) + "," + str(y), size=(4,4), justification="center", key=f'_CARD{x}{y}_', focus=False) for x in range(7)]]
     col1 += [[sg.Button('MAKE EDIT', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold", 
             auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()), 
             border_width=0, focus=False)]]
@@ -164,7 +188,7 @@ def main():
         [
             sg.Button('NEXT STEP', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold", 
             auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()), 
-            border_width=0, bind_return_key=True, focus=False),
+            border_width=0, bind_return_key=True, focus=True),
 
             sg.Button('UNDO', pad=((0, 0), (10, 20)), image_filename=("BlueButton.png"), font="Raleway 15 bold",
             auto_size_button=True, button_color=(sg.theme_background_color(), sg.theme_background_color()),
@@ -304,8 +328,9 @@ def main():
             if (globalmovetype.value < 3 ):
                 globalmovetype = Instructions(globalmovetype.value + 1)
             elif (globalmovetype.value == 3):
-                    globalmovetype = Instructions.MOVE
-
+                globalmovetype = Instructions.MOVE
+        elif event == "MAKE EDIT":
+            load_debugger_into_board(values)
         
     
     window.close()
