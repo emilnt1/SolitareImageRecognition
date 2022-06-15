@@ -130,7 +130,7 @@ def load_board_into_debugger(board, window):
             for x in range(7):
                 if y < len(board.columns[x].cards):
                     if not NULL == board.columns[x].cards[y]:
-                        window[f'_CARD{x}{y}_'].update(board.columns[x].cards[y])
+                        window[f'_CARD{x}{y}_'].update(board.columns[x].cards[y].suit.name + str(board.columns[x].cards[y].rank))
                 else:
                     window[f'_CARD{x}{y}_'].update("")
 
@@ -306,6 +306,7 @@ def main():
             #det, names = run(weights='CardRecognition/yolov5/best_run12.pt', source='test.png', conf_thres=0.4)
             currBoard = convertPredictToBoard(det, names)
             currBoard.mergeStatefulBoard(stateful_board[-1])
+            load_board_into_debugger(currBoard, window)
             window["_BOARDTEXT_"].update(display(currBoard))
             print("you clicked the button")
             #instruction = nextInstruction(globalmovetype)
@@ -314,7 +315,6 @@ def main():
             instruction = nextMove(currBoard)
             print(instruction)
             window["_INSTRUCTION_"].update(instruction)
-            load_board_into_debugger(currBoard, window)
             f = open("Instructions.txt", "a")
             f.write(instruction + "\n")
             f.close
@@ -333,7 +333,8 @@ def main():
             edited_board = load_debugger_into_board(values)
             undoMove()
             edited_board.mergeStatefulBoard(stateful_board[-1])
-            instruction = nextMove(currBoard)
+            display(edited_board)
+            instruction = nextMove(edited_board)
             window["_INSTRUCTION_"].update(instruction)
 
     window.close()
