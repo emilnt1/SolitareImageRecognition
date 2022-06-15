@@ -11,6 +11,7 @@ from CardRecognition.yolov5.detect import run
 from CardRecognition.ConvertPredictToBoard import convertPredictToBoard
 from  View.KabaleView import display 
 from AI.AI import *
+from Model.Debugger import menu
 
 card1 = "Queen of Spades"
 columnFrom = 4
@@ -134,7 +135,8 @@ def main():
         [sg.Image(filename="", key="-IMAGE-")],
         [sg.Text("Instructions:", justification="center", font="Roboto 15 bold",pad=((0,0),(10,0)))],
         [sg.Text("Make a draw", justification="center", font="Roboto 15", key="_INSTRUCTION_", pad=((0,0),(10,20)))],
-        [sg.Button('NEXT STEP', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold", auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()), border_width=0)]
+        [sg.Button('NEXT STEP', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold", auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()), border_width=0)],
+        [sg.Button('DEBUG', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold", auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()), border_width=0)]
         
     ]
 
@@ -212,6 +214,8 @@ def main():
 
             det, names = run(weights='CardRecognition/yolov5/best_run17.pt', source=currImgName, conf_thres=0.4)
             #det, names = run(weights='CardRecognition/yolov5/best_run12.pt', source='test.png', conf_thres=0.4)
+            if event == "DEBUG":
+                menu()
             currBoard = convertPredictToBoard(det, names)
             currBoard.mergeStatefulBoard(stateful_board)
             display(currBoard)
@@ -228,7 +232,6 @@ def main():
                 globalmovetype = Instructions(globalmovetype.value + 1)
             elif (globalmovetype.value == 3):
                     globalmovetype = Instructions.MOVE
-                
         
       
 
