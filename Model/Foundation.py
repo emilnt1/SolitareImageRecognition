@@ -10,10 +10,7 @@ class Foundation(CardLogic):
         self.cards = []
 
     def pop(self, cards):
-        if len(self.cards) > 1:
-            pass
-        else:
-            return self.cards.pop()
+        return [self.cards.pop()]
 
     def push(self, cards):
         if len(cards) < 2:

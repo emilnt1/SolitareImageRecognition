@@ -34,5 +34,5 @@ class Column(CardLogic):
                 return cardsToReturn
 
     def push(self, cards):
-        cardsReversed = cards[::-1]
+        cardsReversed = reversed(cards)
         self.cards.extend(cardsReversed)

@@ -220,9 +220,12 @@ def main():
             #instruction = nextInstruction(globalmovetype)
             #print(instruction)
             print(globalmovetype.value)
-            instruction = starter(currBoard)
-            print(instruction)
-            window["_INSTRUCTION_"].update(instruction)
+            node = treeSearchBackTracking(Node(0, currBoard), Node(0, currBoard), 5)
+            insString = ""
+            for instruc in node.commands:
+                insString += str(instruc + "\n")
+            insString += "Draw card"
+            window["_INSTRUCTION_"].update(insString)
 
             # Made for testing the instructions message types
             if (globalmovetype.value < 3 ):
