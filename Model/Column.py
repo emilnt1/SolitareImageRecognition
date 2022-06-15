@@ -29,8 +29,8 @@ class Column(CardLogic):
                 cardsToReturn.append(self.cards.pop())
             if boo:
                 cardsToReturn.append(self.cards.pop())
-                if len(self.cards) != 0 and not self.cards[-1].isVisible:
-                    self.cards[-1].makeVisible()
+                #if len(self.cards) != 0 and not self.cards[-1].isVisible:
+                    #self.cards[-1].makeVisible()
                 return cardsToReturn
 
     def push(self, cards):
