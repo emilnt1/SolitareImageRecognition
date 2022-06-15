@@ -190,7 +190,7 @@ def main():
     globalmovetype = Instructions.MOVE
 
     # cap = cv.VideoCapture(1)
-    cap = cv.VideoCapture(2)
+    cap = cv.VideoCapture(2, cv.CAP_DSHOW)
 
     width=cap.get(3)
     height=cap.get(4)
@@ -249,11 +249,13 @@ def main():
         imgbytes = cv.imencode(".png", frame)[1].tobytes()
 
 
-
+       
         window["-IMAGE-"].update(data=imgbytes)      
 
 
         if event == "Exit" or event == sg.WIN_CLOSED:
+            cap.release()  
+            cv.destroyAllWindows()
             break
         elif event == "NEXT STEP":
             
@@ -288,8 +290,7 @@ def main():
                     globalmovetype = Instructions.MOVE
 
         
-      
-
+    
     window.close()
 
     
