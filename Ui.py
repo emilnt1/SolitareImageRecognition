@@ -12,7 +12,7 @@ import math
 from datetime import datetime
 from CardRecognition.yolov5.detect import run 
 from CardRecognition.ConvertPredictToBoard import convertPredictToBoard
-from  View.KabaleView import display 
+from  View.KabaleView import display, lastElement 
 from AI.AI import *
 import keyboard #pip install keyboard
 from gtts import gTTS #pip install gTTS
@@ -116,6 +116,22 @@ def getCard(frame):
     cv.imshow("rectangle", frame)
     cv.waitKey(1)
 
+def load_board_into_debugger(board, window):
+    
+        window["_TOTAL_"].update(board.cardsLeftDeckDrawPile)
+        window["_DRAWPILE_"].update(lastElement(board.drawPile))
+        for o in range(4):
+            window[f'_F{o}_'].update(lastElement(board.foundations[o]))
+        for i in range(7):
+            window[f'_C{i}_'].update(board.getCardsLeftColumn(i))
+        for y in range(13):
+            for x in range(7):
+                if y < len(board.columns[x].cards):
+                    if not NULL == board.columns[x].cards[y]:
+                        window[f'_CARD{x}{y}_'].update(board.columns[x].cards[y])
+                else:
+                    window[f'_CARD{x}{y}_'].update("")
+
 
 def main():
     sg.theme("LightGreen")
@@ -125,16 +141,16 @@ def main():
                      pad=((0, 0), (10, 20)), size=(50,10))],
             [sg.Input("H13", size=(4,4), justification="center", key="_TOTAL_"), 
              sg.Input("H13", size=(4,4), justification="center", key="_DRAWPILE_", pad=((5,45),(0,0))), 
-             sg.Input("H13", size=(4,4), justification="center", key="_F1_"), 
+             sg.Input("H13", size=(4,4), justification="center", key="_F0_"), 
+             sg.Input("H13", size=(4,4), justification="center", key="_F1_"),
              sg.Input("H13", size=(4,4), justification="center", key="_F2_"),
-             sg.Input("H13", size=(4,4), justification="center", key="_F3_"),
-             sg.Input("H13", size=(4,4), justification="center", key="_F4_")],
+             sg.Input("H13", size=(4,4), justification="center", key="_F3_")],
             [sg.Text("------------------------------------", justification="center", font="TkFixedFont")],
             [sg.Text(f'C{i}', justification="center", font="TkFixedFont", pad=((11,11), (0,0))) for i in range(1,8)],
-            [sg.Input(str(i-1), size=(4,4), justification="center", key=f'_C{i}_') for i in range(1,8)],
+            [sg.Input(str(i-1), size=(4,4), justification="center", key=f'_C{i}_') for i in range(7)],
             [sg.Text("------------------------------------", justification="center", font="TkFixedFont")]]
-    for y in range(1,14):
-        col1 += [[sg.Input(default_text = str(x) + "," + str(y), size=(4,4), justification="center", key=f'_CARD{x}{y}_') for x in range(1,8)]]
+    for y in range(13):
+        col1 += [[sg.Input(default_text = str(x) + "," + str(y), size=(4,4), justification="center", key=f'_CARD{x}{y}_') for x in range(7)]]
     col1 += [[sg.Button('MAKE EDIT', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold", 
             auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()), 
             border_width=0, focus=False)]]
@@ -274,6 +290,7 @@ def main():
             instruction = nextMove(currBoard)
             print(instruction)
             window["_INSTRUCTION_"].update(instruction)
+            load_board_into_debugger(currBoard, window)
             f = open("Instructions.txt", "a")
             f.write(instruction + "\n")
             f.close
