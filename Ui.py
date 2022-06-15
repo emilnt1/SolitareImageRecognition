@@ -330,9 +330,12 @@ def main():
             elif (globalmovetype.value == 3):
                 globalmovetype = Instructions.MOVE
         elif event == "MAKE EDIT":
-            load_debugger_into_board(values)
-        
-    
+            edited_board = load_debugger_into_board(values)
+            undoMove()
+            edited_board.mergeStatefulBoard(stateful_board[-1])
+            instruction = nextMove(currBoard)
+            window["_INSTRUCTION_"].update(instruction)
+
     window.close()
 
     
