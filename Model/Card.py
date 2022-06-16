@@ -5,6 +5,7 @@ class Card():
     suit = -1
     x = -1
     y = -1
+    conf = -1
     isVisible = True
 
     def __init__(self, rank, suit):

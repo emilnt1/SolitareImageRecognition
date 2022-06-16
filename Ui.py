@@ -1,4 +1,8 @@
+from asyncio.windows_events import NULL
+from cgi import test
 from cgitb import text
+from errno import errorcode
+from sqlite3 import Row
 from wsgiref.handlers import format_date_time
 from CardSelectionWindow import Instructions
 from tokenize import String
@@ -6,12 +10,22 @@ import PySimpleGUI as sg
 import cv2 as cv
 import numpy as np
 import math
+
 from datetime import datetime
 from CardRecognition.yolov5.detect import run 
 from CardRecognition.ConvertPredictToBoard import convertPredictToBoard
-from  View.KabaleView import display 
+from  View.KabaleView import display, lastElement
 from AI.AI import *
 from AI.Algorithm import *
+
+
+from Model.Debugger import *
+#import keyboard #pip install keyboard
+#from gtts import gTTS #pip install gTTS
+import os
+
+#from playsound import playsound #pip install playsound==1.2.2
+import threading
 
 card1 = "Queen of Spades"
 columnFrom = 4
@@ -58,21 +72,7 @@ def drawColumn(CVframe, columnNumber, imgWidth, imgHeight):
     
     return cv.line(CVframe, point1, point2, color, stroke)
 
-def drawFoundationAndDeck(CVframe, columnNumber, imgWidth, imgHeight):
-    start_cord_x = round(imgWidth * (1/8 * columnNumber))
-    start_cord_y = 0
-    color = (255, 0, 0) # blue BGR   
-    stroke = 2
-    if (columnNumber == 0):
-        w = round(imgWidth * 1/8)
-    else:
-        w = round(imgWidth * (1/8 * columnNumber))
-    h = round(imgHeight * .23)
-    end_cord_x = start_cord_x + w
-    end_cord_y = start_cord_y + h
-    
-    return cv.rectangle(CVframe, (round(start_cord_x), start_cord_y), (round(end_cord_x), end_cord_y), color, stroke)
-    
+
 # theshold the video frame to get the card
 def getCard(frame):
     gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
@@ -123,6 +123,44 @@ def getCard(frame):
     cv.imshow("rectangle", frame)
     cv.waitKey(1)
 
+def load_board_into_debugger(board, window):
+
+        window["_TOTAL_"].update(board.cardsLeftDeckDrawPile)
+        window["_DRAWPILE_"].update(lastElement(board.drawPile))
+        for o in range(4):
+            window[f'_F{o}_'].update(lastElement(board.foundations[o]))
+        for i in range(7):
+            window[f'_C{i}_'].update(board.getCardsLeftColumn(i))
+        for y in range(13):
+            for x in range(7):
+                if y < len(board.columns[x].cards):
+                    if not NULL == board.columns[x].cards[y]:
+                        window[f'_CARD{x}{y}_'].update(board.columns[x].cards[y].suit.name + str(board.columns[x].cards[y].rank))
+                else:
+                    window[f'_CARD{x}{y}_'].update("")
+
+
+def load_debugger_into_board(values):
+
+    errorCode = 0
+    board = Board(DrawPile(),Deck())
+    card = convert_string_to_card(values["_DRAWPILE_"])
+    board.drawPile.cards.append(card)
+
+
+
+    for y in range(13):
+
+        for x in range(7):
+            if not(values[f'_CARD{x}{y}_'] == ""):
+                card = convert_string_to_card(values[f'_CARD{x}{y}_'])
+                board.columns[x].cards.append(card)
+
+
+
+
+    return board
+
 
 
 
@@ -130,23 +168,57 @@ def getCard(frame):
 def main():
     sg.theme("LightGreen")
 
-    # Define the window layout
-    layout = [
-        [sg.Image(filename="", key="-IMAGE-")],
+    col1 = [[sg.Text("Board: ", justification="center", font="Roboto 15 bold", pad=((0, 0), (10, 0)))],
+            [sg.Text("Board is empty", justification="left", font="TkFixedFont", key="_BOARDTEXT_",
+                     pad=((0, 0), (10, 20)), size=(50,10))],
+            [sg.Input("H13", size=(4,4), justification="center", key="_TOTAL_", disabled=True),
+             sg.Input("H13", size=(4,4), justification="center", key="_DRAWPILE_", focus=False, pad=((5,45),(0,0))),
+             sg.Input("H13", size=(4,4), justification="center", key="_F0_", disabled=True),
+             sg.Input("H13", size=(4,4), justification="center", key="_F1_", disabled=True),
+             sg.Input("H13", size=(4,4), justification="center", key="_F2_", disabled=True),
+             sg.Input("H13", size=(4,4), justification="center", key="_F3_", disabled=True)],
+            [sg.Text("------------------------------------", justification="center", font="TkFixedFont")],
+            [sg.Text(f'C{i}', justification="center", font="TkFixedFont", pad=((11,11), (0,0))) for i in range(1,8)],
+            [sg.Input(str(i), size=(4,4), justification="center", key=f'_C{i}_', disabled=True) for i in range(7)],
+            [sg.Text("------------------------------------", justification="center", font="TkFixedFont")]]
+    for y in range(13):
+        col1 += [[sg.Input(default_text = str(x) + "," + str(y), size=(4,4), justification="center", key=f'_CARD{x}{y}_', focus=False) for x in range(7)]]
+    col1 += [[sg.Button('MAKE EDIT', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold",
+            auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()),
+            border_width=0, focus=False)]]
+
+
+    col2 = [[sg.Image("", background_color="#404040", size=(2,640))]]
+
+    col3 = [[sg.Image(filename="", key="-IMAGE-")],
         [sg.Text("Instructions:", justification="center", font="Roboto 15 bold",pad=((0,0),(10,0)))],
         [sg.Text("Make a draw", justification="center", font="Roboto 15", key="_INSTRUCTION_", pad=((0,0),(10,20)))],
-        [sg.Button('NEXT STEP', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold", auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()), border_width=0)]
-        
-    ]
+        [
+            sg.Button('NEXT STEP', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold",
+            auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()),
+            border_width=0, bind_return_key=True, focus=True),
+        ]]
+
+
+    menu_def = [['&Game', ['&Restart Game']]]
+    # Define the window layout
+    layout = [[sg.Menu(menu_def)],
+              [sg.Column(col1, element_justification='c'),
+               sg.Column(col2, element_justification='c', background_color='#404040', size=(3,640)),
+               sg.Column(col3, element_justification='c')]]
+
+    errorLayout = [[sg.Text("Error Happened", font=("roboto 15 bold"), key="_ERRORTEXT_")],
+                    [sg.Button('OK')]]
 
 
     # Create the window and show it without the plot
     window = sg.Window("7-kabale assistant", layout,element_justification="center", location=(400, 100))
-    
+    errorWindow = sg.Window("7-kabale ERROR", errorLayout,element_justification="center", location=(600, 600))
+
     globalmovetype = Instructions.MOVE
 
     # cap = cv.VideoCapture(1)
-    cap = cv.VideoCapture(2)
+    cap = cv.VideoCapture(2, cv.CAP_DSHOW)
 
     width=cap.get(3)
     height=cap.get(4)
@@ -174,6 +246,12 @@ def main():
         height = 810
         dim = (width, height)
         return cv.resize(frame, dim, interpolation =cv.INTER_AREA)
+
+    # Make space between runs in the the instructions file
+    f = open("Instructions.txt", "a")
+    f.write("\n\n" + str(datetime.now().strftime("%d-%m-%Y_%H.%M.%S")) + "\n")
+    f.close
+
 
     while True:
         event, values = window.read(timeout=20)  
@@ -203,8 +281,9 @@ def main():
         window["-IMAGE-"].update(data=imgbytes)
 
 
-
         if event == "Exit" or event == sg.WIN_CLOSED:
+            cap.release()
+            cv.destroyAllWindows()
             break
         elif event == "NEXT STEP":
             
@@ -214,27 +293,43 @@ def main():
             det, names = run(weights='CardRecognition/yolov5/best_run17.pt', source=currImgName, conf_thres=0.4)
             #det, names = run(weights='CardRecognition/yolov5/best_run12.pt', source='test.png', conf_thres=0.4)
             currBoard = convertPredictToBoard(det, names)
-            currBoard.mergeStatefulBoard(stateful_board)
-            display(currBoard)
+            currBoard.mergeStatefulBoard(stateful_board[-1])
+            load_board_into_debugger(currBoard, window)
+            window["_BOARDTEXT_"].update(display(currBoard))
             print("you clicked the button")
             #instruction = nextInstruction(globalmovetype)
             #print(instruction)
             print(globalmovetype.value)
-            node = treeSearchBackTracking(Node(0, currBoard), Node(0, currBoard), 5)
-            insString = ""
-            for instruc in node.commands:
-                insString += str(instruc + "\n")
-            insString += "Draw card"
-            window["_INSTRUCTION_"].update(insString)
-
+            instruction = nextMove(currBoard)
+            print(instruction)
+            window["_INSTRUCTION_"].update(instruction)
+            f = open("Instructions.txt", "a")
+            f.write(instruction + "\n")
+            f.close
+            #ttsInstruction = gTTS(text=instruction, lang='en', slow=False)
+            #ttsInstruction.save("tts/instruction.mp3")
+            #playsound('tts/instruction.mp3')
+            #ttsPlay = threading.Thread(target=playsound, args=('tts/instruction.mp3',), daemon=True)
+            #ttsPlay.start()
+            #ttsPlay.join()
             # Made for testing the instructions message types
             if (globalmovetype.value < 3 ):
                 globalmovetype = Instructions(globalmovetype.value + 1)
             elif (globalmovetype.value == 3):
-                    globalmovetype = Instructions.MOVE
-                
-        
-      
+                globalmovetype = Instructions.MOVE
+        elif event == "MAKE EDIT":
+            edited_board = load_debugger_into_board(values)
+
+            undoMove()
+            edited_board.mergeStatefulBoard(stateful_board[-1])
+            display(edited_board)
+            instruction = nextMove(edited_board)
+            window["_INSTRUCTION_"].update(instruction)
+
+
+        elif event == "Restart Game":
+            print("Restarting")
+
 
     window.close()
 

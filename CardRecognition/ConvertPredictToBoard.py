@@ -18,6 +18,7 @@ def convertPredictToBoard(det, names):
         card = Card(int(names[c][1:]), convertSuitStrToEnum(names[c][0]))
         card.x = xyxy_array[0]
         card.y = xyxy_array[1]
+        card.conf = conf
 
         cards.append(card)
         # Opdele til foundations and columner. 
@@ -27,6 +28,8 @@ def convertPredictToBoard(det, names):
         #    lower_cards.append(card)
 
     # Divide lower cards to columns
+
+    removeTwoGuesses(cards)
 
     board = Board(DrawPile(), Deck())
     for card in cards:
@@ -74,3 +77,17 @@ def convertSuitStrToEnum(suit):
         'R' : type.D,
         'K' : type.C
     }.get(suit)
+
+def removeTwoGuesses(cards):
+    cardsToRemove = []
+    for i in range(len(cards)):
+        for j in range(i + 1, len(cards)):
+            if(abs((cards[i].x - cards[j].x)) < 10) and (abs(cards[i].y - cards[j].y) < 10):
+                if cards[i].conf < cards[j].conf:
+                    cardsToRemove.append(i)
+                    print("Double guess, removing:" + str(cards[i]) + " instead of " + str(cards[j]))
+                else:
+                    cardsToRemove.append(j)
+                    print("Double guess, removing:" + str(cards[j]) + " instead of " + str(cards[i]))
+    for index in sorted(cardsToRemove, reverse=True):
+        del cards[index]
