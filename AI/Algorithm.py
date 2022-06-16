@@ -22,6 +22,7 @@ def treeSearchBackTracking(node, highestSuccessNode, depth):
         node.commands.append("Lost")
         return node
     if depth == 0:
+        display(node.board)
         return node
 
     node.edgeNodes.extend(analyse_moves(node))
