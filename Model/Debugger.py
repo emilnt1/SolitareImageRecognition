@@ -59,10 +59,9 @@ def changeHiddenColumnCount():
 
 
 def convert_string_to_card(newCardString):
-    newSuit = newCardString[0]
-    
-    
+    newSuit = newCardString[0].upper()
     newRank = int(newCardString[1:])
+      
 
     if(newSuit == "H"):
         newCard = Card(newRank, type.H)
@@ -77,6 +76,8 @@ def convert_string_to_card(newCardString):
         newCard = Card(newRank, type.D)
 
     return newCard
+    
+        
 
 def correctFoundationCount():
 
