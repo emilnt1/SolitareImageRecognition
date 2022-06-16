@@ -44,12 +44,21 @@ class Board:
         self.cardsLeftColumns = columnCards
 
     def drawCards(self):
-        if len(self.deck.cards) < 3:
-            self.deck.cards.extend(self.drawPile.cards)
+        if len(self.deck.cards) >= 3:
+            for i in range(3): self.drawPile.cards.append(self.deck.cards.pop(0))
         else:
-            self.drawPile.cards.append(self.deck.cards.pop())
-            self.drawPile.cards.append(self.deck.cards.pop())
-            self.drawPile.cards.append(self.deck.cards.pop())
+            newDeck = list(reversed(self.drawPile.cards))
+            newDeck.extend(self.deck.cards)
+
+            # self.deck.cards = newDeck
+            self.deck.cards = list(reversed(newDeck))
+            self.drawPile.cards = []
+            self.drawCards()
+
+            # Temp list
+            # Reverse drawpile
+            # Append last cards to the end of the list
+            # Assign temp list.
 
     def mergeStatefulBoard(self, statefulBoard):
         self.cardsLeftColumns = statefulBoard.cardsLeftColumns
