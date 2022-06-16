@@ -168,42 +168,27 @@ def makeLastDraw(board):
         deck_with_all_cards.extend(stateful_board[-1].drawPile.cards)
         deck_with_all_cards.extend(deck_with_all_cards)
         deck_with_all_cards.reverse()
-        # for c in deck_with_all_cards: print(str(c))
 
         indexes_cards_possible_move = []
-
-
         for i in range(4):
             if any(list(map(lambda column: allowedMoveColumn(deck_with_all_cards[i],column), board.columns))) or any(list(map(lambda foundation: allowedMoveFoundation(deck_with_all_cards[i],foundation), board.foundations))):
-                #print("bla" + str(deck_with_all_cards[i]))
                 indexes_cards_possible_move.append(i)
 
         index_cards_possible_two_moves = []
         for i in indexes_cards_possible_move:
             if any(list(map(lambda column: allowedMoveColumn(deck_with_all_cards[i+1],column), board.columns))) or any(list(map(lambda foundation: allowedMoveFoundation(deck_with_all_cards[i+1],foundation), board.foundations))):
-                #print("bla" + str(deck_with_all_cards[i]))
                 index_cards_possible_two_moves.append(i)
 
-        # for i in index_cards_possible_two_moves: print(i)
-
-        # Kører while loop indtil ten øvreste på drawpile er den ønskede kort 
+        # Kører indtil den øvreste på drawpile er den ønskede kort 
         if index_cards_possible_two_moves:
             expected_card = deck_with_all_cards[index_cards_possible_two_moves[-1]]
-            # print("expected: " + str(expected_card))
             for i in range(4): 
-                # print("curr: " + str(stateful_board[-1].drawPile.cards[-1]))
                 if(expected_card == stateful_board[-1].drawPile.cards[-1]):
                     return str(times_to_makeDraw) + " x " + "Make a draw" 
                 stateful_board[-1].drawCards()
                 times_to_makeDraw += 1
-            
 
-            
-        
-
-
-        return "Make a draw"
-        # Lave en gang drawCards() så man har en udgangspunkt 
+        return "Make a draw" 
 
     if stateful_board[-1].cardsLeftDeckDrawPile == 3 and not stateful_board[-1].isLastDrawMade:
         stateful_board[-1].isLastDrawMade = True
