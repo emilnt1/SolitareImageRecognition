@@ -98,7 +98,6 @@ def allowedMoveFoundation(card, foundation):
         return False
     if len(foundation.cards) == 0:
         if card.rank == 1:
-            print(str(len(foundation.cards)))
             return True
         else:
             return False
@@ -152,3 +151,16 @@ def gameWon(board):
             return False
     print("Won")
     return True
+
+def drawAllowed(board):
+    if board.cardsLeftDeckDrawPile > 3:
+        return True
+    elif board.cardsLeftDeckDrawPile == 3 and len(board.drawPile.cards) != 3:
+        return True
+    elif board.cardsLeftDeckDrawPile == 3 and len(board.drawPile.cards) == 3:
+        return False
+    elif board.cardsLeftDeckDrawPile < 3:
+        return False
+    else:
+        print("How did you get here?")
+        return True

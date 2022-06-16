@@ -10,6 +10,7 @@ from Model.DrawPile import DrawPile
 from Model.Deck import Deck
 from Model.Column import Column
 from AI.AI import *
+from AI.Algorithm import *
 
 
 
@@ -35,19 +36,12 @@ def startGameWithBasicSetup():
     b1.drawPile.cards.append(Card(5,type.H))
     b1.mergeStatefulBoard(stateful_board[-1])
     display(b1)
-    print(nextMove(b1))
-    display(stateful_board[-1])
-    print(nextMove(b1))
-    display(stateful_board[-1])
-    print(nextMove(b1))
-    print(nextMove(b1))
-    print(nextMove(b1))
-    print(nextMove(b1))
-    print(nextMove(b1))
-    print(nextMove(b1))
-    print(nextMove(b1))
-    print(nextMove(b1))
-
+    arrayOfFunctions = [ 2, 5, 4]
+    node = Node(0, b1)
+    accomplishednode = treeSearchBackTracking(node, node, arrayOfFunctions, 7)
+    for command in reversed(accomplishednode.commands):
+        print(str(command))
+    display(accomplishednode.board)
     print("Expected: kun to kort tilbage på drawpile")
 
     
