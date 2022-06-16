@@ -20,6 +20,7 @@ class Board:
         self.isLastDrawMade = False
         self.cardsLeftColumns = [0,1,2,3,4,5,6]
         self.isLastMoveFromFoundationToColumn = False
+        self.isSecondLastDrawMade = False
 
 
         for x in range(21):
