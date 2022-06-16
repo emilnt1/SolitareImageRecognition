@@ -141,10 +141,8 @@ def load_debugger_into_board(values):
     errorCode = 0
     board = Board(DrawPile(),Deck())
     card = convert_string_to_card(values["_DRAWPILE_"])
-    if not card == 1:
-        board.drawPile.cards.append(card)
-    else:
-        errorCode = 1
+    board.drawPile.cards.append(card)
+    
 
 
     for y in range(13):
@@ -152,14 +150,12 @@ def load_debugger_into_board(values):
         for x in range(7):
             if not(values[f'_CARD{x}{y}_'] == ""):
                 card = convert_string_to_card(values[f'_CARD{x}{y}_'])
-                if not card == 1:
-                    board.columns[x].cards.append(card)
-                else:
-                    errorCode = 1
+                board.columns[x].cards.append(card)
+                
 
 
 
-    return board, errorCode
+    return board
 
 
 
@@ -318,17 +314,14 @@ def main():
             elif (globalmovetype.value == 3):
                 globalmovetype = Instructions.MOVE
         elif event == "MAKE EDIT":
-            edited_board, errorCode = load_debugger_into_board(values)
-            if not errorCode == 1:
-                undoMove()
-                edited_board.mergeStatefulBoard(stateful_board[-1])
-                display(edited_board)
-                instruction = nextMove(edited_board)
-                window["_INSTRUCTION_"].update(instruction)
-            else:
-                # errorWindow.read()
-                sg.Popup("Error Happened")
-                errorCode = 0
+            edited_board = load_debugger_into_board(values)
+           
+            undoMove()
+            edited_board.mergeStatefulBoard(stateful_board[-1])
+            display(edited_board)
+            instruction = nextMove(edited_board)
+            window["_INSTRUCTION_"].update(instruction)
+           
 
         elif event == "Restart Game":
             print("Restarting")

@@ -61,24 +61,22 @@ def changeHiddenColumnCount():
 def convert_string_to_card(newCardString):
     newSuit = newCardString[0].upper()
     newRank = int(newCardString[1:])
-    if 1 >= newRank <= 13:
-        
+      
 
-        if(newSuit == "H"):
-            newCard = Card(newRank, type.H)
-                
-        elif (newSuit == "C"):
-            newCard = Card(newRank, type.C)
+    if(newSuit == "H"):
+        newCard = Card(newRank, type.H)
+            
+    elif (newSuit == "C"):
+        newCard = Card(newRank, type.C)
 
-        elif (newSuit == "S"):
-            newCard = Card(newRank, type.S)
+    elif (newSuit == "S"):
+        newCard = Card(newRank, type.S)
 
-        elif (newSuit == "D"):
-            newCard = Card(newRank, type.D)
+    elif (newSuit == "D"):
+        newCard = Card(newRank, type.D)
 
-        return newCard
-    else:
-        return 1 # error code for popup message
+    return newCard
+    
         
 
 def correctFoundationCount():
