@@ -14,10 +14,17 @@ cardFactory.makeCards()
 cardFactory.randomizeCards()
 board = Board(DrawPile(), cardFactory.cards)
 board.allocateCards()
-#display(board)
+display(board)
 someNode = Node(0, board)
-node = treeSearchBackTracking(someNode, someNode, 10)
+node = treeSearchBackTracking(someNode, someNode, 5)
+boo = False
+while not boo:
+    st = input("Press Enter or write end")
+    if st == "end":
+        boo = True
+    display(node.board)
+    someNode = Node(0, node.board)
+    node = treeSearchBackTracking(someNode, someNode, 5)
+    print(node.commands[-1])
 for command in reversed(node.commands):
     print(str(command))
-display(node.board)
-

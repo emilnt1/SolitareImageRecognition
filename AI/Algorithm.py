@@ -7,7 +7,7 @@ import collections
 stateful_Board = Board(DrawPile(), None)
 
 def treeSearchBackTracking(node, highestSuccessNode, depth):
-    depth = depth - 1
+    depth += - 1
     #display(node.board)
     #if len(node.commands) != 0:
     #    print(node.commands[0])
@@ -16,7 +16,7 @@ def treeSearchBackTracking(node, highestSuccessNode, depth):
         node.commands.append("Won")
         node.points += 600
         return node
-    if endlessLoop(node):
+    if endlessLoop(node) and node.commands[-1] != "Draw cards":
         return node
     if deadEnd(node):
         node.commands.append("Lost")
@@ -33,16 +33,20 @@ def treeSearchBackTracking(node, highestSuccessNode, depth):
         edgeNode.points += node.points
         edgeNode.commands.extend(node.commands)
         val = treeSearchBackTracking(edgeNode, highestSuccessNode, depth)
-        depth = depth + 1
         if highestSuccessNode.points < val.points:
             highestSuccessNode = val
+    depth += 1
     return highestSuccessNode
 
 
 # Prevents endless loop of AI.
 def endlessLoop(node):
     if node.previousNode is not None and node.previousNode.previousNode is not None:
-        return checkForEndless(node.previousNode.previousNode.board, node.board)
+        if checkForEndless(node.previousNode.previousNode.board, node.board):
+            return True
+        if node.previousNode.previousNode.previousNode is not None:
+            if checkForEndless(node.previousNode.previousNode.previousNode.board, node.board):
+                return True
     else:
         return False
 
@@ -57,9 +61,9 @@ def analyse_moves(node):
     moves = []
     moves.extend(columnToFoundation(node.board))
     moves.extend(drawpileToFoundation(node.board))
-    moves.extend(columnToColumnMove(node.board))
     moves.extend(drawpileToColumnMove(node.board))
-    #moves.extend(drawCardsFromBoard(node))
+    moves.extend(columnToColumnMove(node.board))
+    moves.extend(drawCardsFromBoard(node))
     moves.extend(foundationToColumn(node.board))
     return reversed(moves)
 
@@ -78,8 +82,12 @@ def columnToColumnMove(board):
                                 pass
                             else:
                                 boardcopy = copy.deepcopy(board)
+                                points = 1
+                                if not column1.cards[0].isVisible:
+                                    boardcopy.cardsLeftColumns[col1-1] += -1
+                                    points = 5
                                 boardcopy.moveCard(boardcopy.columns[col1-1], card1, boardcopy.columns[col2-1])
-                                newMove = Node(2, boardcopy)
+                                newMove = Node(points, boardcopy)
                                 newMove.commands.append("Card " + str(card1) + " from column " + str(col1) + " to column " + str(col2))
                                 moves.append(newMove)
                 col2 += 1
@@ -96,7 +104,7 @@ def drawpileToColumnMove(board):
             if allowedMoveColumn(card, column2) and card.isVisible:
                 boardcopy = copy.deepcopy(board)
                 boardcopy.moveCard(boardcopy.drawPile, card, boardcopy.columns[i-1])
-                newMove = Node(2, boardcopy)
+                newMove = Node(1, boardcopy)
                 newMove.commands.append("From drawpile to column " + str(i))
                 moves.append(newMove)
             i += 1
@@ -146,7 +154,7 @@ def drawCardsFromBoard(node):
     if board.cardsLeftDeckDrawPile > 3:
         boardcopy = copy.deepcopy(board)
         boardcopy.drawCards()
-        newMove = Node(0, boardcopy)
+        newMove = Node(1, boardcopy)
         newMove.commands.append("Draw cards")
         newMove.draws = node.draws+1
         moves.append(newMove)
@@ -161,7 +169,7 @@ def foundationToColumn(board):
                 if allowedMoveColumn(card, board.columns[cRange]):
                     boardcopy = copy.deepcopy(board)
                     boardcopy.moveCard(boardcopy.foundations[fRange], card, boardcopy.columns[cRange])
-                    newMove = Node(-5, boardcopy)
+                    newMove = Node(1, boardcopy)
                     newMove.commands.append("From foundation " + str(fRange + 1) + " move card " + str(card) + " to column " + str(cRange + 1))
                     moves.append(newMove)
     return moves
@@ -186,3 +194,9 @@ def pointsAnalysis(node):
             num += len(foundation.cards)
 
     return num
+
+def ifLastCardInColumn(board, card):
+    for column in board.columns:
+        if column.cards[0] == card:
+            return True
+    return False
