@@ -13,12 +13,15 @@ import math
 from datetime import datetime
 from CardRecognition.yolov5.detect import run 
 from CardRecognition.ConvertPredictToBoard import convertPredictToBoard
-from  View.KabaleView import display, lastElement 
+from  View.KabaleView import display, lastElement
 from AI.AI import *
+
+
 from Model.Debugger import *
 #import keyboard #pip install keyboard
 #from gtts import gTTS #pip install gTTS
 import os
+
 #from playsound import playsound #pip install playsound==1.2.2
 import threading
 
@@ -119,7 +122,7 @@ def getCard(frame):
     cv.waitKey(1)
 
 def load_board_into_debugger(board, window):
-    
+
         window["_TOTAL_"].update(board.cardsLeftDeckDrawPile)
         window["_DRAWPILE_"].update(lastElement(board.drawPile))
         for o in range(4):
@@ -175,19 +178,19 @@ def main():
             [sg.Text("------------------------------------", justification="center", font="TkFixedFont")]]
     for y in range(13):
         col1 += [[sg.Input(default_text = str(x) + "," + str(y), size=(4,4), justification="center", key=f'_CARD{x}{y}_', focus=False) for x in range(7)]]
-    col1 += [[sg.Button('MAKE EDIT', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold", 
-            auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()), 
+    col1 += [[sg.Button('MAKE EDIT', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold",
+            auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()),
             border_width=0, focus=False)]]
-    
-    
+
+
     col2 = [[sg.Image("", background_color="#404040", size=(2,640))]]
 
     col3 = [[sg.Image(filename="", key="-IMAGE-")],
         [sg.Text("Instructions:", justification="center", font="Roboto 15 bold",pad=((0,0),(10,0)))],
         [sg.Text("Make a draw", justification="center", font="Roboto 15", key="_INSTRUCTION_", pad=((0,0),(10,20)))],
         [
-            sg.Button('NEXT STEP', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold", 
-            auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()), 
+            sg.Button('NEXT STEP', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold",
+            auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()),
             border_width=0, bind_return_key=True, focus=True),
 
             sg.Button('UNDO', pad=((0, 0), (10, 20)), image_filename=("BlueButton.png"), font="Raleway 15 bold",
@@ -289,12 +292,12 @@ def main():
         imgbytes = cv.imencode(".png", frame)[1].tobytes()
 
 
-       
+
         window["-IMAGE-"].update(data=imgbytes)      
 
 
         if event == "Exit" or event == sg.WIN_CLOSED:
-            cap.release()  
+            cap.release()
             cv.destroyAllWindows()
             break
         elif event == "NEXT STEP":
