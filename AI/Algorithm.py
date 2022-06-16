@@ -6,7 +6,7 @@ import collections
 
 stateful_Board = Board(DrawPile(), None)
 
-def treeSearchBackTracking(node, highestSuccessNode, depth):
+def treeSearchBackTracking(node, highestSuccessNode, functions, depth):
     depth = depth - 1
     #display(node.board)
     #if len(node.commands) != 0:
@@ -16,7 +16,7 @@ def treeSearchBackTracking(node, highestSuccessNode, depth):
         node.commands.append("Won")
         node.points += 600
         return node
-    if endlessLoop(node):
+    if endlessLoop(node) and node.commands[-1] != "Draw cards":
         return node
     if deadEnd(node):
         node.commands.append("Lost")
@@ -24,7 +24,7 @@ def treeSearchBackTracking(node, highestSuccessNode, depth):
     if depth == 0:
         return node
 
-    node.edgeNodes.extend(analyse_moves(node))
+    node.edgeNodes.extend(analyse_moves(functions, node))
     if len(node.edgeNodes) != 0:
         highestSuccessNode = node.edgeNodes[0]
     while len(node.edgeNodes) != 0:
@@ -53,14 +53,10 @@ def deadEnd(node):
         return False
 
 
-def analyse_moves(node):
+def analyse_moves(functions, node):
     moves = []
-    moves.extend(columnToFoundation(node.board))
-    moves.extend(drawpileToFoundation(node.board))
-    moves.extend(columnToColumnMove(node.board))
-    moves.extend(drawpileToColumnMove(node.board))
-    #moves.extend(drawCardsFromBoard(node))
-    moves.extend(foundationToColumn(node.board))
+    for func in functions:
+        moves.extend(func(node.board))
     return reversed(moves)
 
 
@@ -140,15 +136,13 @@ def drawpileToFoundation(board):
     return moves
 
 
-def drawCardsFromBoard(node):
+def drawCardsFromBoard(board):
     moves = []
-    board = node.board
     if board.cardsLeftDeckDrawPile > 3:
         boardcopy = copy.deepcopy(board)
         boardcopy.drawCards()
         newMove = Node(0, boardcopy)
         newMove.commands.append("Draw cards")
-        newMove.draws = node.draws+1
         moves.append(newMove)
     return moves
 
