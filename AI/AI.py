@@ -42,7 +42,7 @@ def nextMove(board):
     #   last element in drawpile er lige med board.drawpile.cards[0]
     prev_stateful_boards.append(copy.deepcopy(stateful_board[-1]))
 
-    moves = [makeLastDraw, 
+    moves = [makeSpecialDraw, 
             putFoundation, 
             # putKingToEmptyColumnIfQueenAvailable,
             putColumn, 
@@ -159,7 +159,7 @@ def putColumn(board):
     return ""        
 
 
-def makeLastDraw(board):
+def makeSpecialDraw(board):
     if stateful_board[-1].cardsLeftDeckDrawPile == 4 and not stateful_board[-1].isSecondLastDrawMade:
         stateful_board[-1].isSecondLastDrawMade = True
         times_to_makeDraw = 1
