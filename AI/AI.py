@@ -42,7 +42,7 @@ def nextMove(board):
     #   last element in drawpile er lige med board.drawpile.cards[0]
     prev_stateful_boards.append(copy.deepcopy(stateful_board[-1]))
 
-    moves = [makeLastDraw, 
+    moves = [makeSpecialDraw, 
             putFoundation, 
             # putKingToEmptyColumnIfQueenAvailable,
             putColumn, 
@@ -159,7 +159,37 @@ def putColumn(board):
     return ""        
 
 
-def makeLastDraw(board):
+def makeSpecialDraw(board):
+    if stateful_board[-1].cardsLeftDeckDrawPile == 4 and not stateful_board[-1].isSecondLastDrawMade:
+        stateful_board[-1].isSecondLastDrawMade = True
+        times_to_makeDraw = 1
+        stateful_board[-1].drawCards()
+        deck_with_all_cards = stateful_board[-1].deck.cards.copy()
+        deck_with_all_cards.extend(stateful_board[-1].drawPile.cards)
+        deck_with_all_cards.extend(deck_with_all_cards)
+        deck_with_all_cards.reverse()
+
+        indexes_cards_possible_move = []
+        for i in range(4):
+            if any(list(map(lambda column: allowedMoveColumn(deck_with_all_cards[i],column), board.columns))) or any(list(map(lambda foundation: allowedMoveFoundation(deck_with_all_cards[i],foundation), board.foundations))):
+                indexes_cards_possible_move.append(i)
+
+        index_cards_possible_two_moves = []
+        for i in indexes_cards_possible_move:
+            if any(list(map(lambda column: allowedMoveColumn(deck_with_all_cards[i+1],column), board.columns))) or any(list(map(lambda foundation: allowedMoveFoundation(deck_with_all_cards[i+1],foundation), board.foundations))):
+                index_cards_possible_two_moves.append(i)
+
+        # Kører indtil den øvreste på drawpile er den ønskede kort 
+        if index_cards_possible_two_moves:
+            expected_card = deck_with_all_cards[index_cards_possible_two_moves[-1]]
+            for i in range(4): 
+                if(expected_card == stateful_board[-1].drawPile.cards[-1]):
+                    return str(times_to_makeDraw) + " x " + "Make a draw" 
+                stateful_board[-1].drawCards()
+                times_to_makeDraw += 1
+
+        return "Make a draw" 
+
     if stateful_board[-1].cardsLeftDeckDrawPile == 3 and not stateful_board[-1].isLastDrawMade:
         stateful_board[-1].isLastDrawMade = True
         stateful_board[-1].drawCards()

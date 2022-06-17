@@ -39,6 +39,8 @@ noOption = "No options. Draw card from pile"
 drawnCard = "Put drawn card \"" + card1 +"\" in column" + str(columnTo)
 moveFoundation = "Move " + card1 + " from " + str(columnFrom) + " to " + foundation
 
+
+
 def nextInstruction(moveType):
         if (moveType == Instructions.MOVE):
             return moveCard
@@ -168,6 +170,9 @@ def load_debugger_into_board(values):
 def main():
     sg.theme("LightGreen")
 
+    global moveCounter
+    moveCounter = 1
+
     col1 = [[sg.Text("Board: ", justification="center", font="Roboto 15 bold", pad=((0, 0), (10, 0)))],
             [sg.Text("Board is empty", justification="left", font="TkFixedFont", key="_BOARDTEXT_",
                      pad=((0, 0), (10, 20)), size=(50,10))],
@@ -192,7 +197,7 @@ def main():
 
     col3 = [[sg.Image(filename="", key="-IMAGE-")],
         [sg.Text("Instructions:", justification="center", font="Roboto 15 bold",pad=((0,0),(10,0)))],
-        [sg.Text("Make a draw", justification="center", font="Roboto 15", key="_INSTRUCTION_", pad=((0,0),(10,20)))],
+        [sg.Text("1: Make a draw", justification="center", font="Roboto 15", key="_INSTRUCTION_", pad=((0,0),(10,20)))],
         [
             sg.Button('NEXT STEP', pad=((0,0),(10,20)), image_filename=("BlueButton.png"),font="Raleway 15 bold",
             auto_size_button=True,  button_color=(sg.theme_background_color(), sg.theme_background_color()),
@@ -276,7 +281,7 @@ def main():
         
         imgbytes = cv.imencode(".png", frame)[1].tobytes()
 
-
+        # moveCounter = 1
 
         window["-IMAGE-"].update(data=imgbytes)
 
@@ -289,8 +294,8 @@ def main():
             
             currImgName = 'img/'+ str(datetime.now().strftime("%d-%m-%Y_%H.%M.%S")) + '.png'
             cv.imwrite(currImgName, frame_to_save)
-
-            det, names = run(weights='CardRecognition/yolov5/best_run17.pt', source=currImgName, conf_thres=0.4)
+            det, names = run(weights='CardRecognition/yolov5/best_run19.pt', source=currImgName, conf_thres=0.4)
+            # det, names = run(weights='CardRecognition/yolov5/best_run17.pt', source=currImgName, conf_thres=0.4)
             #det, names = run(weights='CardRecognition/yolov5/best_run12.pt', source='test.png', conf_thres=0.4)
             currBoard = convertPredictToBoard(det, names)
             currBoard.mergeStatefulBoard(stateful_board[-1])
@@ -301,8 +306,10 @@ def main():
             #print(instruction)
             print(globalmovetype.value)
             instruction = nextMove(currBoard)
-            print(instruction)
-            window["_INSTRUCTION_"].update(instruction)
+            
+            moveCounter += 1
+            print(str(moveCounter)+ ": " + instruction)
+            window["_INSTRUCTION_"].update(str(moveCounter) + ": " + instruction)
             f = open("Instructions.txt", "a")
             f.write(instruction + "\n")
             f.close

@@ -98,6 +98,7 @@ def allowedMoveFoundation(card, foundation):
         return False
     if len(foundation.cards) == 0:
         if card.rank == 1:
+            #print(str(len(foundation.cards)))
             return True
         else:
             return False
