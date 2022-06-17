@@ -104,6 +104,7 @@ def drawpileToColumnMove(board):
                 boardcopy = copy.deepcopy(board)
                 boardcopy.moveCard(boardcopy.drawPile, card, boardcopy.columns[i-1])
                 newMove = Node(1, boardcopy)
+                newMove.board.updateCardsLeft()
                 newMove.commands.append("From drawpile to column " + str(i))
                 moves.append(newMove)
             i += 1
@@ -142,6 +143,7 @@ def drawpileToFoundation(board):
                 boardcopy = copy.deepcopy(board)
                 boardcopy.moveCard(boardcopy.drawPile, card, boardcopy.foundations[i-1])
                 newMove = Node(5, boardcopy)
+                newMove.board.updateCardsLeft()
                 newMove.commands.append("From drawpile to foundation " + str(i))
                 moves.append(newMove)
                 break
@@ -155,6 +157,7 @@ def drawCardsFromBoard(board):
         boardcopy = copy.deepcopy(board)
         boardcopy.drawCards()
         newMove = Node(0, boardcopy)
+        newMove.board.updateCardsLeft()
         newMove.commands.append("Draw cards")
         moves.append(newMove)
     return moves
@@ -190,6 +193,10 @@ def pointsAnalysis(node):
     num = 0
     for foundation in node.board.foundations:
         if len(foundation.cards) != 0:
-            num += len(foundation.cards)
-
+            for card in foundation.cards:
+                num += card.rank
+    for column in node.board.columns:
+        if len(column.cards) != 0:
+            for card in column.cards:
+                num += card.rank
     return num

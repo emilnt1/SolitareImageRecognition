@@ -56,10 +56,6 @@ class Board:
 
     def updateCardsLeft(self):
         self.cardsLeftDeckDrawPile = len(self.deck.cards) + len(self.drawPile.cards)
-        columnCards = 0
-        for column in self.columns:
-            columnCards += len(column.cards)
-        self.cardsLeftColumns = columnCards
 
     def drawCards(self):
         if len(self.deck.cards) >= 3:
