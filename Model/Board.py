@@ -11,11 +11,9 @@ class Board:
     def __init__(self, drawpile, deck):
         self.columns = [Column() for i in range(7)]
         self.foundations = [Foundation() for i in range(4)]
-        #self.deck = Deck()
-        #self.deck.cards = deck
+        self.deck = Deck()
+        self.deck.cards = deck
         self.drawPile = drawpile # Face up
-        self.deck = deck # Face down
-        self.cards = []
         self.cardsLeftDeckDrawPile = 24
         self.isLastDrawMade = False
         self.cardsLeftColumns = [0,1,2,3,4,5,6]
@@ -23,11 +21,11 @@ class Board:
         self.isSecondLastDrawMade = False
 
 
-        for x in range(21):
+        #for x in range(21):
         # for x in range(1):
-           deck.cards.append(Card(-1, type.H))
-        for y in range(3):
-           drawpile.cards.append(Card(-1, type.H))
+        #   deck.cards.append(Card(-1, type.H))
+        #for y in range(3):
+        #   drawpile.cards.append(Card(-1, type.H))
 
     def changeCardsLeftDeckDrawPile(self, integer):
         self.cardsLeftDeckDrawPile += integer

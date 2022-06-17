@@ -14,9 +14,9 @@ cardFactory.makeCards()
 cardFactory.randomizeCards()
 board = Board(DrawPile(), cardFactory.cards)
 board.allocateCards()
-#display(board)
+
 someNode = Node(0, board)
-node = treeSearchBackTracking(someNode, someNode, 10)
+node = treeSearchBackTracking(someNode, someNode, [1, 2, 3, 4, 5, 6], 10)
 for command in reversed(node.commands):
     print(str(command))
 display(node.board)
