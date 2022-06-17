@@ -6,6 +6,7 @@ import collections
 
 def treeSearchBackTracking(node, highestSuccessNode, functions, depth):
     depth += -1
+    node.depth = depth
     #display(node.board)
     #if len(node.commands) != 0:
     #    print(node.commands[0])
@@ -14,7 +15,7 @@ def treeSearchBackTracking(node, highestSuccessNode, functions, depth):
         node.commands.append("Won")
         node.points += 600
         return node
-    if endlessLoop(node) and node.commands[-1] != "Draw cards":
+    if endlessLoop(node) and node.commands[0] != "Draw cards":
         return node
     if deadEnd(node):
         node.commands.append("Lost")
@@ -31,7 +32,7 @@ def treeSearchBackTracking(node, highestSuccessNode, functions, depth):
         edgeNode.points += node.points
         edgeNode.commands.extend(node.commands)
         val = treeSearchBackTracking(edgeNode, highestSuccessNode, functions, depth)
-        if highestSuccessNode.points < val.points:
+        if pointsAnalysis(highestSuccessNode) < pointsAnalysis(val) or pointsAnalysis(highestSuccessNode) == pointsAnalysis(val) and val.depth > highestSuccessNode.depth:
             highestSuccessNode = val
     depth += 1
     return highestSuccessNode

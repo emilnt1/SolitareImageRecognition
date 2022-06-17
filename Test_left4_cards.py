@@ -10,6 +10,7 @@ from Model.DrawPile import DrawPile
 from Model.Deck import Deck
 from Model.Column import Column
 from AI.AI import *
+from AI.Algorithm import *
 
 
 
@@ -41,6 +42,14 @@ def startGameWithBasicSetup():
     display(b1)
     print(nextMove(b1))
     display(stateful_board[-1])
+    arrayOfFunctions = [2, 5, 4]
+    node = Node(0, stateful_board[-1])
+    accomplishednode = treeSearchBackTracking(node, node, arrayOfFunctions, 7)
+    succesArray = getArrayOfMoves(accomplishednode)
+    for succesNode in reversed(succesArray):
+        display(succesNode.board)
+        print(succesNode.commands[0])
+    print("Expected: kun to kort tilbage på drawpile")
 
     b2 = Board(DrawPile(), Deck())
     b2.columns[0].cards.append(Card(6,type.S))
@@ -183,6 +192,43 @@ def testWithUnknownCard():
     print(nextMove(b4))
     display(stateful_board[-1])
 
+def testCaseFromAlgorithm():
+    stateful_board[-1].cardsLeftDeckDrawPile = 4
+    stateful_board[-1].drawPile.cards = []
+    # stateful_board[-1].drawPile.cards.append(Card(8,type.H))
+    # stateful_board[-1].drawPile.cards.append(Card(7,type.S))
+    # stateful_board[-1].drawPile.cards.append(Card(5,type.H))
+    stateful_board[-1].drawPile.cards.append(Card(5, type.H))
+    stateful_board[-1].drawPile.cards.append(Card(1, type.S))
 
-testWithUnknownCard()
+    stateful_board[-1].deck.cards = []
+    # stateful_board[-1].deck.cards.append(Card(1,type.S))
+    stateful_board[-1].deck.cards.append(Card(7, type.S))
+    stateful_board[-1].deck.cards.append(Card(8, type.H))
+
+    b1 = Board(DrawPile(), Deck())
+    b1.columns[0].cards.append(Card(6, type.S))
+    b1.columns[1].cards.append(Card(7, type.S))
+    b1.columns[2].cards.append(Card(7, type.S))
+    b1.columns[3].cards.append(Card(7, type.S))
+    b1.columns[4].cards.append(Card(7, type.S))
+    b1.columns[5].cards.append(Card(7, type.S))
+    b1.columns[6].cards.append(Card(7, type.S))
+    b1.drawPile.cards.append(Card(1, type.S))
+    b1.mergeStatefulBoard(stateful_board[-1])
+    display(stateful_board[-1])
+    arrayOfFunctions = [2, 4, 5]
+    node = Node(0, b1)
+    accomplishednode = treeSearchBackTracking(node, node, arrayOfFunctions, 7)
+    succesArray = getArrayOfMoves(accomplishednode)
+    for succesNode in reversed(succesArray):
+        display(succesNode.board)
+        print(succesNode.commands[0])
+    display(accomplishednode.board)
+    for command in reversed(accomplishednode.commands):
+        print(str(command))
+    print("Expected: kun to kort tilbage på drawpile")
+
+#testWithUnknownCard()
 #startGameWithBasicSetup()
+testCaseFromAlgorithm()

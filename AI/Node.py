@@ -7,6 +7,7 @@ class Node():
         self.edgeNodes = []
         self.previousNode = None
         self.draws = 0
+        self.depth = 0
 
     def getPoints(self):
         return self.points
