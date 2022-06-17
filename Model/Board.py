@@ -21,6 +21,10 @@ class Board:
         self.cardsLeftColumns = [0,1,2,3,4,5,6]
         self.isLastMoveFromFoundationToColumn = False
         self.isSecondLastDrawMade = False
+        self.is7CardDrawMade = False
+        self.is10CardDrawMade = False
+        self.is13CardDrawMade = False
+        self.is16CardDrawMade = False
 
 
         for x in range(21):

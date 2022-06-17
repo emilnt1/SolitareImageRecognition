@@ -184,5 +184,5 @@ def testWithUnknownCard():
     display(stateful_board[-1])
 
 
-testWithUnknownCard()   
-#startGameWithBasicSetup()
+#testWithUnknownCard()   
+startGameWithBasicSetup()
