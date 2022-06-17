@@ -305,10 +305,15 @@ def main():
             #instruction = nextInstruction(globalmovetype)
             #print(instruction)
             print(globalmovetype.value)
-            node = Node(0, currBoard)
-            endnode = treeSearchBackTracking(node,node, [1,2,3,4,5,6], 7)
-            arr = reversed(getArrayOfMoves(endnode))
-            instruction = str(arr[0].commands[1])
+            if firstMove:
+                node = Node(0, currBoard)
+                firstMove = False
+            else:
+                node = Node(0, stateful_board)
+            endnode = treeSearchBackTracking(node, node, [1, 2, 3, 4, 5, 6], 6)
+            arr = getArrayOfMoves(endnode)
+            instruction = str(arr[-1].commands[1])
+            algoStateful_board = arr[-1].board
             
             moveCounter += 1
             print(str(moveCounter)+ ": " + instruction)

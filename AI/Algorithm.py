@@ -2,7 +2,12 @@ import copy
 
 from Model.GameRules import *
 from AI.Node import Node
-import collections
+from Model.Board import Board
+from Model.DrawPile import DrawPile
+from Model.Deck import Deck
+
+algoStateful_board = Board(DrawPile(),None)
+firstMove = True
 
 def treeSearchBackTracking(node, highestSuccessNode, functions, depth):
     depth += -1
