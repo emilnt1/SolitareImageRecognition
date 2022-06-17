@@ -190,11 +190,11 @@ def timeToDraw(board):
 def makeSpecialDraw(board):
 
     if stateful_board[-1].cardsLeftDeckDrawPile == 16 and not stateful_board[-1].is16CardDrawMade:
-        stateful_board[-1].is10CardDrawMade = True
+        stateful_board[-1].is16CardDrawMade = True
         return timeToDraw(board)
 
     if stateful_board[-1].cardsLeftDeckDrawPile == 13 and not stateful_board[-1].is13CardDrawMade:
-        stateful_board[-1].is10CardDrawMade = True
+        stateful_board[-1].is13CardDrawMade = True
         return timeToDraw(board)
 
     if stateful_board[-1].cardsLeftDeckDrawPile == 10 and not stateful_board[-1].is10CardDrawMade:
