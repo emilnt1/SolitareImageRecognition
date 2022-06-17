@@ -6,7 +6,7 @@ import collections
 
 def treeSearchBackTracking(node, highestSuccessNode, functions, depth):
     depth += -1
-    display(node.board)
+    #display(node.board)
     #if len(node.commands) != 0:
     #    print(node.commands[0])
     #input("Press Enter. Node points: " + str(node.points) + " depth: " + str(depth))
@@ -200,3 +200,10 @@ def pointsAnalysis(node):
             for card in column.cards:
                 num += card.rank
     return num
+
+def getArrayOfMoves(node):
+    nodeArray = []
+    while node.previousNode is not None:
+        nodeArray.append(node)
+        node = node.previousNode
+    return nodeArray

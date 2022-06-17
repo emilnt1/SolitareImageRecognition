@@ -35,13 +35,14 @@ def startGameWithBasicSetup():
     b1.columns[6].cards.append(Card(7,type.S))
     b1.drawPile.cards.append(Card(5,type.H))
     b1.mergeStatefulBoard(stateful_board[-1])
-    display(b1)
+    #display(b1)
     arrayOfFunctions = [ 2, 5, 4]
     node = Node(0, b1)
     accomplishednode = treeSearchBackTracking(node, node, arrayOfFunctions, 7)
-    for command in reversed(accomplishednode.commands):
-        print(str(command))
-    display(accomplishednode.board)
+    succesArray = getArrayOfMoves(accomplishednode)
+    for succesNode in reversed(succesArray):
+        display(succesNode.board)
+        print(succesNode.commands[0])
     print("Expected: kun to kort tilbage på drawpile")
 
     
